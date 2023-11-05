@@ -1,26 +1,19 @@
 import { useContext, useState } from "react";
 import { ColorModeContext } from "../../App";
 import {
-  Backdrop,
   Box,
-  Button,
-  CircularProgress,
   Grid,
   IconButton,
   InputAdornment,
-  TextField,
   Typography,
 } from "@mui/material";
 import { FormTextField } from "../../components/inputs/FormTextField";
-import { ThemeSwitch } from "../../components/inputs/ThemeSwitch";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { CustomButton } from "../../components/buttons/CustomButton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import PersonIcon from "@mui/icons-material/Person";
-import LockIcon from "@mui/icons-material/Lock";
 import { useNavigate } from "react-router-dom";
 import { CustomModal } from "../../components/modals/CustomModal";
 import { ForgotPasswordForm } from "./ForgotPasswordForm";
@@ -64,7 +57,7 @@ export const Login = () => {
     setTimeout(() => {
       console.log(data);
       setShowBackdrop(false);
-      navigate("/control-desk");
+      navigate("/control/dashboard");
     }, 1500);
   };
 
@@ -119,16 +112,19 @@ export const Login = () => {
           sm={12}
           md={6}
           p={3}
-          sx={{ backgroundColor: "#1e3a8a", color: "#fff" }}
+          sx={{ backgroundColor: "#312e81", color: "#fff" }}
           display={"flex"}
           flexDirection={"column"}
           alignItems={"center"}
           justifyContent={"center"}
         >
-          <Typography variant={"h4"} fontWeight={800}>
-            ERP System
-          </Typography>
-          <Typography>Enterprise Resource Planning</Typography>
+          <Box width={{ sm: "50%", md: "100%" }}>
+            <img
+              src={require("../../assets/images/logo.png")}
+              alt="logo-png"
+              style={{ width: "100%" }}
+            />
+          </Box>
         </Grid>
         <Grid item xs={12} sm={12} md={6} p={5}>
           <Typography

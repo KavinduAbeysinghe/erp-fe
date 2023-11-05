@@ -6,9 +6,8 @@ interface CustomButtonProps extends ButtonProps {
 
 export const CustomButton = ({ text, variant, ...rest }: CustomButtonProps) => {
   const StyledButton = styled(Button)(({ theme }) => ({
-    borderRadius: "10px",
     boxShadow: "none",
-    border: "none",
+    [variant === "contained" ? "border" : ""]: "none",
     "&:hover": {
       boxShadow: "inherit",
     },

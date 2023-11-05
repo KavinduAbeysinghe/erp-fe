@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React from "react";
 import "./App.scss";
 import { BrowserRouter } from "react-router-dom";
 import { MainLayout } from "./views/MainLayout";

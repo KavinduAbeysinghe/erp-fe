@@ -61,7 +61,7 @@ export const ForgotPasswordForm = ({
     <>
       <CustomBackdrop showBackdrop={showBackdrop} />
       <Grid container spacing={3} p={2}>
-        <Grid item md={12}>
+        <Grid item xs={12} sm={12} md={12}>
           <FormTextField
             register={register("username")}
             label={"Username"}
@@ -71,7 +71,7 @@ export const ForgotPasswordForm = ({
             disabled={false}
           />
         </Grid>
-        <Grid item md={12}>
+        <Grid item xs={12} sm={12} md={12}>
           <FormTextField
             register={register("email")}
             label={"Email"}
@@ -81,7 +81,7 @@ export const ForgotPasswordForm = ({
             disabled={false}
           />
         </Grid>
-        <Grid item md={12}>
+        <Grid item xs={12} sm={12} md={12}>
           <FormTextField
             register={register("phone")}
             label={"Phone"}
@@ -91,7 +91,7 @@ export const ForgotPasswordForm = ({
             disabled={false}
           />
         </Grid>
-        <Grid item md={12} display={"flex"} gap={2}>
+        <Grid item xs={12} sm={12} md={12} display={"flex"} gap={2}>
           <CustomButton
             sx={{ mt: 3 }}
             text={"Clear"}
