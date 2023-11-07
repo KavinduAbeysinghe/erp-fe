@@ -1,7 +1,8 @@
 @import "assets/styles/Colors.scss";
-@import "assets/styles/auth/Login.scss";
-@import "assets/styles/AppBar.scss";
+@import "assets/styles/layouts/Login";
+@import "assets/styles/components/AppBar";
 @import "assets/styles/layouts/MainLayout.scss";
+@import "assets/styles/components/Notice.scss";
 
 body {
   background-color: $bg-body !important;

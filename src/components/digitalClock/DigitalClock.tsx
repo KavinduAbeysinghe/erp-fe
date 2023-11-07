@@ -21,11 +21,10 @@ export const DigitalClock = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log(new Date());
       setDate(new Date());
     }, 1000);
     return () => clearInterval(interval);
-  }, [1000]);
+  }, []);
 
   const formatAndGetDate = (date: Date) => {
     const dat = date.getDate();

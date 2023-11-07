@@ -1,4 +1,15 @@
 .dash-card {
   box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
+  height: 100%;
   //border: 1px solid black;
+}
+
+.daily-quote-img {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  filter: brightness(50%);
+  opacity: 0.8;
+  z-index: -1;
 }

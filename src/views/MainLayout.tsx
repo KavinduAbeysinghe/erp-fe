@@ -40,6 +40,7 @@ const Layout = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
+      <CssBaseline />
       <MyAppBar
         open={open}
         drawerWidth={drawerWidth}
@@ -50,7 +51,17 @@ const Layout = () => {
         handleDrawerClose={handleDrawerClose}
         drawerOpen={open}
       />
-      <Box component="main" sx={{ flexGrow: 1, p: 3, overflow: "auto" }}>
+      <Box
+        component="main"
+        sx={{
+          flexGrow: 1,
+          p: 3,
+          overflow: "auto",
+          height: "100vh",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <DrawerHeader />
         <Routes>
           <Route path={"/dashboard"} element={<Dashboard />}></Route>
