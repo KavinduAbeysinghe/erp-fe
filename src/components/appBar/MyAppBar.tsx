@@ -1,6 +1,7 @@
-import { IconButton, styled, Toolbar, Typography } from "@mui/material";
+import { Box, IconButton, styled, Toolbar, Typography } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import { Breadcrumb } from "../breadcrumbs/Breadcrumb";
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -16,15 +17,19 @@ export const MyAppBar = ({
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
   })<AppBarProps>(({ theme, open }) => ({
-    transition: theme.transitions.create(["margin", "width"], {
+    zIndex: theme.zIndex.drawer + 1,
+    backgroundColor: "#fff",
+    color: "#000",
+    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     ...(open && {
+      marginLeft: drawerWidth,
       width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: `${drawerWidth}px`,
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.easeOut,
+      transition: theme.transitions.create(["width", "margin"], {
+        easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.enteringScreen,
       }),
     }),
@@ -47,9 +52,29 @@ export const MyAppBar = ({
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
-          Persistent drawer
-        </Typography>
+        <Box
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+          sx={{ width: "100%" }}
+        >
+          <Breadcrumb />
+          <Box
+            display={"flex"}
+            alignItems={"center"}
+            gap={1}
+            sx={{ cursor: "pointer" }}
+          >
+            <img
+              src={require("../../assets/images/person1.jpg")}
+              alt="profile-img"
+              height={45}
+              width={45}
+              style={{ borderRadius: "50%", objectFit: "cover" }}
+            />
+            <Typography fontWeight={500}>John</Typography>
+          </Box>
+        </Box>
       </Toolbar>
     </AppBar>
   );

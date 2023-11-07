@@ -1,6 +1,7 @@
 import {
+  Box,
+  CSSObject,
   Divider,
-  Drawer,
   IconButton,
   List,
   ListItem,
@@ -8,12 +9,21 @@ import {
   ListItemIcon,
   ListItemText,
   styled,
+  Theme,
+  Typography,
   useTheme,
 } from "@mui/material";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MuiDrawer from "@mui/material/Drawer";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import FolderCopyIcon from "@mui/icons-material/FolderCopy";
+import CoPresentIcon from "@mui/icons-material/CoPresent";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import TaskIcon from "@mui/icons-material/Task";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import BadgeIcon from "@mui/icons-material/Badge";
+import { useNavigate } from "react-router-dom";
 
 interface SideBarProps {
   drawerWidth: number;
@@ -28,35 +38,101 @@ export const SideBar = ({
 }: SideBarProps) => {
   const theme = useTheme();
 
+  const openedMixin = (theme: Theme): CSSObject => ({
+    width: drawerWidth,
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    overflowX: "hidden",
+    backgroundColor: "#1e1b4b",
+  });
+
+  const closedMixin = (theme: Theme): CSSObject => ({
+    transition: theme.transitions.create("width", {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    overflowX: "hidden",
+    backgroundColor: "#1e1b4b",
+    width: `calc(${theme.spacing(7)} + 1px)`,
+    [theme.breakpoints.up("sm")]: {
+      width: `calc(${theme.spacing(8)} + 1px)`,
+    },
+  });
+
   const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
     alignItems: "center",
+    justifyContent: "flex-end",
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: "flex-end",
   }));
 
-  // const StyledDrawer = styled(Drawer)(({ theme }) => ({
-  //   backgroundColor: "#312e81",
-  // }));
+  const Drawer = styled(MuiDrawer, {
+    shouldForwardProp: (prop) => prop !== "open",
+  })(({ theme, open }) => ({
+    width: drawerWidth,
+    flexShrink: 0,
+    whiteSpace: "nowrap",
+    boxSizing: "border-box",
+    ...(open && {
+      ...openedMixin(theme),
+      "& .MuiDrawer-paper": openedMixin(theme),
+    }),
+    ...(!open && {
+      ...closedMixin(theme),
+      "& .MuiDrawer-paper": closedMixin(theme),
+    }),
+  }));
+
+  const sideBarOptions: any[] = [
+    {
+      name: "Dashboard",
+      path: "/control/dashboard",
+      icon: <DashboardIcon fontSize="small" />,
+    },
+    {
+      name: "Attendance",
+      icon: <CoPresentIcon fontSize="small" />,
+      path: "/control/attendance",
+    },
+    {
+      name: "Employees",
+      icon: <BadgeIcon fontSize="small" />,
+      path: "/control/employee-management",
+    },
+    {
+      name: "Calendar",
+      icon: <CalendarMonthIcon fontSize="small" />,
+      path: "/control/calendar",
+    },
+    {
+      name: "Profile",
+      icon: <AccountCircleIcon fontSize="small" />,
+      path: "/control/profile",
+    },
+  ];
+
+  const navigate = useNavigate();
+
+  const handleNavigate = (path: string) => {
+    navigate(path);
+  };
 
   return (
-    <Drawer
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        "& .MuiDrawer-paper": {
-          width: drawerWidth,
-          boxSizing: "border-box",
-          backgroundColor: "#1e1b4b",
-        },
-      }}
-      variant="persistent"
-      anchor="left"
-      open={drawerOpen}
-    >
+    <Drawer variant="permanent" open={drawerOpen}>
       <DrawerHeader>
+        <img
+          style={{
+            width: "100%",
+            objectFit: "contain",
+          }}
+          height={40}
+          src={require("../../assets/images/logo.png")}
+          alt="side-bar-logo"
+        />
         <IconButton onClick={handleDrawerClose}>
           {theme.direction === "ltr" ? (
             <ChevronLeftIcon />
@@ -67,26 +143,11 @@ export const SideBar = ({
       </DrawerHeader>
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
+        {sideBarOptions?.map((opt: any, index) => (
+          <ListItem key={opt?.name} disablePadding>
+            <ListItemButton onClick={() => handleNavigate(opt?.path)}>
+              <ListItemIcon sx={{ color: "#f3f4f6" }}>{opt?.icon}</ListItemIcon>
+              <ListItemText sx={{ color: "#f3f4f6" }} primary={opt?.name} />
             </ListItemButton>
           </ListItem>
         ))}
