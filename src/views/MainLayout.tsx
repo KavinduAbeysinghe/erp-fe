@@ -6,6 +6,9 @@ import { MyAppBar } from "../components/appBar/MyAppBar";
 import { SideBar } from "../components/sideBar/SideBar";
 import { Dashboard } from "./dashboard/Dashboard";
 import { Profile } from "./profile/Profile";
+import { EmployeeManagement } from "./employeeManagement/EmployeeManagement";
+import { SearchLeaves } from "./leaveManagement/SearchLeaves";
+import { LeaveManagement } from "./leaveManagement/LeaveManagement";
 
 export const MainLayout = () => {
   return (
@@ -66,6 +69,14 @@ const Layout = () => {
         <Routes>
           <Route path={"/dashboard"} element={<Dashboard />}></Route>
           <Route path={"/profile"} element={<Profile />}></Route>
+          <Route
+            path={"/employee-management/*"}
+            element={<EmployeeManagement />}
+          ></Route>
+          <Route
+            path={"/leave-management/*"}
+            element={<LeaveManagement />}
+          ></Route>
         </Routes>
       </Box>
     </Box>

@@ -198,6 +198,7 @@ export const Login = () => {
             variant={"contained"}
             type={"submit"}
             onClick={handleSubmit(handleLogin)}
+            fullWidth={true}
           />
         </Grid>
       </Grid>

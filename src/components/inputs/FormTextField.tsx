@@ -12,10 +12,12 @@ export const FormTextField = ({
   helperText,
   required,
   error,
+  type,
   ...rest
 }: FormTextFieldProps & TextFieldProps) => {
   return (
     <TextField
+      type={type}
       {...rest}
       id={id}
       label={label}
@@ -27,6 +29,18 @@ export const FormTextField = ({
       required={required}
       disabled={disabled}
       size={"small"}
+      sx={
+        {
+          // "& .MuiInputBase-input.Mui-disabled": {
+          //   color: "rgba(0, 0, 0, 0.6)",
+          // },
+        }
+      }
+      InputLabelProps={
+        {
+          // style: { color: disabled ? "gray" : "black" },
+        }
+      }
     />
   );
 };

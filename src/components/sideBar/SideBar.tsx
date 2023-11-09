@@ -10,6 +10,7 @@ import {
   ListItemText,
   styled,
   Theme,
+  Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -24,6 +25,8 @@ import TaskIcon from "@mui/icons-material/Task";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BadgeIcon from "@mui/icons-material/Badge";
 import { useNavigate } from "react-router-dom";
+import FactCheckIcon from "@mui/icons-material/FactCheck";
+import PersonOffIcon from "@mui/icons-material/PersonOff";
 
 interface SideBarProps {
   drawerWidth: number;
@@ -99,9 +102,19 @@ export const SideBar = ({
       path: "/control/attendance",
     },
     {
+      name: "Leaves",
+      icon: <PersonOffIcon fontSize="small" />,
+      path: "/control/leave-management",
+    },
+    {
       name: "Employees",
       icon: <BadgeIcon fontSize="small" />,
       path: "/control/employee-management",
+    },
+    {
+      name: "Evaluations",
+      icon: <FactCheckIcon fontSize="small" />,
+      path: "/control/evaluations",
     },
     {
       name: "Calendar",
@@ -145,10 +158,14 @@ export const SideBar = ({
       <List>
         {sideBarOptions?.map((opt: any, index) => (
           <ListItem key={opt?.name} disablePadding>
-            <ListItemButton onClick={() => handleNavigate(opt?.path)}>
-              <ListItemIcon sx={{ color: "#f3f4f6" }}>{opt?.icon}</ListItemIcon>
-              <ListItemText sx={{ color: "#f3f4f6" }} primary={opt?.name} />
-            </ListItemButton>
+            <Tooltip title={!drawerOpen ? opt?.name : ""} placement={"right"}>
+              <ListItemButton onClick={() => handleNavigate(opt?.path)}>
+                <ListItemIcon sx={{ color: "#f3f4f6" }}>
+                  {opt?.icon}
+                </ListItemIcon>
+                <ListItemText sx={{ color: "#f3f4f6" }} primary={opt?.name} />
+              </ListItemButton>
+            </Tooltip>
           </ListItem>
         ))}
       </List>

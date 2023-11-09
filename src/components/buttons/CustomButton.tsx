@@ -4,7 +4,12 @@ interface CustomButtonProps extends ButtonProps {
   text: string;
 }
 
-export const CustomButton = ({ text, variant, ...rest }: CustomButtonProps) => {
+export const CustomButton = ({
+  text,
+  variant,
+  fullWidth,
+  ...rest
+}: CustomButtonProps) => {
   const StyledButton = styled(Button)(({ theme }) => ({
     boxShadow: "none",
     [variant === "contained" ? "border" : ""]: "none",
@@ -14,7 +19,7 @@ export const CustomButton = ({ text, variant, ...rest }: CustomButtonProps) => {
   }));
 
   return (
-    <StyledButton variant={variant} {...rest} fullWidth>
+    <StyledButton variant={variant} {...rest} fullWidth={!!fullWidth}>
       {text}
     </StyledButton>
   );

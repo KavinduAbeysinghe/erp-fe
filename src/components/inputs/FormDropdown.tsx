@@ -13,7 +13,7 @@ import { Controller } from "react-hook-form";
 interface FormDropdownProps extends SelectProps {
   name: string;
   options: Array<OptionIn>;
-  helperText: string;
+  helperText: any;
   control: any;
 }
 
@@ -29,13 +29,14 @@ export const FormDropdown = ({
   control,
   defaultValue,
   disabled,
+  fullWidth,
 }: FormDropdownProps) => {
   const handleChange = (event: any, onChange: any) => {
     onChange(event.target.value);
   };
 
   return (
-    <FormControl fullWidth size={"small"} error={error}>
+    <FormControl fullWidth={fullWidth} size={"small"} error={error}>
       <InputLabel required={required} id={labelId}>
         {label}
       </InputLabel>

@@ -1,13 +1,26 @@
 import { axisClasses, BarChart } from "@mui/x-charts";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MakeOptional } from "@mui/x-charts/models/helpers";
 import { BarSeriesType } from "@mui/x-charts/models/seriesType/bar";
+import { FormDropdown } from "../../components/inputs/FormDropdown";
+import { months, OptionIn } from "../../util";
+import { Grid } from "@mui/material";
 
-export const MyAttendance = () => {
+interface MyAttendanceProps {
+  control: any;
+  setValue: any;
+  watch: any;
+}
+
+export const MyAttendance = ({
+  control,
+  setValue,
+  watch,
+}: MyAttendanceProps) => {
   const chartSetting = {
     yAxis: [
       {
-        label: "Week",
+        label: "Days",
       },
     ],
     sx: {
@@ -18,7 +31,7 @@ export const MyAttendance = () => {
     },
   };
 
-  const dataSet = [
+  const weeklyDataSet = [
     {
       week: "Week 1",
       attendance: 3,
@@ -41,17 +54,62 @@ export const MyAttendance = () => {
     },
   ];
 
+  const monthlyDataSet = [
+    { month: "Jan", attendance: 20 },
+    { month: "Feb", attendance: 30 },
+    { month: "Mar", attendance: 16 },
+    { month: "Apr", attendance: 25 },
+    { month: "May", attendance: 28 },
+    { month: "Jun", attendance: 31 },
+    { month: "Jul", attendance: 10 },
+    { month: "Aug", attendance: 18 },
+    { month: "Sep", attendance: 28 },
+    { month: "Oct", attendance: 16 },
+    { month: "Nov", attendance: 27 },
+    { month: "Dec", attendance: 31 },
+  ];
+
   const valueFormatter = (value: number) => `${value} days`;
 
+  const filterMyAttendance = watch("filterMyAttendance");
+
   const series: MakeOptional<BarSeriesType, "type">[] = [
-    { dataKey: "attendance", valueFormatter },
+    {
+      dataKey: "attendance",
+      valueFormatter,
+      color: filterMyAttendance === "weekly" ? "#312e81" : "#1e1b4b",
+    },
   ];
+
+  const myAttendanceOptions: Array<OptionIn> = [
+    { label: "Weekly", value: "weekly" },
+    { label: "Monthly", value: "monthly" },
+  ];
+
+  useEffect(() => {
+    setValue("filterMyAttendance", "weekly");
+  }, []);
 
   return (
     <>
+      <FormDropdown
+        name={"filterMyAttendance"}
+        options={myAttendanceOptions}
+        helperText={""}
+        control={control}
+        label={"Filter"}
+        labelId={"filter-attendance-label"}
+      />
       <BarChart
-        dataset={dataSet}
-        xAxis={[{ scaleType: "band", dataKey: "week" }]}
+        dataset={
+          filterMyAttendance === "weekly" ? weeklyDataSet : monthlyDataSet
+        }
+        xAxis={[
+          {
+            scaleType: "band",
+            dataKey: filterMyAttendance === "weekly" ? "week" : "month",
+          },
+        ]}
         series={series}
         // width={350}
         height={400}
