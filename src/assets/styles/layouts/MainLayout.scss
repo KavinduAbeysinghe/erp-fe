@@ -119,3 +119,15 @@
   border-radius: 10px;
   background-color: #eef2ff;
 }
+
+.shadow2 {
+  box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+}
+
+.custom-icon {
+  cursor: pointer;
+  color: gray;
+  :hover {
+    color: $primary-color;
+  }
+}

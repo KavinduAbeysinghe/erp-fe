@@ -5,6 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
 import "react-toastify/dist/ReactToastify.css";
+import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement,

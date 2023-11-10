@@ -99,7 +99,7 @@ export const SideBar = ({
     {
       name: "Attendance",
       icon: <CoPresentIcon fontSize="small" />,
-      path: "/control/attendance",
+      path: "/control/attendance-management",
     },
     {
       name: "Leaves",
@@ -114,7 +114,7 @@ export const SideBar = ({
     {
       name: "Evaluations",
       icon: <FactCheckIcon fontSize="small" />,
-      path: "/control/evaluations",
+      path: "/control/evaluation-management",
     },
     {
       name: "Calendar",

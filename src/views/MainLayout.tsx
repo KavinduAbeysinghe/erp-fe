@@ -9,6 +9,10 @@ import { Profile } from "./profile/Profile";
 import { EmployeeManagement } from "./employeeManagement/EmployeeManagement";
 import { SearchLeaves } from "./leaveManagement/SearchLeaves";
 import { LeaveManagement } from "./leaveManagement/LeaveManagement";
+import { AttendanceManagement } from "./attendance/AttendanceManagement";
+import { MyCalendar } from "./calendar/MyCalendar";
+import { Evaluations } from "./evaluations/Evaluations";
+import { EvaluationManagement } from "./evaluations/EvaluationManagement";
 
 export const MainLayout = () => {
   return (
@@ -76,6 +80,15 @@ const Layout = () => {
           <Route
             path={"/leave-management/*"}
             element={<LeaveManagement />}
+          ></Route>
+          <Route
+            path={"/attendance-management/*"}
+            element={<AttendanceManagement />}
+          ></Route>
+          <Route path={"/calendar"} element={<MyCalendar />}></Route>
+          <Route
+            path={"/evaluation-management/*"}
+            element={<EvaluationManagement />}
           ></Route>
         </Routes>
       </Box>
