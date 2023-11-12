@@ -1,14 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
 import { DigitalClock } from "../../components/digitalClock/DigitalClock";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Notice, NoticeIn } from "../../components/notices/Notice";
 import { FormDropdown } from "../../components/inputs/FormDropdown";
 import { useForm } from "react-hook-form";
 import { employees, OptionIn } from "../../util";
-import { axisClasses, BarChart, PieChart } from "@mui/x-charts";
-import { MakeOptional } from "@mui/x-charts/models/helpers";
-import { BarSeriesType } from "@mui/x-charts/models/seriesType/bar";
 import BasicTabs from "../../components/tabs/BasicTabs";
 import { MyAttendance } from "./MyAttendance";
 import { TeamAttendance } from "./TeamAttendance";
@@ -111,8 +108,8 @@ export const Dashboard = () => {
         filterNotice === "all"
           ? noticeList
           : noticeList?.filter(
-              (notice: any) => notice?.priority === filterNotice,
-            ),
+              (notice: any) => notice?.priority === filterNotice
+            )
       );
     }
   }, [filterNotice]);
@@ -122,7 +119,7 @@ export const Dashboard = () => {
   useEffect(() => {
     if (employeeName) {
       setEmployeeDetails(
-        employees?.filter((emp: any) => emp?.empId === employeeName)[0],
+        employees?.filter((emp: any) => emp?.empId === employeeName)[0]
       );
     } else {
       setEmployeeDetails(null);
@@ -142,19 +139,32 @@ export const Dashboard = () => {
         </Typography>
         <DigitalClock />
       </Box>
-      <Grid container spacing={2} mt={1}>
+      <Grid container rowSpacing={5} columnSpacing={2} mt={1}>
         <Grid item sm={12} md={4}>
           <Box
+            component={Paper}
             className={"dash-card"}
             p={3}
             display={"flex"}
             flexDirection={"column"}
             gap={3}
+            position={"relative"}
           >
-            <Typography fontWeight={700} color={"primary"}>
+            <Typography
+              fontWeight={700}
+              color={"#fff"}
+              sx={{
+                backgroundColor: "primary.light",
+                position: "absolute",
+                mt: -5.5,
+                px: 3,
+                borderRadius: "7px",
+                py: 1,
+              }}
+            >
               Notices
             </Typography>
-            <Grid container>
+            <Grid container mt={3}>
               <Grid item xs={12} sm={12} md={4} lg={3}>
                 <FormDropdown
                   name={"filterNotice"}
@@ -174,6 +184,8 @@ export const Dashboard = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={4}>
           <Box
+            position={"relative"}
+            component={Paper}
             className={"dash-card"}
             p={3}
             display={"flex"}
@@ -181,10 +193,21 @@ export const Dashboard = () => {
             // justifyContent={"space-between"}
             gap={3}
           >
-            <Typography fontWeight={700} color={"primary"}>
+            <Typography
+              fontWeight={700}
+              color={"#fff"}
+              sx={{
+                backgroundColor: "primary.light",
+                position: "absolute",
+                mt: -5.5,
+                px: 3,
+                borderRadius: "7px",
+                py: 1,
+              }}
+            >
               Time Log
             </Typography>
-            <Box p={2} className={"time-log-container"}>
+            <Box p={2} mt={3} className={"time-log-container"}>
               <Typography fontWeight={700}>Punch in at</Typography>
               <Typography color={"text.secondary"}>
                 30<sup>th</sup> November 2023 8 AM
@@ -235,6 +258,7 @@ export const Dashboard = () => {
           <Grid container spacing={2} height={"100%"}>
             <Grid item sm={12} md={12}>
               <Box
+                component={Paper}
                 className={"dash-card"}
                 p={3}
                 display={"flex"}
@@ -258,7 +282,9 @@ export const Dashboard = () => {
                     <Typography fontWeight={700} fontSize={"large"}>
                       John Smith
                     </Typography>
-                    <Typography>Senior Software Engineer</Typography>
+                    <Typography color={"text.secondary"}>
+                      Senior Software Engineer
+                    </Typography>
                   </Box>
                 </Box>
                 <Box
@@ -267,43 +293,60 @@ export const Dashboard = () => {
                   flexDirection={"column"}
                   justifyContent={"center"}
                 >
-                  <Typography fontWeight={500}>
-                    Employee Number:{" "}
-                    <span style={{ fontWeight: 400 }}>002765</span>
-                  </Typography>
-                  <Typography fontWeight={500}>
-                    Designation:{" "}
-                    <span style={{ fontWeight: 400 }}>
+                  <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
+                    <Typography fontWeight={500} color={"text.secondary"}>
+                      Employee No:
+                    </Typography>
+                    <Typography fontWeight={400} color={"text.primary"}>
+                      002765
+                    </Typography>
+                  </Stack>
+                  <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
+                    <Typography fontWeight={500} color={"text.secondary"}>
+                      Designation:
+                    </Typography>
+                    <Typography fontWeight={400} color={"text.primary"}>
                       Senior Software Engineer
-                    </span>
-                  </Typography>
-                  <Typography fontWeight={500}>
-                    Mobile:{" "}
-                    <span style={{ fontWeight: 400 }}>+114-112-112-112</span>
-                  </Typography>
-                  <Typography fontWeight={500}>
-                    Email:{" "}
-                    <span style={{ fontWeight: 400 }}>
+                    </Typography>
+                  </Stack>
+                  <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
+                    <Typography fontWeight={500} color={"text.secondary"}>
+                      Mobile:
+                    </Typography>
+                    <Typography fontWeight={400} color={"text.primary"}>
+                      +114-112-112-112
+                    </Typography>
+                  </Stack>
+                  <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
+                    <Typography fontWeight={500} color={"text.secondary"}>
+                      Email:
+                    </Typography>
+                    <Typography fontWeight={400} color={"text.primary"}>
                       johnsmith@biznexa.com
-                    </span>
-                  </Typography>
-                  <Typography fontWeight={500}>
-                    Address:{" "}
-                    <span style={{ fontWeight: 400 }}>
+                    </Typography>
+                  </Stack>
+                  <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
+                    <Typography fontWeight={500} color={"text.secondary"}>
+                      Address:
+                    </Typography>
+                    <Typography fontWeight={400} color={"text.primary"}>
                       No. 450, Peters Lane
-                    </span>
-                  </Typography>
+                    </Typography>
+                  </Stack>
                 </Box>
               </Box>
             </Grid>
             <Grid item sm={12} md={12}>
               <Box
+                sx={{
+                  position: "relative",
+                  overflow: "hidden",
+                }}
                 className={"dash-card"}
                 // p={3}
                 display={"flex"}
                 flexDirection={"column"}
                 // gap={3}
-                sx={{ position: "relative" }}
               >
                 <img
                   className={"daily-quote-img"}
@@ -317,7 +360,9 @@ export const Dashboard = () => {
                   flexDirection={"column"}
                   sx={{ height: "100%" }}
                 >
-                  <Typography fontWeight={700}>Daily Quote</Typography>
+                  <Typography fontWeight={700} color={"text.dark"}>
+                    Daily Quote
+                  </Typography>
                   <Box
                     display={"flex"}
                     flexDirection={"column"}
@@ -330,7 +375,9 @@ export const Dashboard = () => {
                       The best and most beautiful things in the world cannot be
                       seen or even touched - they must be felt with the heart.
                     </Typography>
-                    <Typography fontWeight={700}>- Helen Keller</Typography>
+                    <Typography fontWeight={700} color={"text.dark"}>
+                      - Helen Keller
+                    </Typography>
                   </Box>
                 </Box>
               </Box>
@@ -339,113 +386,160 @@ export const Dashboard = () => {
         </Grid>
         <Grid item sm={12} md={8}>
           <Box
+            position={"relative"}
+            component={Paper}
             className={"dash-card"}
             p={3}
             display={"flex"}
             flexDirection={"column"}
             gap={3}
           >
-            <Typography fontWeight={700} color={"primary"}>
+            <Typography
+              fontWeight={700}
+              color={"#fff"}
+              sx={{
+                backgroundColor: "primary.light",
+                position: "absolute",
+                mt: -5.5,
+                px: 3,
+                borderRadius: "7px",
+                py: 1,
+              }}
+            >
               Attendance
             </Typography>
-            <BasicTabs options={tabOptions} />
+            <Box mt={3}>
+              <BasicTabs options={tabOptions} />
+            </Box>
           </Box>
         </Grid>
         <Grid item sm={12} md={4}>
           <Box
+            position={"relative"}
+            component={Paper}
             className={"dash-card"}
             p={3}
             display={"flex"}
             flexDirection={"column"}
             gap={3}
           >
-            <Typography fontWeight={700} color={"primary"}>
+            <Typography
+              fontWeight={700}
+              color={"#fff"}
+              sx={{
+                backgroundColor: "primary.light",
+                position: "absolute",
+                mt: -5.5,
+                px: 3,
+                borderRadius: "7px",
+                py: 1,
+              }}
+            >
               Employee Directory
             </Typography>
-            <FormAutocomplete
-              error={false}
-              helperText={""}
-              setValue={setValue}
-              label={"Employee Name"}
-              options={employeeOptions}
-              id={"employeeName"}
-              required={false}
-              disabled={false}
-              control={control}
-              watch={watch}
-            />
-            {employeeDetails ? (
-              <>
-                <Box
-                  display={"flex"}
-                  flexWrap={"wrap"}
-                  gap={2}
-                  alignItems={"center"}
-                >
-                  <img
-                    src={require("../../assets/images/person1.jpg")}
-                    alt="emp-profile-img"
-                    height={100}
-                    width={100}
-                    style={{ objectFit: "cover", borderRadius: "50%" }}
-                  />
-                  <Box>
-                    <Typography fontWeight={700} fontSize={"large"}>
-                      {employeeDetails?.name}
-                    </Typography>
-                    <Typography>{employeeDetails?.designation}</Typography>
+            <Box mt={3}>
+              <FormAutocomplete
+                error={false}
+                helperText={""}
+                setValue={setValue}
+                label={"Employee Name"}
+                options={employeeOptions}
+                id={"employeeName"}
+                required={false}
+                disabled={false}
+                control={control}
+                watch={watch}
+              />
+              {employeeDetails ? (
+                <>
+                  <Box
+                    display={"flex"}
+                    flexWrap={"wrap"}
+                    gap={2}
+                    alignItems={"center"}
+                  >
+                    <img
+                      src={require("../../assets/images/person1.jpg")}
+                      alt="emp-profile-img"
+                      height={100}
+                      width={100}
+                      style={{ objectFit: "cover", borderRadius: "50%" }}
+                    />
+                    <Box>
+                      <Typography fontWeight={700} fontSize={"large"}>
+                        {employeeDetails?.name}
+                      </Typography>
+                      <Typography>{employeeDetails?.designation}</Typography>
+                    </Box>
                   </Box>
-                </Box>
-                <Box>
-                  <Typography fontWeight={500}>
-                    Employee Number:{" "}
-                    <span style={{ fontWeight: 400 }}>
-                      {employeeDetails?.empNo}
-                    </span>
-                  </Typography>
-                  <Typography fontWeight={500}>
-                    Designation:{" "}
-                    <span style={{ fontWeight: 400 }}>
-                      {employeeDetails?.designation}
-                    </span>
-                  </Typography>
-                  <Typography fontWeight={500}>
-                    Mobile:{" "}
-                    <span style={{ fontWeight: 400 }}>
-                      {employeeDetails?.mobile}
-                    </span>
-                  </Typography>
-                  <Typography fontWeight={500}>
-                    Email:{" "}
-                    <span style={{ fontWeight: 400 }}>
-                      {employeeDetails?.email}
-                    </span>
-                  </Typography>
-                  <Typography fontWeight={500}>
-                    Address:{" "}
-                    <span style={{ fontWeight: 400 }}>
-                      {employeeDetails?.address}
-                    </span>
-                  </Typography>
-                </Box>
-              </>
-            ) : (
-              <Typography>Please select an employee to get details</Typography>
-            )}
+                  <Box>
+                    <Typography fontWeight={500}>
+                      Employee Number:{" "}
+                      <span style={{ fontWeight: 400 }}>
+                        {employeeDetails?.empNo}
+                      </span>
+                    </Typography>
+                    <Typography fontWeight={500}>
+                      Designation:{" "}
+                      <span style={{ fontWeight: 400 }}>
+                        {employeeDetails?.designation}
+                      </span>
+                    </Typography>
+                    <Typography fontWeight={500}>
+                      Mobile:{" "}
+                      <span style={{ fontWeight: 400 }}>
+                        {employeeDetails?.mobile}
+                      </span>
+                    </Typography>
+                    <Typography fontWeight={500}>
+                      Email:{" "}
+                      <span style={{ fontWeight: 400 }}>
+                        {employeeDetails?.email}
+                      </span>
+                    </Typography>
+                    <Typography fontWeight={500}>
+                      Address:{" "}
+                      <span style={{ fontWeight: 400 }}>
+                        {employeeDetails?.address}
+                      </span>
+                    </Typography>
+                  </Box>
+                </>
+              ) : (
+                <Typography>
+                  Please select an employee to get details
+                </Typography>
+              )}
+            </Box>
           </Box>
         </Grid>
         <Grid item sm={12} md={12}>
           <Box
+            position={"relative"}
+            component={Paper}
             className={"dash-card"}
             p={3}
             display={"flex"}
             flexDirection={"column"}
             gap={3}
           >
-            <Typography fontWeight={700} color={"primary"}>
+            <Typography
+              fontWeight={700}
+              color={"#fff"}
+              sx={{
+                backgroundColor: "primary.light",
+                position: "absolute",
+                mt: -5.5,
+                px: 3,
+                borderRadius: "7px",
+                py: 1,
+              }}
+            >
               Leave Overview
             </Typography>
-            <BasicTabs options={tabOptionsLeaves} />
+            <Box mt={3}>
+              <BasicTabs options={tabOptionsLeaves} />
+            </Box>
           </Box>
         </Grid>
         {/*<Grid item sm={12} md={4}>*/}

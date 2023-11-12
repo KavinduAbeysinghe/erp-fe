@@ -24,7 +24,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import TaskIcon from "@mui/icons-material/Task";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import BadgeIcon from "@mui/icons-material/Badge";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import FactCheckIcon from "@mui/icons-material/FactCheck";
 import PersonOffIcon from "@mui/icons-material/PersonOff";
 
@@ -41,6 +41,8 @@ export const SideBar = ({
 }: SideBarProps) => {
   const theme = useTheme();
 
+  const location = useLocation();
+
   const openedMixin = (theme: Theme): CSSObject => ({
     width: drawerWidth,
     transition: theme.transitions.create("width", {
@@ -48,7 +50,7 @@ export const SideBar = ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     overflowX: "hidden",
-    backgroundColor: "#1e1b4b",
+    backgroundColor: theme.palette.background.default,
   });
 
   const closedMixin = (theme: Theme): CSSObject => ({
@@ -57,7 +59,7 @@ export const SideBar = ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: "hidden",
-    backgroundColor: "#1e1b4b",
+    backgroundColor: theme.palette.background.default,
     width: `calc(${theme.spacing(7)} + 1px)`,
     [theme.breakpoints.up("sm")]: {
       width: `calc(${theme.spacing(8)} + 1px)`,
@@ -136,6 +138,7 @@ export const SideBar = ({
 
   return (
     <Drawer variant="permanent" open={drawerOpen}>
+      <div className="sidebar-overlay"></div>
       <DrawerHeader>
         <img
           style={{
@@ -145,6 +148,7 @@ export const SideBar = ({
           height={40}
           src={require("../../assets/images/logo.png")}
           alt="side-bar-logo"
+          className="logo-img"
         />
         <IconButton onClick={handleDrawerClose}>
           {theme.direction === "ltr" ? (
@@ -157,13 +161,23 @@ export const SideBar = ({
       <Divider />
       <List>
         {sideBarOptions?.map((opt: any, index) => (
-          <ListItem key={opt?.name} disablePadding>
+          <ListItem
+            key={opt?.name}
+            disablePadding
+            sx={{
+              borderRight:
+                location.pathname === opt?.path ? "5px solid #1976d2" : "",
+            }}
+          >
             <Tooltip title={!drawerOpen ? opt?.name : ""} placement={"right"}>
               <ListItemButton onClick={() => handleNavigate(opt?.path)}>
-                <ListItemIcon sx={{ color: "#f3f4f6" }}>
+                <ListItemIcon sx={{ color: "text.secondary" }}>
                   {opt?.icon}
                 </ListItemIcon>
-                <ListItemText sx={{ color: "#f3f4f6" }} primary={opt?.name} />
+                <ListItemText
+                  sx={{ color: "text.secondary" }}
+                  primary={opt?.name}
+                />
               </ListItemButton>
             </Tooltip>
           </ListItem>

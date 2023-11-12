@@ -14,6 +14,7 @@ interface FormDatePickerProps {
   helperText: any;
   name: string;
   control: any;
+  required?: boolean;
 }
 
 export const FormDatePicker = ({
@@ -22,6 +23,7 @@ export const FormDatePicker = ({
   helperText,
   name,
   control,
+  required,
 }: FormDatePickerProps) => {
   const format = "DD/MM/YYYY";
 
@@ -39,6 +41,7 @@ export const FormDatePicker = ({
                 size: "small",
                 error: error,
                 helperText: helperText,
+                required: required,
                 fullWidth: true,
               },
               actionBar: {

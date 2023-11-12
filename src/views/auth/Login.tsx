@@ -1,5 +1,4 @@
-import { useContext, useState } from "react";
-import { ColorModeContext } from "../../App";
+import { useState } from "react";
 import {
   Box,
   Grid,
@@ -19,13 +18,14 @@ import { CustomModal } from "../../components/modals/CustomModal";
 import { ForgotPasswordForm } from "./ForgotPasswordForm";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 import { useNotification } from "../../contexts/NotificationContext";
+import { useColorMode } from "../../contexts/ThemeContext";
 
 export const Login = () => {
   const navigate = useNavigate();
 
   const notify = useNotification();
 
-  const colorMode = useContext(ColorModeContext);
+  const colorMode = useColorMode();
 
   const [showModal, setShowModal] = useState<boolean>(false);
 

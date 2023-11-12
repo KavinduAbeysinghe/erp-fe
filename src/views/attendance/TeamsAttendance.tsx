@@ -5,10 +5,23 @@ import SearchTable from "../../components/tables/SearchTable";
 import { useForm } from "react-hook-form";
 import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
 import { TopCardAttendance } from "./TopCardAttendance";
+import { employees } from "../../util";
+import { useLayoutEffect, useState } from "react";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 
 export const TeamsAttendance = () => {
+  const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
+
+  const [teamAttendanceData, setTeamAttendance] = useState<Array<any>>([]);
+
+  const [teamMemberData, setTeamMemberData] = useState<Array<any>>([]);
+
+  const [topCardsData, setTopCardsData] = useState<any>(null);
+
   const tableHeads = [
     "S.No",
+    "Emp No",
+    "Name",
     "Date",
     "Production",
     "Punch In",
@@ -17,16 +30,81 @@ export const TeamsAttendance = () => {
     "Overtime",
   ];
 
+  const formatData = (data: Array<any>) => {
+    return data?.map((d: any) => ({
+      sNo: d?.sNo,
+      empNo: employees?.find((e: any) => e?.empId === d?.empId)?.empNo,
+      name: employees?.find((e: any) => e?.empId === d?.empId)?.name,
+      date: d?.date,
+      production: d?.production,
+      punchIn: d?.punchIn,
+      punchOut: d?.punchOut,
+      break: d?.break,
+      overtime: d?.overtime,
+    }));
+  };
+
   const tableData = [
+    {
+      sNo: 1005,
+      date: "2023-11-05",
+      production: 8.5,
+      empId: 1,
+      punchIn: "08:30",
+      punchOut: "17:30",
+      break: "1.5 hrs",
+      overtime: 2.5,
+    },
+    {
+      sNo: 1004,
+      date: "2023-11-04",
+      production: 8.5,
+      empId: 1,
+      punchIn: "08:30",
+      punchOut: "17:30",
+      break: "1.5 hrs",
+      overtime: 2.5,
+    },
+    {
+      sNo: 1003,
+      date: "2023-11-03",
+      production: 8.5,
+      empId: 1,
+      punchIn: "08:30",
+      punchOut: "17:30",
+      break: "1.5 hrs",
+      overtime: 2.5,
+    },
+    {
+      sNo: 1002,
+      date: "2023-11-02",
+      production: 8.5,
+      empId: 1,
+      punchIn: "08:30",
+      punchOut: "17:30",
+      break: "1.5 hrs",
+      overtime: 2.5,
+    },
     {
       sNo: 1001,
       date: "2023-11-01",
-      production: "8.5 hrs",
+      production: 8.5,
+      empId: 1,
+      punchIn: "08:30",
+      punchOut: "17:30",
+      break: "1.5 hrs",
+      overtime: 2.5,
     },
   ];
 
+  useLayoutEffect(() => {
+    setTeamAttendance(formatData(tableData));
+    setTeamMemberData(
+      employees?.map((e: any) => ({ label: e?.name, value: e?.empId }))
+    );
+  }, []);
+
   const {
-    register,
     setValue,
     watch,
     control,
@@ -35,41 +113,70 @@ export const TeamsAttendance = () => {
     reset,
   } = useForm({});
 
-  const onSearch = (data: any) => {};
+  const getTopCardData = (data: Array<any>) => {
+    const actives = data?.filter((d: any) => d?.punchIn && d?.punchOut);
+    const totalDays = actives?.length;
+    let totalHours = 0;
+    actives?.forEach((d: any) => {
+      if (d?.production) totalHours += d?.production;
+    });
+    const averageHours = totalHours / totalDays;
+    let overtimeHours = 0;
+    actives?.forEach((d: any) => {
+      if (d?.overtime) overtimeHours += d?.overtime;
+    });
+    return {
+      totalDays: totalDays,
+      totalHours: totalHours,
+      averageHours: averageHours,
+      overtimeHours: overtimeHours,
+    };
+  };
 
-  const topCardsData = [
-    {
-      title: "Total Days",
-      value: "11, 500",
-      borderColor: "#3730a3",
-    },
-    {
-      title: "Total Hours",
-      value: "201.50",
-      borderColor: "#3730a3",
-    },
-    {
-      title: "Average Hours",
-      value: "7.50",
-      borderColor: "#3730a3",
-    },
-    {
-      title: "Overtime Hours",
-      value: "1.20",
-      borderColor: "#3730a3",
-    },
-  ];
+  const onSearch = (data: any) => {
+    setShowBackdrop(true);
+    setTimeout(() => {
+      console.log(data);
+      const empId = data?.teamMemberName;
+      const dateFrom = data?.dateFrom;
+      const dateTo = data?.dateTo;
+      let filteredData: any[] = [];
+      if (empId && dateFrom && dateTo) {
+        filteredData = tableData?.filter((d: any) => {
+          const date = new Date(d?.date);
+          return empId === d?.empId && date >= dateFrom && date <= dateTo;
+        });
+      }
+      setTeamAttendance(formatData(filteredData));
+      setTopCardsData(getTopCardData(filteredData));
+      setShowBackdrop(false);
+    }, 1000);
+  };
+
+  const resetForm = () => {
+    setShowBackdrop(true);
+    setTimeout(() => {
+      reset({});
+      setTopCardsData(null);
+      setValue("teamMemberName", "");
+      setValue("dateFrom", "");
+      setValue("dateTo", "");
+      setTeamAttendance(formatData(tableData));
+      setShowBackdrop(false);
+    }, 1000);
+  };
 
   return (
     <>
-      <Grid container spacing={2} mb={5}>
+      <CustomBackdrop showBackdrop={showBackdrop} />
+      <Grid container spacing={2} mt={1} mb={5}>
         <Grid item xs={12} sm={12} md={3}>
           <FormAutocomplete
-            error={!!errors?.nationality?.message}
-            helperText={errors?.nationality?.message?.toString()}
+            error={false}
+            helperText={""}
             setValue={setValue}
             label={"Team Member Name"}
-            options={[]}
+            options={teamMemberData}
             id={"teamMemberName"}
             required={true}
             disabled={false}
@@ -90,8 +197,8 @@ export const TeamsAttendance = () => {
           <FormDatePicker
             helperText={""}
             error={false}
-            label={"Date From"}
-            name={"dateFrom"}
+            label={"Date To"}
+            name={"dateTo"}
             control={control}
           />
         </Grid>
@@ -111,19 +218,40 @@ export const TeamsAttendance = () => {
           <CustomButton
             text={"Clear"}
             variant={"outlined"}
-            onClick={() => {}}
+            onClick={resetForm}
           />
         </Grid>
       </Grid>
-      <Grid container spacing={2} mb={5}>
-        {topCardsData?.map((d: any, index) => (
-          <Grid key={index} item xs={12} sm={6} md={3}>
-            <TopCardAttendance data={d} />
+      {topCardsData && (
+        <Grid container spacing={2} mb={5}>
+          <Grid item xs={12} sm={6} md={3}>
+            <TopCardAttendance
+              value={topCardsData?.totalDays}
+              title={"Total Days"}
+            />
           </Grid>
-        ))}
-      </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <TopCardAttendance
+              value={topCardsData?.totalHours}
+              title={"Total Hours"}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <TopCardAttendance
+              value={topCardsData?.averageHours}
+              title={"Average Hours"}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <TopCardAttendance
+              value={topCardsData?.overtimeHours}
+              title={"Overtime"}
+            />
+          </Grid>
+        </Grid>
+      )}
       <SearchTable
-        tableData={[]}
+        tableData={teamAttendanceData}
         tableHeaders={tableHeads}
         id={""}
         paginate={true}

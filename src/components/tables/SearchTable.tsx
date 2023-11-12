@@ -30,8 +30,8 @@ const SearchTable = ({
 }: TableData) => {
   const StyledTableCell = styled(TableCell)(({ theme }: any) => ({
     [`&.${tableCellClasses.head}`]: {
-      backgroundColor: "#efefef",
-      color: "#6c6c6c",
+      backgroundColor: "transparent",
+      color: theme.palette.text.primary,
     },
     [`&.${tableCellClasses.body}`]: {
       fontSize: 14,
@@ -40,7 +40,7 @@ const SearchTable = ({
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     "&:nth-of-type(odd)": {
-      backgroundColor: "#f6f6f6",
+      backgroundColor: theme.palette.action.hover,
     },
     // hide last border
     "&:last-child td, &:last-child th": {
@@ -53,7 +53,7 @@ const SearchTable = ({
 
   const paginatedData = tableData.slice(
     (page - 1) * rowsPerPage,
-    (page - 1) * rowsPerPage + rowsPerPage,
+    (page - 1) * rowsPerPage + rowsPerPage
   );
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -61,7 +61,7 @@ const SearchTable = ({
   };
 
   return (
-    <TableContainer component={Paper} sx={{ boxShadow: "none" }}>
+    <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>

@@ -9,11 +9,12 @@ import { empLeaves, employees, leave } from "../../util";
 import dayjs from "dayjs";
 import { CustomChip } from "../../components/chips/Chip";
 import { useNavigate } from "react-router-dom";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 
 // Function to calculate the difference in days between two dates
 export function calculateDateDifference(
   dateStrA: string,
-  dateStrB: string,
+  dateStrB: string
 ): number {
   // Convert date strings to Date objects
   const dateA: Date = new Date(dateStrA);
@@ -28,6 +29,8 @@ export function calculateDateDifference(
 
 export const SearchMyLeaves = () => {
   const navigate = useNavigate();
+
+  const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
 
   const [myLeaveData, setMyLeaveData] = useState<Array<any>>([]);
 
@@ -49,7 +52,7 @@ export const SearchMyLeaves = () => {
         ),
       reason: d?.reason,
       coveringEmployee: employees?.find(
-        (e: any) => e?.empId === d?.coveringEmployeeId,
+        (e: any) => e?.empId === d?.coveringEmployeeId
       )?.name,
     }));
   };
@@ -86,7 +89,35 @@ export const SearchMyLeaves = () => {
   ];
 
   const handleSearch = (data: any) => {
-    console.log(data);
+    setShowBackdrop(true);
+    setTimeout(() => {
+      const dateFrom = data?.dateFrom;
+      const dateTo = data?.dateTo;
+      const status = data?.status;
+      console.log(dateFrom, dateTo, status);
+
+      let filteredData: Array<any> = [];
+      if (dateFrom && dateTo && status) {
+        filteredData = empLeaves[0]?.leaves?.filter((l: any) => {
+          const dateF = new Date(l?.dateFrom);
+          const dateT = new Date(l?.dateTo);
+          return dateF >= dateFrom && dateT <= dateTo && l?.status === status;
+        });
+      }
+      setMyLeaveData(formatData(filteredData));
+      setShowBackdrop(false);
+    }, 1000);
+  };
+
+  const resetForm = () => {
+    setShowBackdrop(true);
+    setTimeout(() => {
+      setValue("dateFrom", "");
+      setValue("dateTo", "");
+      setValue("status", "");
+      setMyLeaveData(formatData(empLeaves[0]?.leaves));
+      setShowBackdrop(false);
+    }, 1000);
   };
 
   const handleNavigateApplyLeave = () => {
@@ -95,13 +126,14 @@ export const SearchMyLeaves = () => {
 
   return (
     <>
+      <CustomBackdrop showBackdrop={showBackdrop} />
       <CustomButton
         text={"+ Apply Leave"}
         variant={"contained"}
         onClick={handleNavigateApplyLeave}
       />
       <Grid container spacing={2} my={2} mb={5}>
-        <Grid item xs={12} sm={12} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <FormDatePicker
             helperText={""}
             error={false}
@@ -110,7 +142,7 @@ export const SearchMyLeaves = () => {
             control={control}
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <FormDatePicker
             helperText={""}
             error={false}
@@ -119,7 +151,7 @@ export const SearchMyLeaves = () => {
             control={control}
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <FormDropdown
             name={"status"}
             options={status}
@@ -131,11 +163,24 @@ export const SearchMyLeaves = () => {
             fullWidth={true}
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={2}>
+        <Grid
+          item
+          xs={12}
+          sm={6}
+          md={2}
+          display={"flex"}
+          gap={2}
+          alignItems={"center"}
+        >
           <CustomButton
             text={"Search"}
             variant={"contained"}
             onClick={handleSubmit(handleSearch)}
+          />
+          <CustomButton
+            text={"Clear"}
+            variant={"outlined"}
+            onClick={resetForm}
           />
         </Grid>
       </Grid>

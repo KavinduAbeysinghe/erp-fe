@@ -1,29 +1,23 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Paper, Typography } from "@mui/material";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 interface TopCardAttendanceProps {
-  data: any;
+  value: string;
+  title: string;
 }
 
-export const TopCardAttendance = ({ data }: TopCardAttendanceProps) => {
-  const d = data;
-
+export const TopCardAttendance = ({ value, title }: TopCardAttendanceProps) => {
   return (
     <Box
-      className={"shadow2"}
+      component={Paper}
       sx={{
-        backgroundColor: "#fff",
-        borderRadius: "10px",
         p: 3,
-        borderLeft: `10px solid ${d?.borderColor}`,
+        borderLeft: `10px solid #3730a3`,
       }}
     >
-      <Box display={"flex"} justifyContent={"space-between"} flexWrap={"wrap"}>
-        <Typography color={"text.secondary"}>{d?.title}</Typography>
-        <FilterAltIcon className={"custom-icon"} fontSize={"small"} />
-      </Box>
+      <Typography color={"text.secondary"}>{title}</Typography>
       <Typography textAlign={"center"} fontSize={"xx-large"} fontWeight={700}>
-        {d?.value}
+        {value}
       </Typography>
     </Box>
   );

@@ -2,6 +2,7 @@ import {
   Box,
   Grid,
   IconButton,
+  Paper,
   Stack,
   TextField,
   Typography,
@@ -138,13 +139,14 @@ export const Profile = () => {
       <Grid container rowSpacing={5} columnSpacing={3}>
         <Grid item xs={12} sm={12} md={12}>
           <Box
+            component={Paper}
             borderRadius={"10px"}
             display={"flex"}
             alignItems={"center"}
             justifyContent={"space-between"}
             flexWrap={"wrap"}
-            sx={{ backgroundColor: "white" }}
-            className={"dash-card"}
+            // sx={{ backgroundColor: "white" }}
+            // className={"dash-card"}
             p={3}
             gap={3}
           >
@@ -165,11 +167,19 @@ export const Profile = () => {
                 }}
               />
               <Box>
-                <Typography color={""} fontWeight={900} fontSize={"x-large"}>
+                <Typography
+                  color={"text.primary"}
+                  fontWeight={900}
+                  fontSize={"x-large"}
+                >
                   John Smith
                 </Typography>
-                <Typography>Senior Software Engineer</Typography>
-                <Typography>Research & Development</Typography>
+                <Typography color={"text.secondary"}>
+                  Senior Software Engineer
+                </Typography>
+                <Typography color={"text.secondary"}>
+                  Research & Development
+                </Typography>
               </Box>
             </Box>
             <Stack gap={2} direction={"row"} flexWrap={"wrap"}>
@@ -199,16 +209,30 @@ export const Profile = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={12}>
           <Box
+            component={Paper}
             position={"relative"}
             borderRadius={"10px"}
             display={"flex"}
             flexWrap={"wrap"}
-            sx={{ backgroundColor: "white" }}
-            className={"dash-card"}
+            // sx={{ backgroundColor: "white" }}
+            // className={"dash-card"}
             p={3}
             gap={3}
           >
-            <Typography className={"card-title"}>General</Typography>
+            <Typography
+              fontWeight={700}
+              color={"#fff"}
+              sx={{
+                backgroundColor: "primary.dark",
+                position: "absolute",
+                mt: -5.5,
+                px: 3,
+                borderRadius: "7px",
+                py: 1,
+              }}
+            >
+              General
+            </Typography>
             <IconButton sx={{ mt: 2 }} onClick={handleGFEdit}>
               <EditNoteIcon />
             </IconButton>
@@ -277,16 +301,30 @@ export const Profile = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={12}>
           <Box
+            component={Paper}
             position={"relative"}
             borderRadius={"10px"}
             display={"flex"}
             flexWrap={"wrap"}
-            sx={{ backgroundColor: "white" }}
-            className={"dash-card"}
+            // sx={{ backgroundColor: "white" }}
+            // className={"dash-card"}
             p={3}
             gap={3}
           >
-            <Typography className={"card-title"}>Personal Info</Typography>
+            <Typography
+              fontWeight={700}
+              color={"#fff"}
+              sx={{
+                backgroundColor: "primary.dark",
+                position: "absolute",
+                mt: -5.5,
+                px: 3,
+                borderRadius: "7px",
+                py: 1,
+              }}
+            >
+              Personal Info
+            </Typography>
             <IconButton sx={{ mt: 2 }} onClick={handlePFEdit}>
               <EditNoteIcon />
             </IconButton>
@@ -377,17 +415,29 @@ export const Profile = () => {
         </Grid>
         <Grid item xs={12} sm={12} md={12}>
           <Box
+            component={Paper}
             position={"relative"}
             borderRadius={"10px"}
             display={"flex"}
             flexWrap={"wrap"}
-            sx={{ backgroundColor: "white" }}
-            className={"dash-card"}
+            // sx={{ backgroundColor: "white" }}
+            // className={"dash-card"}
             p={3}
             gap={3}
           >
-            <Typography className={"card-title"}>
-              Reporting Hierarchy
+            <Typography
+              fontWeight={700}
+              color={"#fff"}
+              sx={{
+                backgroundColor: "primary.dark",
+                position: "absolute",
+                mt: -5.5,
+                px: 3,
+                borderRadius: "7px",
+                py: 1,
+              }}
+            >
+              Reporting Heirarchy
             </Typography>
             <Box mt={3} width={"100%"}>
               <SearchTable
