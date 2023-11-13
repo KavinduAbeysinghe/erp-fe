@@ -33,7 +33,7 @@ export const MyAppBar = ({
     zIndex: theme.zIndex.drawer + 1,
     backgroundColor: theme.palette.background.default,
     color: theme.palette.text.primary,
-    boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+    // boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
     transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,

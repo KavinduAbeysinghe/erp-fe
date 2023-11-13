@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Box, Chip, Grid, Stack, Typography } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -7,7 +7,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import DenseTable from "../../components/tables/DenseTable";
 import { FormDropdown } from "../../components/inputs/FormDropdown";
-import { genders } from "../../util";
+import { employees, genders, leave } from "../../util";
 import { FormDatePicker } from "../../components/datePickers/FormDatePicker";
 import { FormTextField } from "../../components/inputs/FormTextField";
 import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
@@ -19,9 +19,29 @@ import { faEye, faFileArrowDown } from "@fortawesome/free-solid-svg-icons";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { DocPreviewModal } from "../../components/modals/DocPreviewModal";
 import AttachmentIcon from "@mui/icons-material/Attachment";
+import { useLocation } from "react-router-dom";
+import { teamLeaves } from "./SearchTeamLeaves";
+import dayjs from "dayjs";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 
 export const TeamLeavePage = () => {
   const [docModalOpen, setDocModalOpen] = useState<boolean>(false);
+
+  const commonError = "Field is required";
+
+  const validationSchema = Yup.object().shape({
+    dateFrom: Yup.string().test("required-err", commonError, (value) => {
+      return !(value === undefined || value === null || value === "");
+    }),
+    dateTo: Yup.string().test("required-err", commonError, (value) => {
+      return !(value === undefined || value === null || value === "");
+    }),
+    leaveType: Yup.number().typeError(commonError),
+    comments: Yup.string(),
+    coveringEmp: Yup.number(),
+    approver: Yup.string(),
+  });
 
   const {
     register,
@@ -31,7 +51,9 @@ export const TeamLeavePage = () => {
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm({});
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
   const resetForm = () => {};
 
@@ -73,6 +95,45 @@ export const TeamLeavePage = () => {
     },
   ];
 
+  const [id, setId] = useState<any>("");
+
+  const [isView, setIsView] = useState<boolean>(false);
+
+  const location = useLocation();
+
+  const searchParams = new URLSearchParams(location.search);
+
+  useLayoutEffect(() => {
+    const obj = searchParams.get("teamLeave");
+    if (obj) {
+      const teamLeave = JSON.parse(obj);
+      setId(teamLeave?.id);
+      setIsView(teamLeave?.page === "view");
+    }
+  }, [location]);
+
+  useEffect(() => {
+    if (id) {
+      const leave = teamLeaves?.find((d: any) => d?.id === id);
+      if (leave) {
+        setValue("leaveType", leave?.leaveTypeId);
+        setValue(
+          "dateFrom",
+          dayjs(new Date(leave?.dateFrom)).format("DD/MM/YYYY")
+        );
+        setValue("dateTo", dayjs(new Date(leave?.dateTo)).format("DD/MM/YYYY"));
+        setValue("comments", leave?.comments);
+        setValue("coveringEmp", leave?.coveringEmpId);
+        // setValue("approver", leave?.coveringEmpId);
+      }
+    }
+  }, [isView]);
+
+  const coveringEmpList = employees?.map((d: any) => ({
+    label: d?.name,
+    value: d?.empId,
+  }));
+
   return (
     <>
       <DocPreviewModal
@@ -107,38 +168,41 @@ export const TeamLeavePage = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={12} md={4}>
               <FormDropdown
-                name={"gender"}
-                options={genders}
+                name={"leaveType"}
+                options={leave}
                 label={"Leave Type"}
-                helperText={errors?.gender?.message?.toString()}
-                error={!!errors?.gender?.message}
+                helperText={errors?.leaveType?.message?.toString()}
+                error={!!errors?.leaveType?.message}
                 control={control}
                 fullWidth={true}
+                disabled={isView}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
               <FormDatePicker
-                helperText={""}
-                error={false}
+                error={!!errors?.dateFrom?.message}
+                helperText={errors?.dateFrom?.message?.toString()}
                 label={"Date From"}
                 name={"dateFrom"}
                 control={control}
+                disabled={isView}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
               <FormDatePicker
-                helperText={""}
-                error={false}
+                error={!!errors?.dateTo?.message}
+                helperText={errors?.dateTo?.message?.toString()}
                 label={"Date To"}
                 name={"dateTo"}
                 control={control}
+                disabled={isView}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={8}>
               <FormTextField
                 register={register("comments")}
                 label={"Comments"}
-                disabled={false}
+                disabled={isView}
                 required={true}
                 error={!!errors?.comments?.message}
                 helperText={errors?.comments?.message?.toString()}
@@ -146,28 +210,28 @@ export const TeamLeavePage = () => {
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
               <FormAutocomplete
-                error={!!errors?.nationality?.message}
-                helperText={errors?.nationality?.message?.toString()}
+                error={!!errors?.coveringEmp?.message}
+                helperText={errors?.coveringEmp?.message?.toString()}
                 setValue={setValue}
                 label={"Covering Employee"}
-                options={[]}
-                id={"Covering Employee"}
+                options={coveringEmpList}
+                id={"coveringEmp"}
                 required={true}
-                disabled={false}
+                disabled={isView}
                 control={control}
                 watch={watch}
               />
             </Grid>
             <Grid item xs={12} sm={12} md={4}>
               <FormAutocomplete
-                error={!!errors?.nationality?.message}
-                helperText={errors?.nationality?.message?.toString()}
+                error={!!errors?.approver?.message}
+                helperText={errors?.approver?.message?.toString()}
                 setValue={setValue}
                 label={"Approver"}
                 options={[]}
-                id={"Covering Employee"}
+                id={"approver"}
                 required={true}
-                disabled={false}
+                disabled={isView}
                 control={control}
                 watch={watch}
               />

@@ -50,7 +50,7 @@ export const SideBar = ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     overflowX: "hidden",
-    backgroundColor: theme.palette.background.default,
+    // backgroundColor: theme.palette.background.default,
   });
 
   const closedMixin = (theme: Theme): CSSObject => ({
@@ -59,7 +59,7 @@ export const SideBar = ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     overflowX: "hidden",
-    backgroundColor: theme.palette.background.default,
+    // backgroundColor: theme.palette.background.default,
     width: `calc(${theme.spacing(7)} + 1px)`,
     [theme.breakpoints.up("sm")]: {
       width: `calc(${theme.spacing(8)} + 1px)`,
@@ -171,13 +171,8 @@ export const SideBar = ({
           >
             <Tooltip title={!drawerOpen ? opt?.name : ""} placement={"right"}>
               <ListItemButton onClick={() => handleNavigate(opt?.path)}>
-                <ListItemIcon sx={{ color: "text.secondary" }}>
-                  {opt?.icon}
-                </ListItemIcon>
-                <ListItemText
-                  sx={{ color: "text.secondary" }}
-                  primary={opt?.name}
-                />
+                <ListItemIcon sx={{ color: "#fff" }}>{opt?.icon}</ListItemIcon>
+                <ListItemText sx={{ color: "#fff" }} primary={opt?.name} />
               </ListItemButton>
             </Tooltip>
           </ListItem>

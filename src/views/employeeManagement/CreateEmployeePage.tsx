@@ -58,16 +58,16 @@ export const CreateEmployeePage = () => {
       nationalities?.map((n: any) => ({
         label: `${n?.nationality} - ${n?.nationalityCode}`,
         value: n?.nationalityId,
-      })),
+      }))
     );
     setDeptList(
       departments?.map((d: any) => ({
         label: d?.departmentName,
         value: d?.departmentId,
-      })),
+      }))
     );
     setReportingEmpList(
-      employees?.map((e: any) => ({ label: e?.name, value: e?.empId })),
+      employees?.map((e: any) => ({ label: e?.name, value: e?.empId }))
     );
   }, []);
 
@@ -113,6 +113,14 @@ export const CreateEmployeePage = () => {
     reportingEmployee: Yup.string(),
     dateFrom: Yup.string(),
     dateTo: Yup.string(),
+    casualLeaves: Yup.number().typeError(commonError).required(commonError),
+    familyMedicalLeaves: Yup.number()
+      .typeError(commonError)
+      .required(commonError),
+    studyLeaves: Yup.number().typeError(commonError).required(commonError),
+    bereavementLeaves: Yup.number()
+      .typeError(commonError)
+      .required(commonError),
   });
 
   const {
@@ -473,6 +481,58 @@ export const CreateEmployeePage = () => {
           paginate={true}
         />
       </Box>
+      <Box mt={2}>
+        <hr className={"divider"} />
+      </Box>
+      <Typography color={"primary"} fontWeight={700} fontSize={"large"} mb={2}>
+        Leave Information
+      </Typography>
+      <Grid container spacing={2}>
+        <Grid item xs={12} sm={6} md={3}>
+          <FormTextField
+            type={"number"}
+            register={register("casualLeaves")}
+            label={"Casual Leaves"}
+            disabled={false}
+            required={true}
+            error={!!errors?.casualLeaves?.message}
+            helperText={errors?.casualLeaves?.message?.toString()}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <FormTextField
+            type={"number"}
+            register={register("bereavementLeaves")}
+            label={"Bereavement Leaves"}
+            disabled={false}
+            required={true}
+            error={!!errors?.bereavementLeaves?.message}
+            helperText={errors?.bereavementLeaves?.message?.toString()}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <FormTextField
+            type={"number"}
+            register={register("familyMedicalLeaves")}
+            label={"Family & Medical Leaves"}
+            disabled={false}
+            required={true}
+            error={!!errors?.familyMedicalLeaves?.message}
+            helperText={errors?.familyMedicalLeaves?.message?.toString()}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <FormTextField
+            type={"number"}
+            register={register("studyLeaves")}
+            label={"Study"}
+            disabled={false}
+            required={true}
+            error={!!errors?.studyLeaves?.message}
+            helperText={errors?.studyLeaves?.message?.toString()}
+          />
+        </Grid>
+      </Grid>
       <Stack direction={"row"} gap={2} justifyContent={"end"} mt={3}>
         <CustomButton text={"Clear"} variant={"outlined"} onClick={resetForm} />
         <CustomButton

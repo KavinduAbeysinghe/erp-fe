@@ -3,19 +3,25 @@
 //   color: black; /* Color you want the text to appear as */
 // }
 
-// .MuiDrawer-docked .MuiDrawer-paper {
-//   background-image: url("../../images/sidebar.jpg") !important;
-//   background-size: cover;
-//   background-position: center center;
-// }
+.MuiDrawer-docked .MuiDrawer-paper {
+  background-image: url("../../images/sidebar.jpg") !important;
+  background-size: cover;
+  background-position: center center;
+  border-right: none !important;
+}
 
-// .sidebar-overlay {
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   background: linear-gradient(195deg, #42424a, #191919);
-//   z-index: -1;
-//   opacity: 0.8;
-// }
+.sidebar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(195deg, #42424a, #191919);
+  z-index: -1;
+  opacity: 0.8;
+  border: none !important;
+}
+
+.MuiPaper-root-MuiDrawer-paper {
+  border-right: none !important;
+}

@@ -2,6 +2,8 @@ import CustomAccordion from "../../components/accordions/CustomAccordion";
 import CustomizedAccordions from "../../components/accordions/CustomAccordion";
 import DenseTable from "../../components/tables/DenseTable";
 import { FormTextField } from "../../components/inputs/FormTextField";
+import { Box, Stack } from "@mui/material";
+import { CustomButton } from "../../components/buttons/CustomButton";
 
 export const ViewEvaluation = () => {
   const tableHeads = ["#", "Name", "Rating", "Comments"];
@@ -13,7 +15,9 @@ export const ViewEvaluation = () => {
       rating: (
         <FormTextField register={undefined} type={"number"} fullWidth={false} />
       ),
-      comments: <FormTextField register={undefined} type={"text"} />,
+      comments: (
+        <FormTextField register={undefined} type={"text"} fullWidth={false} />
+      ),
     },
     {
       no: 1,
@@ -41,18 +45,39 @@ export const ViewEvaluation = () => {
     },
   ];
 
+  const AccordionBody = (props: any) => {
+    return (
+      <>
+        <DenseTable
+          tableData={props.tableData}
+          tableHeaders={props.tableHeads}
+        />
+        <Stack
+          direction={"row"}
+          alignItems={"center"}
+          justifyContent={"flex-end"}
+          gap={2}
+          mt={3}
+        >
+          <CustomButton text={"Clear"} variant="outlined" />
+          <CustomButton text={"Save"} variant="contained" />
+        </Stack>
+      </>
+    );
+  };
+
   const accordionOptions = [
     {
       title: "Development KPI - 5 November 2023",
-      body: <DenseTable tableData={tableData} tableHeaders={tableHeads} />,
+      body: <AccordionBody tableData={tableData} tableHeads={tableHeads} />,
     },
     {
       title: "Non-Development KPI - 5 November 2023",
-      body: <DenseTable tableData={tableData} tableHeaders={tableHeads} />,
+      body: <AccordionBody tableData={tableData} tableHeads={tableHeads} />,
     },
     {
       title: "Other - 5 November 2023",
-      body: <DenseTable tableData={tableData} tableHeaders={tableHeads} />,
+      body: <AccordionBody tableData={tableData} tableHeads={tableHeads} />,
     },
   ];
 

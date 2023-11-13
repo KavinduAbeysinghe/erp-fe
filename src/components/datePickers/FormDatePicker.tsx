@@ -15,6 +15,7 @@ interface FormDatePickerProps {
   name: string;
   control: any;
   required?: boolean;
+  disabled?: boolean;
 }
 
 export const FormDatePicker = ({
@@ -24,6 +25,7 @@ export const FormDatePicker = ({
   name,
   control,
   required,
+  disabled,
 }: FormDatePickerProps) => {
   const format = "DD/MM/YYYY";
 
@@ -32,6 +34,7 @@ export const FormDatePicker = ({
       <Controller
         render={({ field }) => (
           <DatePicker
+            disabled={disabled}
             format={format}
             label={label}
             value={dayjs(field.value, format)}
@@ -43,6 +46,7 @@ export const FormDatePicker = ({
                 helperText: helperText,
                 required: required,
                 fullWidth: true,
+                disabled: disabled,
               },
               actionBar: {
                 actions: ["clear"],

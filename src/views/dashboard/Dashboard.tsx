@@ -12,6 +12,7 @@ import { TeamAttendance } from "./TeamAttendance";
 import { MyLeaves } from "./MyLeaves";
 import { CustomButton } from "../../components/buttons/CustomButton";
 import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
+import { TeamLeaves } from "./TeamLeaves";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
@@ -80,7 +81,9 @@ export const Dashboard = () => {
     },
     {
       title: "Team Attendance",
-      body: <TeamAttendance />,
+      body: (
+        <TeamAttendance control={control} setValue={setValue} watch={watch} />
+      ),
     },
   ];
 
@@ -91,7 +94,7 @@ export const Dashboard = () => {
     },
     {
       title: "Team Leaves",
-      body: <MyLeaves />,
+      body: <TeamLeaves control={control} setValue={setValue} watch={watch} />,
     },
   ];
 
@@ -154,7 +157,7 @@ export const Dashboard = () => {
               fontWeight={700}
               color={"#fff"}
               sx={{
-                backgroundColor: "primary.light",
+                backgroundColor: "primary.dark",
                 position: "absolute",
                 mt: -5.5,
                 px: 3,
@@ -197,7 +200,7 @@ export const Dashboard = () => {
               fontWeight={700}
               color={"#fff"}
               sx={{
-                backgroundColor: "primary.light",
+                backgroundColor: "primary.dark",
                 position: "absolute",
                 mt: -5.5,
                 px: 3,
@@ -398,7 +401,7 @@ export const Dashboard = () => {
               fontWeight={700}
               color={"#fff"}
               sx={{
-                backgroundColor: "primary.light",
+                backgroundColor: "primary.dark",
                 position: "absolute",
                 mt: -5.5,
                 px: 3,
@@ -427,7 +430,7 @@ export const Dashboard = () => {
               fontWeight={700}
               color={"#fff"}
               sx={{
-                backgroundColor: "primary.light",
+                backgroundColor: "primary.dark",
                 position: "absolute",
                 mt: -5.5,
                 px: 3,
@@ -456,53 +459,70 @@ export const Dashboard = () => {
                     display={"flex"}
                     flexWrap={"wrap"}
                     gap={2}
+                    mt={3}
                     alignItems={"center"}
                   >
                     <img
-                      src={require("../../assets/images/person1.jpg")}
+                      src={employeeDetails?.profileImg}
                       alt="emp-profile-img"
                       height={100}
                       width={100}
                       style={{ objectFit: "cover", borderRadius: "50%" }}
                     />
                     <Box>
-                      <Typography fontWeight={700} fontSize={"large"}>
+                      <Typography
+                        color={"text.primary"}
+                        fontWeight={700}
+                        fontSize={"large"}
+                      >
                         {employeeDetails?.name}
                       </Typography>
-                      <Typography>{employeeDetails?.designation}</Typography>
+                      <Typography color={"text.secondary"}>
+                        {employeeDetails?.designation}
+                      </Typography>
                     </Box>
                   </Box>
                   <Box>
-                    <Typography fontWeight={500}>
-                      Employee Number:{" "}
-                      <span style={{ fontWeight: 400 }}>
+                    <Stack direction={"row"} flexWrap={"wrap"} gap={1} mt={3}>
+                      <Typography fontWeight={500} color={"text.secondary"}>
+                        Employee No:
+                      </Typography>
+                      <Typography fontWeight={400} color={"text.primary"}>
                         {employeeDetails?.empNo}
-                      </span>
-                    </Typography>
-                    <Typography fontWeight={500}>
-                      Designation:{" "}
-                      <span style={{ fontWeight: 400 }}>
+                      </Typography>
+                    </Stack>
+                    <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
+                      <Typography fontWeight={500} color={"text.secondary"}>
+                        Designation:
+                      </Typography>
+                      <Typography fontWeight={400} color={"text.primary"}>
                         {employeeDetails?.designation}
-                      </span>
-                    </Typography>
-                    <Typography fontWeight={500}>
-                      Mobile:{" "}
-                      <span style={{ fontWeight: 400 }}>
+                      </Typography>
+                    </Stack>
+                    <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
+                      <Typography fontWeight={500} color={"text.secondary"}>
+                        Mobile:
+                      </Typography>
+                      <Typography fontWeight={400} color={"text.primary"}>
                         {employeeDetails?.mobile}
-                      </span>
-                    </Typography>
-                    <Typography fontWeight={500}>
-                      Email:{" "}
-                      <span style={{ fontWeight: 400 }}>
+                      </Typography>
+                    </Stack>
+                    <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
+                      <Typography fontWeight={500} color={"text.secondary"}>
+                        Email:
+                      </Typography>
+                      <Typography fontWeight={400} color={"text.primary"}>
                         {employeeDetails?.email}
-                      </span>
-                    </Typography>
-                    <Typography fontWeight={500}>
-                      Address:{" "}
-                      <span style={{ fontWeight: 400 }}>
+                      </Typography>
+                    </Stack>
+                    <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
+                      <Typography fontWeight={500} color={"text.secondary"}>
+                        Address:
+                      </Typography>
+                      <Typography fontWeight={400} color={"text.primary"}>
                         {employeeDetails?.address}
-                      </span>
-                    </Typography>
+                      </Typography>
+                    </Stack>
                   </Box>
                 </>
               ) : (
@@ -527,7 +547,7 @@ export const Dashboard = () => {
               fontWeight={700}
               color={"#fff"}
               sx={{
-                backgroundColor: "primary.light",
+                backgroundColor: "primary.dark",
                 position: "absolute",
                 mt: -5.5,
                 px: 3,
