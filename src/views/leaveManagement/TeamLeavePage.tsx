@@ -19,13 +19,21 @@ import { faEye, faFileArrowDown } from "@fortawesome/free-solid-svg-icons";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { DocPreviewModal } from "../../components/modals/DocPreviewModal";
 import AttachmentIcon from "@mui/icons-material/Attachment";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { teamLeaves } from "./SearchTeamLeaves";
 import dayjs from "dayjs";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
+import { useNotification } from "../../contexts/NotificationContext";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 
 export const TeamLeavePage = () => {
+  const notify = useNotification();
+
+  const navigate = useNavigate();
+
+  const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
+
   const [docModalOpen, setDocModalOpen] = useState<boolean>(false);
 
   const commonError = "Field is required";
@@ -40,7 +48,7 @@ export const TeamLeavePage = () => {
     leaveType: Yup.number().typeError(commonError),
     comments: Yup.string(),
     coveringEmp: Yup.number(),
-    approver: Yup.string(),
+    approver: Yup.number(),
   });
 
   const {
@@ -55,9 +63,23 @@ export const TeamLeavePage = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const resetForm = () => {};
+  const resetForm = () => {
+    setShowBackdrop(true);
+    setTimeout(() => {
+      notify.success("Leave rejected");
+      navigate(-1);
+      setShowBackdrop(false);
+    }, 1000);
+  };
 
-  const onSubmit = () => {};
+  const onSubmit = (data: any) => {
+    setShowBackdrop(true);
+    setTimeout(() => {
+      notify.success("Leave accept success");
+      navigate(-1);
+      setShowBackdrop(false);
+    }, 1000);
+  };
 
   const docTableHeads = ["#", "Doc Name", "Doc Type", "Doc Size"];
 
@@ -76,7 +98,14 @@ export const TeamLeavePage = () => {
     },
   ];
 
-  const handleDownloadDoc = () => {};
+  const handleDownloadDoc = () => {
+    const link = document.createElement("a");
+    link.href = require("../../assets/files/sample.pdf");
+    link.download = "sample.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const handlePreviewDoc = () => {
     setDocModalOpen(true);
@@ -124,7 +153,7 @@ export const TeamLeavePage = () => {
         setValue("dateTo", dayjs(new Date(leave?.dateTo)).format("DD/MM/YYYY"));
         setValue("comments", leave?.comments);
         setValue("coveringEmp", leave?.coveringEmpId);
-        // setValue("approver", leave?.coveringEmpId);
+        setValue("approver", leave?.approver);
       }
     }
   }, [isView]);
@@ -136,12 +165,14 @@ export const TeamLeavePage = () => {
 
   return (
     <>
+      <CustomBackdrop showBackdrop={showBackdrop} />
       <DocPreviewModal
         open={docModalOpen}
         setOpen={setDocModalOpen}
         maxWidth={"lg"}
         doc={require("../../assets/files/sample.pdf")}
         docType={"application/pdf"}
+        title={"Sample.pdf"}
       />
       <Box display={"flex"} mb={3} gap={2} alignItems={"center"}>
         <img
@@ -228,7 +259,7 @@ export const TeamLeavePage = () => {
                 helperText={errors?.approver?.message?.toString()}
                 setValue={setValue}
                 label={"Approver"}
-                options={[]}
+                options={coveringEmpList}
                 id={"approver"}
                 required={true}
                 disabled={isView}

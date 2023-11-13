@@ -3,8 +3,18 @@ import { useForm } from "react-hook-form";
 import { FormDatePicker } from "../../components/datePickers/FormDatePicker";
 import { FormTextField } from "../../components/inputs/FormTextField";
 import { CustomButton } from "../../components/buttons/CustomButton";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
+import { useState } from "react";
 
-export const MyAttendanceForm = () => {
+interface MyAttendanceFormProps {
+  handleModalClose: () => void;
+}
+
+export const MyAttendanceForm = ({
+  handleModalClose,
+}: MyAttendanceFormProps) => {
+  const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
+
   const {
     register,
     setValue,
@@ -15,20 +25,28 @@ export const MyAttendanceForm = () => {
     reset,
   } = useForm({});
 
+  const onSubmit = () => {
+    setShowBackdrop(true);
+    setTimeout(() => {
+      handleModalClose();
+    }, 1000);
+  };
+
   return (
     <>
+      <CustomBackdrop showBackdrop={showBackdrop} />
       <Typography
-        fontWeight={700}
+        // fontWeight={700}
         color={"text.secondary"}
-        fontSize={"large"}
+        // fontSize={"large"}
         mb={1}
       >
         S.No: <span>1001</span>
       </Typography>
       <Typography
-        fontWeight={700}
+        // fontWeight={700}
         color={"text.secondary"}
-        fontSize={"large"}
+        // fontSize={"large"}
         mb={3}
       >
         Date: <span>1 November 2023</span>
@@ -76,7 +94,7 @@ export const MyAttendanceForm = () => {
           <CustomButton
             text={"Save"}
             variant={"contained"}
-            onClick={() => {}}
+            onClick={handleSubmit(onSubmit)}
           />
         </Grid>
       </Grid>

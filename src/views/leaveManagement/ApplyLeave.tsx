@@ -19,8 +19,19 @@ import { useNotification } from "../../contexts/NotificationContext";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import TouchRipple from "@mui/material/ButtonBase/TouchRipple";
+import { DocPreviewModal } from "../../components/modals/DocPreviewModal";
 
 export const ApplyLeave = () => {
+  const initialDoc = { result: "", title: "", type: "" };
+  const [doc, setDoc] = useState<{
+    result: string;
+    type: string;
+    title: string;
+  }>(initialDoc);
+
+  const [showDocModal, setShowDocModal] = useState<boolean>(false);
+
   const notify = useNotification();
 
   const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
@@ -127,6 +138,7 @@ export const ApplyLeave = () => {
     setValue("coveringEmp", "");
     setFiles([]);
     setFileSummaryData([]);
+    setDoc(initialDoc);
   };
 
   const onSubmit = (data: any) => {
@@ -177,7 +189,26 @@ export const ApplyLeave = () => {
     },
   ];
 
-  const handleViewDoc = () => {};
+  const handleViewDoc = (id: any) => {
+    const name = fileSummaryData?.find((f: any) => f?.no === id)?.name;
+    const file = files?.find((f: any) => f?.name === name);
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        setDoc({
+          result: e.target.result,
+          title: file.name,
+          type: file.type,
+        });
+      };
+      reader.readAsDataURL(file);
+      setShowBackdrop(true);
+      setTimeout(() => {
+        setShowDocModal(true);
+        setShowBackdrop(false);
+      }, 1000);
+    }
+  };
 
   const handleDeleteDoc = (id: any) => {
     const name = fileSummaryData?.find((f: any) => f?.no === id)?.name;
@@ -192,6 +223,14 @@ export const ApplyLeave = () => {
 
   return (
     <>
+      <DocPreviewModal
+        open={showDocModal}
+        setOpen={setShowDocModal}
+        maxWidth={"lg"}
+        doc={doc.result}
+        docType={doc.type}
+        title={doc.title}
+      />
       <CustomBackdrop showBackdrop={showBackdrop} />
       <Grid container spacing={3}>
         <Grid item xs={12} sm={12} md={12}>
@@ -294,7 +333,11 @@ export const ApplyLeave = () => {
             justifyContent={"center"}
             alignItems={"center"}
             gap={1}
-            sx={{ cursor: "pointer" }}
+            sx={{
+              transition: "all .5s ease-in-out",
+              cursor: "pointer",
+              ":hover": { backgroundColor: "rgba(255, 255, 255, 0.08)" },
+            }}
             onClick={handleBoxClick}
             onDragOver={handleDragOver}
             onDrop={handleDrop}

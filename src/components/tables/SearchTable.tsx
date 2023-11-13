@@ -19,6 +19,7 @@ interface TableData {
   id: string;
   actionButtons?: Array<any>;
   paginate: boolean;
+  isAttendance?: boolean;
 }
 
 const SearchTable = ({
@@ -27,6 +28,7 @@ const SearchTable = ({
   id,
   actionButtons,
   paginate,
+  isAttendance,
 }: TableData) => {
   const StyledTableCell = styled(TableCell)(({ theme }: any) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -80,10 +82,13 @@ const SearchTable = ({
         {tableData.length ? (
           <TableBody>
             {paginatedData?.map((row, index) => (
-              <StyledTableRow key={index}>
+              <StyledTableRow
+                key={index}
+                sx={{ borderLeft: row?.isIncompleted ? "5px solid red" : "" }}
+              >
                 {Object.entries(row).map(([key, value], index2) => (
                   <React.Fragment key={index2}>
-                    {key !== id && (
+                    {key !== id && key !== "isIncompleted" && (
                       <StyledTableCell align="center">
                         {<>{value}</>}
                       </StyledTableCell>

@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Tooltip, Typography } from "@mui/material";
 import { FormDatePicker } from "../../components/datePickers/FormDatePicker";
 import { useForm } from "react-hook-form";
 import { CustomButton } from "../../components/buttons/CustomButton";
@@ -11,6 +11,8 @@ import { useLayoutEffect, useState } from "react";
 import { MyAttendanceForm } from "./MyAttendanceForm";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 import { getFormattedDate } from "../../util";
+import InfoIcon from "@mui/icons-material/Info";
+import { InnerModal } from "../../components/modals/InnerModal";
 
 export const MyAttendance = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -40,6 +42,7 @@ export const MyAttendance = () => {
       punchOut: "",
       break: "",
       overtime: "",
+      isIncompleted: true,
     },
     {
       sNo: 1002,
@@ -49,6 +52,7 @@ export const MyAttendance = () => {
       punchOut: "17:00",
       break: "1.5 hrs",
       overtime: 2.5,
+      isIncompleted: false,
     },
     {
       sNo: 1003,
@@ -58,6 +62,7 @@ export const MyAttendance = () => {
       punchOut: "17:00",
       break: "1.5 hrs",
       overtime: 2.5,
+      isIncompleted: false,
     },
     {
       sNo: 1004,
@@ -67,6 +72,7 @@ export const MyAttendance = () => {
       punchOut: "17:00",
       break: "1.5 hrs",
       overtime: 2.5,
+      isIncompleted: false,
     },
     {
       sNo: 1005,
@@ -76,6 +82,7 @@ export const MyAttendance = () => {
       punchOut: "17:00",
       break: "1.5 hrs",
       overtime: 2.5,
+      isIncompleted: false,
     },
   ];
 
@@ -166,11 +173,18 @@ export const MyAttendance = () => {
   return (
     <>
       <CustomBackdrop showBackdrop={showBackdrop} />
-      <CustomModal
+      {/* <CustomModal
         show={showModal}
         handleClose={() => setShowModal(false)}
         title={"Mark Attendance"}
         body={<MyAttendanceForm />}
+      /> */}
+      <InnerModal
+        open={showModal}
+        setOpen={setShowModal}
+        maxWidth={"md"}
+        title={"Mark Attendance"}
+        body={<MyAttendanceForm handleModalClose={() => setShowModal(false)} />}
       />
       <Grid container spacing={2} mt={1}>
         <Grid item xs={12} sm={6} md={3}>
@@ -237,12 +251,22 @@ export const MyAttendance = () => {
           />
         </Grid>
       </Grid>
+      {/* <Tooltip
+        title={"Incomplete attendance entries are highlited in red!"}
+        placement="right"
+      >
+        <InfoIcon
+          fontSize="small"
+          sx={{ color: "gray", textAlign: "end", mb: 1 }}
+        />
+      </Tooltip> */}
       <SearchTable
         tableData={myAttendanceData}
         tableHeaders={tableHeads}
         id={""}
         paginate={true}
         actionButtons={actionButtons}
+        isAttendance={true}
       />
     </>
   );

@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Login } from "./auth/Login";
 import { Box, CssBaseline, styled } from "@mui/material";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { MyAppBar } from "../components/appBar/MyAppBar";
 import { SideBar } from "../components/sideBar/SideBar";
 import { Dashboard } from "./dashboard/Dashboard";
@@ -30,10 +30,12 @@ const Layout = () => {
 
   const handleDrawerOpen = () => {
     setOpen(true);
+    localStorage.setItem("drawerOpen", "true");
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+    localStorage.setItem("drawerOpen", "false");
   };
 
   const DrawerHeader = styled("div")(({ theme }) => ({
@@ -44,6 +46,11 @@ const Layout = () => {
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   }));
+
+  useLayoutEffect(() => {
+    const openDrawer = localStorage.getItem("drawerOpen");
+    if (openDrawer) setOpen(openDrawer === "true");
+  }, []);
 
   return (
     <Box sx={{ display: "flex" }}>

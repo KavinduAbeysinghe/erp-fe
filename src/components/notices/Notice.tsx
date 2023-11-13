@@ -31,6 +31,7 @@ export const Notice = ({ options }: NoticeProps) => {
     <div>
       {options?.map((opt: NoticeIn, index) => (
         <Accordion
+          elevation={4}
           key={index}
           expanded={expanded === `panel${index}`}
           onChange={handleChange(`panel${index}`)}

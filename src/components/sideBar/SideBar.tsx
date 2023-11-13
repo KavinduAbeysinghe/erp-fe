@@ -137,7 +137,7 @@ export const SideBar = ({
   };
 
   return (
-    <Drawer variant="permanent" open={drawerOpen}>
+    <Drawer anchor="left" variant="permanent" open={drawerOpen}>
       <div className="sidebar-overlay"></div>
       <DrawerHeader>
         <img

@@ -10,6 +10,7 @@ interface DocPreviewModalProps {
   maxWidth: DialogProps["maxWidth"];
   doc: any;
   docType: any;
+  title: string;
 }
 
 export const DocPreviewModal = ({
@@ -18,6 +19,7 @@ export const DocPreviewModal = ({
   maxWidth,
   doc,
   docType,
+  title,
 }: DocPreviewModalProps) => {
   const handleClickOpen = () => {
     setOpen(true);
@@ -35,7 +37,7 @@ export const DocPreviewModal = ({
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle>Sample_DOC_001</DialogTitle>
+        <DialogTitle>{title}</DialogTitle>
         <DialogContent>
           <embed src={doc} type={docType} width="100%" height="600px" />
         </DialogContent>

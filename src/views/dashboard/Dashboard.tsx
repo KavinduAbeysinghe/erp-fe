@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Box, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
 import { DigitalClock } from "../../components/digitalClock/DigitalClock";
 import React, { useEffect, useState } from "react";
 import { Notice, NoticeIn } from "../../components/notices/Notice";
@@ -13,6 +13,7 @@ import { MyLeaves } from "./MyLeaves";
 import { CustomButton } from "../../components/buttons/CustomButton";
 import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
 import { TeamLeaves } from "./TeamLeaves";
+import { useTheme } from "@emotion/react";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
@@ -156,8 +157,9 @@ export const Dashboard = () => {
             <Typography
               fontWeight={700}
               color={"#fff"}
+              className="card-heading"
               sx={{
-                backgroundColor: "primary.dark",
+                // backgroundColor: "primary.dark",
                 position: "absolute",
                 mt: -5.5,
                 px: 3,
@@ -193,14 +195,15 @@ export const Dashboard = () => {
             p={3}
             display={"flex"}
             flexDirection={"column"}
-            // justifyContent={"space-between"}
+            justifyContent={"space-between"}
             gap={3}
           >
             <Typography
               fontWeight={700}
               color={"#fff"}
+              className="card-heading"
               sx={{
-                backgroundColor: "primary.dark",
+                // backgroundColor: "primary.dark",
                 position: "absolute",
                 mt: -5.5,
                 px: 3,
@@ -400,8 +403,9 @@ export const Dashboard = () => {
             <Typography
               fontWeight={700}
               color={"#fff"}
+              className="card-heading"
               sx={{
-                backgroundColor: "primary.dark",
+                // backgroundColor: "primary.dark",
                 position: "absolute",
                 mt: -5.5,
                 px: 3,
@@ -429,8 +433,9 @@ export const Dashboard = () => {
             <Typography
               fontWeight={700}
               color={"#fff"}
+              className="card-heading"
               sx={{
-                backgroundColor: "primary.dark",
+                // backgroundColor: "primary.dark",
                 position: "absolute",
                 mt: -5.5,
                 px: 3,
@@ -526,9 +531,30 @@ export const Dashboard = () => {
                   </Box>
                 </>
               ) : (
-                <Typography>
-                  Please select an employee to get details
-                </Typography>
+                <>
+                  <Typography color={"text.secondary"} mt={3}>
+                    Please select an employee to get details...
+                  </Typography>
+                  <Box
+                    display={"flex"}
+                    flexDirection={"column"}
+                    justifyContent={"center"}
+                    height={"100%"}
+                    alignItems={"center"}
+                    // sx={{ border: "1px solid white" }}
+                  >
+                    <img
+                      src={require("../../assets/images/empty-box.png")}
+                      alt="empty-box"
+                      height={200}
+                      width={200}
+                      style={{ objectFit: "contain" }}
+                    />
+                    <Typography color={"text.secondary"}>
+                      Noting to Show : )
+                    </Typography>
+                  </Box>
+                </>
               )}
             </Box>
           </Box>
@@ -546,8 +572,9 @@ export const Dashboard = () => {
             <Typography
               fontWeight={700}
               color={"#fff"}
+              className="card-heading"
               sx={{
-                backgroundColor: "primary.dark",
+                // backgroundColor: "primary.dark",
                 position: "absolute",
                 mt: -5.5,
                 px: 3,

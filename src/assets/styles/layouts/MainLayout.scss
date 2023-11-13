@@ -1,9 +1,16 @@
 .dash-card {
-  //box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0 !important;
+  // box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0 !important;
   // box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
   height: 100%;
   // border-radius: 10px;
   //border: 1px solid black;
+}
+
+.card-heading {
+  background: linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232));
+  box-shadow:
+    rgba(0, 0, 0, 0.14) 0rem 0.25rem 1.25rem 0rem,
+    rgba(0, 187, 212, 0.4) 0rem 0.4375rem 0.625rem -0.3125rem;
 }
 
 .shadow {

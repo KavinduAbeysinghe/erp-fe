@@ -1,6 +1,6 @@
 import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
 import { FormTextField } from "../../components/inputs/FormTextField";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormDropdown } from "../../components/inputs/FormDropdown";
@@ -211,126 +211,142 @@ export const CreateEvaluation = () => {
     setValue("createdDate", dayjs(new Date()).format("DD/MM/YYYY"));
   }, []);
 
+  // const { fields } = useFieldArray({ name: "kpis", control: control });
+
   return (
     <>
       <CustomBackdrop showBackdrop={showBackdrop} />
-      <Typography
-        color={"primary"}
-        fontWeight={700}
-        fontSize={"large"}
-        mb={2}
-        mt={3}
-      >
-        General
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={4}>
-          <FormTextField
-            register={register("evalName")}
-            label={"Evaluation Name"}
-            disabled={false}
-            required={true}
-            error={!!errors?.evalName?.message}
-            helperText={errors?.evalName?.message?.toString()}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={8}>
-          <FormTextField
-            register={register("evalDesc")}
-            label={"Evaluation Description"}
-            disabled={false}
-            required={true}
-            error={!!errors?.evalDesc?.message}
-            helperText={errors?.evalDesc?.message?.toString()}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <FormDropdown
-            name={"status"}
-            options={statusList}
-            control={control}
-            label={"Status"}
-            labelId={"label-status"}
-            error={!!errors?.status?.message}
-            helperText={errors?.status?.message?.toString()}
-            fullWidth={true}
-            required={true}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <FormDatePicker
-            helperText={""}
-            error={false}
-            label={"Created Date"}
-            name={"createdDate"}
-            control={control}
-            disabled={true}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <FormDatePicker
-            helperText={errors?.dueDate?.message?.toString()}
-            error={!!errors?.dueDate?.message}
-            label={"Due Date"}
-            name={"dueDate"}
-            control={control}
-            required={true}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={4}>
-          <FormDatePicker
-            helperText={""}
-            error={false}
-            label={"Opened Date"}
-            name={"openedDate"}
-            control={control}
-            disabled={true}
-          />
-        </Grid>
-      </Grid>
-      <Grid container spacing={2} mt={2}>
-        <Grid item xs={12} sm={6} md={4}>
-          <FormAutocomplete
-            helperText={""}
-            error={false}
-            setValue={setValue}
-            label={"Team Member"}
-            options={teamMemberList}
-            id={"teamMember"}
-            required={true}
-            disabled={false}
-            control={control}
-            watch={watch}
-          />
-        </Grid>
-        <Grid item md={2}>
-          <CustomButton
-            onClick={handleAddTeamMembers}
-            text={"+ Add"}
-            variant="outlined"
-          />
-        </Grid>
-      </Grid>
-      <Box mt={2}>
-        <SearchTable
-          tableData={teamMemberTblData}
-          id={"empId"}
-          tableHeaders={tableHeads}
-          paginate={true}
-          actionButtons={actionButtons}
-        />
-      </Box>
-      <Box>
+      <Box component={Paper} p={3} elevation={2} position={"relative"} mt={5}>
         <Typography
-          color={"primary"}
           fontWeight={700}
-          fontSize={"large"}
-          mb={2}
-          mt={3}
+          color={"#fff"}
+          className="card-heading"
+          sx={{
+            // backgroundColor: "primary.dark",
+            position: "absolute",
+            mt: -5.5,
+            px: 3,
+            borderRadius: "7px",
+            py: 1,
+          }}
+        >
+          General
+        </Typography>
+        <Grid container spacing={2} mt={3}>
+          <Grid item xs={12} sm={6} md={4}>
+            <FormTextField
+              register={register("evalName")}
+              label={"Evaluation Name"}
+              disabled={false}
+              required={true}
+              error={!!errors?.evalName?.message}
+              helperText={errors?.evalName?.message?.toString()}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={8}>
+            <FormTextField
+              register={register("evalDesc")}
+              label={"Evaluation Description"}
+              disabled={false}
+              required={true}
+              error={!!errors?.evalDesc?.message}
+              helperText={errors?.evalDesc?.message?.toString()}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <FormDropdown
+              name={"status"}
+              options={statusList}
+              control={control}
+              label={"Status"}
+              labelId={"label-status"}
+              error={!!errors?.status?.message}
+              helperText={errors?.status?.message?.toString()}
+              fullWidth={true}
+              required={true}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <FormDatePicker
+              helperText={""}
+              error={false}
+              label={"Created Date"}
+              name={"createdDate"}
+              control={control}
+              disabled={true}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <FormDatePicker
+              helperText={errors?.dueDate?.message?.toString()}
+              error={!!errors?.dueDate?.message}
+              label={"Due Date"}
+              name={"dueDate"}
+              control={control}
+              required={true}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <FormDatePicker
+              helperText={""}
+              error={false}
+              label={"Opened Date"}
+              name={"openedDate"}
+              control={control}
+              disabled={true}
+            />
+          </Grid>
+        </Grid>
+        <Grid container spacing={2} mt={2}>
+          <Grid item xs={12} sm={6} md={4}>
+            <FormAutocomplete
+              helperText={""}
+              error={false}
+              setValue={setValue}
+              label={"Team Member"}
+              options={teamMemberList}
+              id={"teamMember"}
+              required={true}
+              disabled={false}
+              control={control}
+              watch={watch}
+            />
+          </Grid>
+          <Grid item md={2}>
+            <CustomButton
+              onClick={handleAddTeamMembers}
+              text={"+ Add"}
+              variant="outlined"
+            />
+          </Grid>
+        </Grid>
+        <Box mt={2}>
+          <SearchTable
+            tableData={teamMemberTblData}
+            id={"empId"}
+            tableHeaders={tableHeads}
+            paginate={true}
+            actionButtons={actionButtons}
+          />
+        </Box>
+      </Box>
+      <Box component={Paper} p={3} elevation={2} position={"relative"} mt={5}>
+        <Typography
+          fontWeight={700}
+          color={"#fff"}
+          className="card-heading"
+          sx={{
+            // backgroundColor: "primary.dark",
+            position: "absolute",
+            mt: -5.5,
+            px: 3,
+            borderRadius: "7px",
+            py: 1,
+          }}
         >
           KPIs
         </Typography>
-        <Grid container spacing={2} mb={3}>
+        <Grid container spacing={2} mb={3} mt={3}>
           <Grid item xs={12} sm={6} md={4}>
             <FormTextField
               register={register("kpiName")}
