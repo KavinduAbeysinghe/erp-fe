@@ -1,4 +1,5 @@
 import dayjs from "dayjs";
+import { useState } from "react";
 
 export interface OptionIn {
   label: string | number;
@@ -21,6 +22,7 @@ export const employees = [
     nic: "123456789V",
     nicIssuedDate: "2010-01-01",
     nationality: "Sri Lankan",
+    nationalityId: 1,
     religion: "Buddhism",
     civilStatus: "Unmarried",
     gender: "Male",
@@ -29,6 +31,9 @@ export const employees = [
     personalEmail: "alex.l@gmail.com",
     address: "No.213, Eksath Mw, Rajagiriya",
     hiredDate: "1990-12-12",
+    hiringSource: 1,
+    employmentFrom: "1990-12-12",
+    employmentTo: "2006-12-12",
   },
   {
     empId: 2,
@@ -45,6 +50,7 @@ export const employees = [
     nic: "987654321W",
     nicIssuedDate: "2005-03-10",
     nationality: "American",
+    nationalityId: 1,
     religion: "Christianity",
     civilStatus: "Married",
     gender: "Female",
@@ -53,6 +59,9 @@ export const employees = [
     personalEmail: "emily.j@gmail.com",
     address: "123 Main St, New York, USA",
     hiredDate: "2001-01-12",
+    hiringSource: 1,
+    employmentFrom: "1990-12-12",
+    employmentTo: "2006-12-12",
   },
   {
     empId: 3,
@@ -69,6 +78,7 @@ export const employees = [
     nic: "112233445S",
     nicIssuedDate: "2007-06-30",
     nationality: "British",
+    nationalityId: 1,
     religion: "Atheist",
     civilStatus: "Divorced",
     gender: "Male",
@@ -77,6 +87,9 @@ export const employees = [
     personalEmail: "john.s@gmail.com",
     address: "45 High St, London, UK",
     hiredDate: "2006-04-15",
+    hiringSource: 1,
+    employmentFrom: "1990-12-12",
+    employmentTo: "2006-12-12",
   },
   {
     empId: 4,
@@ -93,6 +106,7 @@ export const employees = [
     nic: "987654321A",
     nicIssuedDate: "2006-04-20",
     nationality: "American",
+    nationalityId: 1,
     religion: "Catholicism",
     civilStatus: "Married",
     gender: "Female",
@@ -101,6 +115,9 @@ export const employees = [
     personalEmail: "linda.m@gmail.com",
     address: "789 Oak St, Los Angeles, USA",
     hiredDate: "2000-10-10",
+    hiringSource: 1,
+    employmentFrom: "1990-12-12",
+    employmentTo: "2006-12-12",
   },
   {
     empId: 5,
@@ -117,6 +134,7 @@ export const employees = [
     nic: "554433221B",
     nicIssuedDate: "2012-02-15",
     nationality: "Chinese",
+    nationalityId: 1,
     religion: "Non-religious",
     civilStatus: "Single",
     gender: "Male",
@@ -125,6 +143,9 @@ export const employees = [
     personalEmail: "michael.c@gmail.com",
     address: "56 Technology Rd, Beijing, China",
     hiredDate: "2015-05-28",
+    hiringSource: 1,
+    employmentFrom: "1990-12-12",
+    employmentTo: "2006-12-12",
   },
 ];
 
@@ -333,6 +354,14 @@ export const getFormattedDate = (date: any) => {
     return "";
   } else {
     return dayjs(date, "DD/MM/YYYY").format().split("T")[0];
+  }
+};
+
+export const getFormattedTime = (time: any) => {
+  if (!time) {
+    return "";
+  } else {
+    return dayjs(time, "hh:mm A").format();
   }
 };
 

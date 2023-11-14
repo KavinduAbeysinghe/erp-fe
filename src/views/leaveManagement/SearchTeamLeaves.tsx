@@ -18,8 +18,11 @@ import { CustomChip } from "../../components/chips/Chip";
 import { calculateDateDifference } from "./SearchMyLeaves";
 import { useLocation, useNavigate } from "react-router-dom";
 import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 
 export const SearchTeamLeaves = () => {
+  const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
+
   const location = useLocation();
 
   const searchParams = new URLSearchParams(location.search);
@@ -54,7 +57,39 @@ export const SearchTeamLeaves = () => {
     reset,
   } = useForm({});
 
-  const handleSearch = () => {};
+  const handleSearch = (data: any) => {
+    setShowBackdrop(true);
+    setTimeout(() => {
+      console.log(data);
+      const teamMember = data?.teamMember;
+      const dateFrom = data?.dateFrom;
+      const dateTo = data?.dateTo;
+      const filteredArray = teamLeaves.filter((d) => {
+        const teamMemberMatch = teamMember ? d?.empId === teamMember : true;
+        const dateFromMatch = dateFrom
+          ? new Date(d?.dateFrom) >= new Date(dateFrom)
+          : true;
+        const dateToMatch = dateTo
+          ? new Date(d?.dateTo) <= new Date(dateTo)
+          : true;
+        return teamMemberMatch && dateFromMatch && dateToMatch;
+      });
+      setTableData(formatTableData(filteredArray));
+      setShowBackdrop(false);
+    }, 1000);
+  };
+
+  const resetForm = () => {
+    setShowBackdrop(true);
+    setTimeout(() => {
+      reset({});
+      setValue("teamMember", "");
+      setValue("dateFrom", "");
+      setValue("dateTo", "");
+      setTableData(formatTableData(teamLeaves));
+      setShowBackdrop(false);
+    }, 1000);
+  };
 
   const tableHeads = [
     "Emp No",
@@ -75,8 +110,14 @@ export const SearchTeamLeaves = () => {
     { tooltip: "View", icon: faEye, handleClick: handleViewLeave },
   ];
 
+  const teamMemberList = employees?.map((d: any) => ({
+    label: d?.name,
+    value: d?.empId,
+  }));
+
   return (
     <>
+      <CustomBackdrop showBackdrop={showBackdrop} />
       <Grid container spacing={2} my={2} mb={5}>
         <Grid item xs={12} sm={12} md={3}>
           <FormAutocomplete
@@ -84,8 +125,8 @@ export const SearchTeamLeaves = () => {
             helperText={""}
             setValue={setValue}
             label={"Team member name"}
-            options={[]}
-            id={"Covering Employee"}
+            options={teamMemberList}
+            id={"teamMember"}
             required={true}
             disabled={false}
             control={control}
@@ -110,11 +151,25 @@ export const SearchTeamLeaves = () => {
             control={control}
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={2}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={2}
+          display={"flex"}
+          gap={2}
+          alignItems={"center"}
+          flexWrap={"wrap"}
+        >
           <CustomButton
             text={"Search"}
             variant={"contained"}
             onClick={handleSubmit(handleSearch)}
+          />
+          <CustomButton
+            text={"Clear"}
+            variant={"outlined"}
+            onClick={resetForm}
           />
         </Grid>
       </Grid>

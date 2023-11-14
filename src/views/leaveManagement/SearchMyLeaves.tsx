@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import { CustomChip } from "../../components/chips/Chip";
 import { useNavigate } from "react-router-dom";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
+import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
 
 // Function to calculate the difference in days between two dates
 export function calculateDateDifference(
@@ -51,9 +52,7 @@ export const SearchMyLeaves = () => {
           <CustomChip label={"Rejected"} type={"error"} />
         ),
       reason: d?.reason,
-      coveringEmployee: employees?.find(
-        (e: any) => e?.empId === d?.coveringEmployeeId
-      )?.name,
+      coveringEmployee: <EmployeeColumn id={d?.coveringEmployeeId} />,
     }));
   };
 
@@ -94,17 +93,33 @@ export const SearchMyLeaves = () => {
       const dateFrom = data?.dateFrom;
       const dateTo = data?.dateTo;
       const status = data?.status;
-      console.log(dateFrom, dateTo, status);
 
-      let filteredData: Array<any> = [];
-      if (dateFrom && dateTo && status) {
-        filteredData = empLeaves[0]?.leaves?.filter((l: any) => {
-          const dateF = new Date(l?.dateFrom);
-          const dateT = new Date(l?.dateTo);
-          return dateF >= dateFrom && dateT <= dateTo && l?.status === status;
-        });
-      }
-      setMyLeaveData(formatData(filteredData));
+      const mainArray = empLeaves[0]?.leaves;
+
+      const filteredArray = mainArray.filter((item) => {
+        const dateFromMatch = dateFrom
+          ? new Date(item?.dateFrom) >= new Date(dateFrom)
+          : true;
+        const dateToMatch = dateTo
+          ? new Date(item?.dateTo) <= new Date(dateTo)
+          : true;
+        const statusMatch = status ? item?.status === status : true;
+        return dateFromMatch && dateToMatch && statusMatch;
+      });
+
+      setMyLeaveData(formatData(filteredArray));
+
+      // console.log(dateFrom, dateTo, status);
+
+      // let filteredData: Array<any> = [];
+      // if (dateFrom && dateTo && status) {
+      //   filteredData = empLeaves[0]?.leaves?.filter((l: any) => {
+      //     const dateF = new Date(l?.dateFrom);
+      //     const dateT = new Date(l?.dateTo);
+      //     return dateF >= dateFrom && dateT <= dateTo && l?.status === status;
+      //   });
+      // }
+      // setMyLeaveData(formatData(filteredData));
       setShowBackdrop(false);
     }, 1000);
   };

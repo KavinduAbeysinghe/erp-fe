@@ -7,7 +7,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { TopCardAttendance } from "./TopCardAttendance";
 import { faClock, faEye } from "@fortawesome/free-solid-svg-icons";
 import { CustomModal } from "../../components/modals/CustomModal";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { MyAttendanceForm } from "./MyAttendanceForm";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 import { getFormattedDate } from "../../util";
@@ -23,6 +23,8 @@ export const MyAttendance = () => {
 
   const [topCardsData, setTopCardsData] = useState<any>(null);
 
+  const [id, setId] = useState<any>("");
+
   const tableHeads = [
     "S.No",
     "Date",
@@ -35,6 +37,7 @@ export const MyAttendance = () => {
 
   const tableData = [
     {
+      id: 1,
       sNo: 1001,
       date: "2023-11-01",
       production: 8.5,
@@ -45,6 +48,7 @@ export const MyAttendance = () => {
       isIncompleted: true,
     },
     {
+      id: 2,
       sNo: 1002,
       date: "2023-11-02",
       production: 8.5,
@@ -55,6 +59,7 @@ export const MyAttendance = () => {
       isIncompleted: false,
     },
     {
+      id: 3,
       sNo: 1003,
       date: "2023-11-03",
       production: 8.5,
@@ -65,6 +70,7 @@ export const MyAttendance = () => {
       isIncompleted: false,
     },
     {
+      id: 4,
       sNo: 1004,
       date: "2023-11-04",
       production: 8.5,
@@ -75,6 +81,7 @@ export const MyAttendance = () => {
       isIncompleted: false,
     },
     {
+      id: 5,
       sNo: 1005,
       date: "2023-11-05",
       production: 8.5,
@@ -124,26 +131,26 @@ export const MyAttendance = () => {
       const dateTo = getFormattedDate(data?.dateTo);
       let filteredData = [];
       if (dateTo && dateFrom) {
-        filteredData = tableData?.filter((d: any) => {
+        filteredData = myAttendanceData?.filter((d: any) => {
           const dateFromSD = new Date(dateFrom);
           const dateToSD = new Date(dateTo);
           const date = new Date(d?.date);
           return dateFromSD <= date && date <= dateToSD;
         });
       } else if (dateFrom && !dateTo) {
-        filteredData = tableData?.filter((d: any) => {
+        filteredData = myAttendanceData?.filter((d: any) => {
           const dateFromSD = new Date(dateFrom);
           const date = new Date(d?.date);
           return dateFromSD <= date;
         });
       } else if (!dateFrom && dateTo) {
-        filteredData = tableData?.filter((d: any) => {
+        filteredData = myAttendanceData?.filter((d: any) => {
           const dateToSD = new Date(dateTo);
           const date = new Date(d?.date);
           return dateToSD >= date;
         });
       } else {
-        filteredData = tableData;
+        filteredData = myAttendanceData;
       }
       setMyAttendanceData(filteredData);
       setTopCardsData(getTopCardData(filteredData));
@@ -162,7 +169,8 @@ export const MyAttendance = () => {
     }, 1000);
   };
 
-  const handleEditEntry = () => {
+  const handleEditEntry = (sNo: any) => {
+    setId(sNo);
     setShowModal(true);
   };
 
@@ -170,21 +178,25 @@ export const MyAttendance = () => {
     { tooltip: "Edit", icon: faClock, handleClick: handleEditEntry },
   ];
 
+  useEffect(() => {
+    setTopCardsData(getTopCardData(myAttendanceData));
+  }, [myAttendanceData]);
+
   return (
     <>
       <CustomBackdrop showBackdrop={showBackdrop} />
-      {/* <CustomModal
-        show={showModal}
-        handleClose={() => setShowModal(false)}
-        title={"Mark Attendance"}
-        body={<MyAttendanceForm />}
-      /> */}
       <InnerModal
         open={showModal}
         setOpen={setShowModal}
         maxWidth={"md"}
         title={"Mark Attendance"}
-        body={<MyAttendanceForm handleModalClose={() => setShowModal(false)} />}
+        body={
+          <MyAttendanceForm
+            setMyAttendanceData={setMyAttendanceData}
+            handleModalClose={() => setShowModal(false)}
+            id={id}
+          />
+        }
       />
       <Grid container spacing={2} mt={1}>
         <Grid item xs={12} sm={6} md={3}>
@@ -263,7 +275,7 @@ export const MyAttendance = () => {
       <SearchTable
         tableData={myAttendanceData}
         tableHeaders={tableHeads}
-        id={""}
+        id={"id"}
         paginate={true}
         actionButtons={actionButtons}
         isAttendance={true}

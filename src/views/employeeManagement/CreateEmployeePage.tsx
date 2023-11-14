@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Grid, Paper, Stack, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -15,7 +15,7 @@ import {
   nationalities,
 } from "../../util";
 import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { CustomButton } from "../../components/buttons/CustomButton";
 import SearchTable from "../../components/tables/SearchTable";
 import dayjs from "dayjs";
@@ -48,10 +48,55 @@ export const CreateEmployeePage = () => {
 
   const [isEdit, setIsEdit] = useState<boolean>(false);
 
+  const [uploadedImg, setUploadedImg] = useState<any>("");
+
   useLayoutEffect(() => {
     const params = searchParams.get("emp");
     if (params) {
       const emp = JSON.parse(params);
+      if (emp?.page === "view") {
+        setIsView(true);
+      } else if (emp?.page === "edit") {
+        setIsEdit(true);
+      }
+      const employee = employees?.find((d: any) => d?.empId === emp?.id);
+      console.log(employee);
+      if (employee) {
+        const name = employee?.name;
+        const defVals = {
+          firstName: name?.split(" ")[0],
+          lastName: name?.split(" ")[1],
+          callingName: name,
+          dob: dayjs(new Date(employee?.dob)).format("DD/MM/YYYY"),
+          telephone: employee?.telephone,
+          mobile: employee?.telephone,
+          personalEmail: employee?.personalEmail,
+          nic: employee?.nic,
+          bloodGroup: employee?.bloodGroup,
+          gender: employee?.gender,
+          civilStatus: employee?.civilStatus,
+          nationality: employee?.nationalityId,
+          staffId: employee?.empNo,
+          hiringSource: employee?.hiringSource,
+          depatment: employee?.departmentId,
+          dateOfJoining: dayjs(new Date(employee?.hiredDate)).format(
+            "DD/MM/YYYY"
+          ),
+          employmentFrom: dayjs(new Date(employee?.employmentFrom)).format(
+            "DD/MM/YYYY"
+          ),
+          employmentTo: dayjs(new Date(employee?.employmentTo)).format(
+            "DD/MM/YYYY"
+          ),
+          cooperateEmail: employee?.personalEmail,
+          religion: employee?.religion,
+        };
+        setUploadedImg(employee?.profileImg);
+        console.log(defVals.depatment);
+
+        reset(defVals);
+        setValue("gender", defVals.gender);
+      }
     }
   }, [location]);
 
@@ -152,6 +197,7 @@ export const CreateEmployeePage = () => {
 
   const resetForm = () => {
     reset({});
+    setUploadedImg("");
     setRepEmpTableData([]);
   };
 
@@ -195,6 +241,37 @@ export const CreateEmployeePage = () => {
     }
   };
 
+  const fileInputRef = useRef<any>(null);
+
+  const handleAvatarClick = () => {
+    // Trigger file input click on Box click
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const maxFileSize = 2 * 1024 * 1024;
+
+  const handleFileChange = (e: any) => {
+    // Handle the selected files here
+    console.log("File handler");
+
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setUploadedImg(e!.target!.result);
+    };
+    if (file && file.size < maxFileSize) {
+      if (file.type === "image/png" || file.type === "image/jpeg") {
+        reader.readAsDataURL(file);
+      } else {
+        notify.warn("Please upload a PNG or a JPEG");
+      }
+    } else {
+      notify.warn("File too large");
+    }
+  };
+
   return (
     <>
       <CustomBackdrop showBackdrop={showBackdrop} />
@@ -221,15 +298,38 @@ export const CreateEmployeePage = () => {
             py: 1,
           }}
         >
-          Notices
+          General
         </Typography>
 
-        <Grid container spacing={2} mt={2}>
+        <Box mt={2}>
+          <Box sx={{ display: "inline-block" }}>
+            <Avatar
+              alt="Uploaded Img"
+              src={uploadedImg}
+              sx={{
+                width: 100,
+                height: 100,
+                ":hover": { filter: "brightness(50%)" },
+                transition: "0.2s all ease-in-out",
+                cursor: "pointer",
+              }}
+              onClick={handleAvatarClick}
+            />
+            <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={(e) => handleFileChange(e)}
+            />
+          </Box>
+        </Box>
+
+        <Grid container spacing={2}>
           <Grid item xs={12} sm={12} md={3}>
             <FormTextField
               register={register("firstName")}
               label={"First Name"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.firstName?.message}
               helperText={errors?.firstName?.message?.toString()}
@@ -240,7 +340,7 @@ export const CreateEmployeePage = () => {
               type={"text"}
               register={register("lastName")}
               label={"Last Name"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.lastName?.message}
               helperText={errors?.lastName?.message?.toString()}
@@ -251,7 +351,7 @@ export const CreateEmployeePage = () => {
               type={"text"}
               register={register("callingName")}
               label={"Calling Name"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.callingName?.message}
               helperText={errors?.callingName?.message?.toString()}
@@ -264,6 +364,7 @@ export const CreateEmployeePage = () => {
               label={"Date of Birth"}
               name={"dob"}
               control={control}
+              disabled={isView}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
@@ -271,7 +372,7 @@ export const CreateEmployeePage = () => {
               type={"text"}
               register={register("telephone")}
               label={"Telephone"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.telephone?.message}
               helperText={errors?.telephone?.message?.toString()}
@@ -282,7 +383,7 @@ export const CreateEmployeePage = () => {
               type={"text"}
               register={register("mobile")}
               label={"Mobile"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.mobile?.message}
               helperText={errors?.mobile?.message?.toString()}
@@ -293,7 +394,7 @@ export const CreateEmployeePage = () => {
               type={"text"}
               register={register("personalEmail")}
               label={"Personal Email"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.personalEmail?.message}
               helperText={errors?.personalEmail?.message?.toString()}
@@ -304,7 +405,7 @@ export const CreateEmployeePage = () => {
               type={"text"}
               register={register("nic")}
               label={"NIC/Passport"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.nic?.message}
               helperText={errors?.nic?.message?.toString()}
@@ -315,7 +416,7 @@ export const CreateEmployeePage = () => {
               type={"text"}
               register={register("bloodGroup")}
               label={"Blood Group"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.bloodGroup?.message}
               helperText={errors?.bloodGroup?.message?.toString()}
@@ -330,6 +431,7 @@ export const CreateEmployeePage = () => {
               error={!!errors?.gender?.message}
               control={control}
               fullWidth={true}
+              disabled={isView}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
@@ -341,6 +443,7 @@ export const CreateEmployeePage = () => {
               error={!!errors?.civilStatus?.message}
               control={control}
               fullWidth={true}
+              disabled={isView}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
@@ -352,7 +455,7 @@ export const CreateEmployeePage = () => {
               options={nationalityList}
               id={"nationality"}
               required={true}
-              disabled={false}
+              disabled={isView}
               control={control}
               watch={watch}
             />
@@ -362,7 +465,7 @@ export const CreateEmployeePage = () => {
               type={"text"}
               register={register("religion")}
               label={"Religion"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.religion?.message}
               helperText={errors?.religion?.message?.toString()}
@@ -401,7 +504,7 @@ export const CreateEmployeePage = () => {
             <FormTextField
               register={register("staffId")}
               label={"Staff ID"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.staffId?.message}
               helperText={errors?.staffId?.message?.toString()}
@@ -416,7 +519,7 @@ export const CreateEmployeePage = () => {
               options={hiringSources}
               id={"hiringSource"}
               required={true}
-              disabled={false}
+              disabled={isView}
               control={control}
               watch={watch}
             />
@@ -430,7 +533,7 @@ export const CreateEmployeePage = () => {
               options={deptList}
               id={"department"}
               required={true}
-              disabled={false}
+              disabled={isView}
               control={control}
               watch={watch}
             />
@@ -442,6 +545,7 @@ export const CreateEmployeePage = () => {
               label={"Date of Joining"}
               name={"dateOfJoining"}
               control={control}
+              disabled={isView}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
@@ -451,6 +555,7 @@ export const CreateEmployeePage = () => {
               label={"Employment From"}
               name={"employmentFrom"}
               control={control}
+              disabled={isView}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
@@ -460,6 +565,7 @@ export const CreateEmployeePage = () => {
               label={"Employment To"}
               name={"employmentTo"}
               control={control}
+              disabled={isView}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
@@ -467,7 +573,7 @@ export const CreateEmployeePage = () => {
               type={"text"}
               register={register("cooperateEmail")}
               label={"Cooperate Email"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.cooperateEmail?.message}
               helperText={errors?.cooperateEmail?.message?.toString()}
@@ -511,7 +617,7 @@ export const CreateEmployeePage = () => {
               options={reportingEmpList}
               id={"reportingEmployee"}
               required={true}
-              disabled={false}
+              disabled={isView}
               control={control}
               watch={watch}
             />
@@ -523,6 +629,7 @@ export const CreateEmployeePage = () => {
               label={"Date From"}
               name={"dateFrom"}
               control={control}
+              disabled={isView}
             />
           </Grid>
           <Grid item xs={12} sm={12} md={3}>
@@ -532,6 +639,7 @@ export const CreateEmployeePage = () => {
               label={"Date To"}
               name={"dateTo"}
               control={control}
+              disabled={isView}
             />
           </Grid>
           <Grid item md={2}>
@@ -584,7 +692,7 @@ export const CreateEmployeePage = () => {
               type={"number"}
               register={register("casualLeaves")}
               label={"Casual Leaves"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.casualLeaves?.message}
               helperText={errors?.casualLeaves?.message?.toString()}
@@ -595,7 +703,7 @@ export const CreateEmployeePage = () => {
               type={"number"}
               register={register("bereavementLeaves")}
               label={"Bereavement Leaves"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.bereavementLeaves?.message}
               helperText={errors?.bereavementLeaves?.message?.toString()}
@@ -606,7 +714,7 @@ export const CreateEmployeePage = () => {
               type={"number"}
               register={register("familyMedicalLeaves")}
               label={"Family & Medical Leaves"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.familyMedicalLeaves?.message}
               helperText={errors?.familyMedicalLeaves?.message?.toString()}
@@ -617,7 +725,7 @@ export const CreateEmployeePage = () => {
               type={"number"}
               register={register("studyLeaves")}
               label={"Study"}
-              disabled={false}
+              disabled={isView}
               required={true}
               error={!!errors?.studyLeaves?.message}
               helperText={errors?.studyLeaves?.message?.toString()}
@@ -625,14 +733,20 @@ export const CreateEmployeePage = () => {
           </Grid>
         </Grid>
       </Box>
-      <Stack direction={"row"} gap={2} justifyContent={"end"} mt={3}>
-        <CustomButton text={"Clear"} variant={"outlined"} onClick={resetForm} />
-        <CustomButton
-          text={"Save"}
-          variant={"contained"}
-          onClick={handleSubmit(onSubmit)}
-        />
-      </Stack>
+      {!isView && (
+        <Stack direction={"row"} gap={2} justifyContent={"end"} mt={3}>
+          <CustomButton
+            text={"Clear"}
+            variant={"outlined"}
+            onClick={resetForm}
+          />
+          <CustomButton
+            text={"Save"}
+            variant={"contained"}
+            onClick={handleSubmit(onSubmit)}
+          />
+        </Stack>
+      )}
     </>
   );
 };

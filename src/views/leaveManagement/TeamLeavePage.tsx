@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { Box, Chip, Grid, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Chip, Grid, Stack, Typography } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -132,6 +132,8 @@ export const TeamLeavePage = () => {
 
   const searchParams = new URLSearchParams(location.search);
 
+  const [teamMemDetails, setTeamMemberDetails] = useState<any>(null);
+
   useLayoutEffect(() => {
     const obj = searchParams.get("teamLeave");
     if (obj) {
@@ -154,6 +156,13 @@ export const TeamLeavePage = () => {
         setValue("comments", leave?.comments);
         setValue("coveringEmp", leave?.coveringEmpId);
         setValue("approver", leave?.approver);
+        const emp = employees?.find((d: any) => d?.empId === leave?.empId);
+        setTeamMemberDetails({
+          name: emp?.name,
+          designation: emp?.designation,
+          empNo: emp?.empNo,
+          profileImg: emp?.profileImg,
+        });
       }
     }
   }, [isView]);
@@ -174,23 +183,21 @@ export const TeamLeavePage = () => {
         docType={"application/pdf"}
         title={"Sample.pdf"}
       />
-      <Box display={"flex"} mb={3} gap={2} alignItems={"center"}>
-        <img
-          src={require("../../assets/images/person3.jpg")}
-          alt="emp-img"
-          height={100}
-          width={100}
-          style={{ borderRadius: "50%", objectFit: "cover" }}
+      <Box display={"flex"} mb={5} gap={2} alignItems={"center"}>
+        <Avatar
+          alt="Remy Sharp"
+          src={teamMemDetails && teamMemDetails?.profileImg}
+          sx={{ width: 100, height: 100 }}
         />
         <Box>
           <Typography fontWeight={700} fontSize={"xx-large"}>
-            Jane Allen
+            {teamMemDetails && teamMemDetails?.name}
           </Typography>
           <Typography color={"text.secondary"} fontSize={"medium"}>
-            Associate Software Engineer
+            {teamMemDetails && teamMemDetails?.designation}
           </Typography>
           <Typography color={"text.secondary"} fontSize={"small"}>
-            Emp No: EMP001
+            Emp No: {teamMemDetails && teamMemDetails?.empNo}
           </Typography>
         </Box>
       </Box>

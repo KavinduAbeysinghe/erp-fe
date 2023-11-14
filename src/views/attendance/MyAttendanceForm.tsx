@@ -1,19 +1,39 @@
 import { Grid, Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { FormDatePicker } from "../../components/datePickers/FormDatePicker";
 import { FormTextField } from "../../components/inputs/FormTextField";
 import { CustomButton } from "../../components/buttons/CustomButton";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 import { useState } from "react";
+import { FormTimePicker } from "../../components/timePickers/FormTimePicker";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { getFormattedTime } from "../../util";
+import { LocalizationProvider, StaticTimePicker } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 interface MyAttendanceFormProps {
   handleModalClose: () => void;
+  id: any;
+  setMyAttendanceData: any;
 }
 
 export const MyAttendanceForm = ({
   handleModalClose,
+  id,
+  setMyAttendanceData,
 }: MyAttendanceFormProps) => {
   const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
+
+  const commonError = "Field is required";
+
+  const validationSchema = Yup.object().shape({
+    punchIn: Yup.string(),
+    punchOut: Yup.string(),
+    break: Yup.number().required(commonError).typeError(commonError),
+    overtime: Yup.number().required(commonError).typeError(commonError),
+  });
 
   const {
     register,
@@ -23,11 +43,35 @@ export const MyAttendanceForm = ({
     formState: { errors },
     handleSubmit,
     reset,
-  } = useForm({});
+  } = useForm({
+    resolver: yupResolver(validationSchema),
+  });
 
-  const onSubmit = () => {
+  const onSubmit = (data: any) => {
     setShowBackdrop(true);
     setTimeout(() => {
+      console.log(data);
+      console.log(new Date(data.punchIn).toLocaleTimeString());
+
+      setMyAttendanceData((prev: Array<any>) => {
+        let newArr = [...prev];
+        const entry = newArr?.find((e: any) => e?.id === id);
+        const indx = newArr.indexOf(entry);
+        newArr[indx] = {
+          id: entry?.id,
+          sNo: entry?.sNo,
+          date: "2023-11-05",
+          production: 8.5,
+          punchIn: new Date(data?.punchIn).toLocaleTimeString(),
+          punchOut: new Date(data?.punchOut).toLocaleTimeString(),
+          break: data?.break,
+          overtime: data?.overtime,
+          isIncompleted: false,
+        };
+        console.log(newArr);
+
+        return newArr;
+      });
       handleModalClose();
     }, 1000);
   };
@@ -53,27 +97,43 @@ export const MyAttendanceForm = ({
       </Typography>
       <Grid container rowSpacing={3} columnSpacing={2}>
         <Grid item xs={12} sm={12} md={6}>
-          <FormTextField
-            register={"punchIn"}
+          <FormTimePicker
             label={"Punch In"}
-            type={"time"}
+            error={!!errors?.punchIn?.message}
+            helperText={errors?.punchIn?.message?.toString()}
+            name={"punchIn"}
+            control={control}
+            required={true}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
-          <FormTextField
-            register={"punchOut"}
+          <FormTimePicker
             label={"Punch Out"}
-            type={"time"}
+            error={!!errors?.punchOut?.message}
+            helperText={errors?.punchOut?.message?.toString()}
+            name={"punchOut"}
+            control={control}
+            required={true}
           />
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
-          <FormTextField register={"break"} label={"Break"} type={"number"} />
+          <FormTextField
+            register={register("break")}
+            label={"Break"}
+            type={"number"}
+            error={!!errors?.break?.message}
+            helperText={errors?.break?.message?.toString()}
+            required={true}
+          />
         </Grid>
         <Grid item xs={12} sm={12} md={6}>
           <FormTextField
-            register={"overtime"}
+            register={register("overtime")}
             label={"Overtime"}
             type={"number"}
+            error={!!errors?.overtime?.message}
+            helperText={errors?.overtime?.message?.toString()}
+            required={true}
           />
         </Grid>
         <Grid

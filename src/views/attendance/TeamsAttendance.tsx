@@ -137,19 +137,51 @@ export const TeamsAttendance = () => {
   const onSearch = (data: any) => {
     setShowBackdrop(true);
     setTimeout(() => {
-      console.log(data);
-      const empId = data?.teamMemberName;
-      const dateFrom = data?.dateFrom;
-      const dateTo = data?.dateTo;
-      let filteredData: any[] = [];
-      if (empId && dateFrom && dateTo) {
-        filteredData = tableData?.filter((d: any) => {
-          const date = new Date(d?.date);
-          return empId === d?.empId && date >= dateFrom && date <= dateTo;
-        });
-      }
-      setTeamAttendance(formatData(filteredData));
-      setTopCardsData(getTopCardData(filteredData));
+      // console.log(data);
+      // const empId = data?.teamMemberName;
+      // const dateFrom = data?.dateFrom;
+      // const dateTo = data?.dateTo;
+      const payload = {
+        empId: data?.teamMemberName,
+        dateFrom: data?.dateFrom,
+        dateTo: data?.dateTo,
+      };
+      const filteredArray = tableData.filter((item) => {
+        const isEmpIdMatch = payload.empId
+          ? item.empId === payload.empId
+          : true;
+
+        const isDateFromMatch = payload.dateFrom
+          ? new Date(item.date) >= new Date(payload.dateFrom)
+          : true;
+
+        const isDateToMatch = payload.dateTo
+          ? new Date(item.date) <= new Date(payload.dateTo)
+          : true;
+
+        // Add other conditions as needed
+
+        // Combine all conditions using logical AND
+        return isEmpIdMatch && isDateFromMatch && isDateToMatch /* && ... */;
+      });
+
+      // Do something with the filteredArray, e.g., update state in your component
+      console.log(filteredArray);
+
+      setTeamAttendance(formatData(filteredArray));
+      setTopCardsData(getTopCardData(filteredArray));
+
+      // console.log(nonNullData);
+
+      // let filteredData: any[] = [];
+      // if (empId && dateFrom && dateTo) {
+      //   filteredData = tableData?.filter((d: any) => {
+      //     const date = new Date(d?.date);
+      //     return empId === d?.empId && date >= dateFrom && date <= dateTo;
+      //   });
+      // }
+      // setTeamAttendance(formatData(filteredData));
+      // setTopCardsData(getTopCardData(filteredData));
       setShowBackdrop(false);
     }, 1000);
   };
