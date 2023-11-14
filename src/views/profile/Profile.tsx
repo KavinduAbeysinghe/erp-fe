@@ -220,6 +220,7 @@ export const Profile = () => {
             gap={3}
           >
             <Typography
+              className="card-heading"
               fontWeight={700}
               color={"#fff"}
               sx={{
@@ -312,6 +313,7 @@ export const Profile = () => {
             gap={3}
           >
             <Typography
+              className="card-heading"
               fontWeight={700}
               color={"#fff"}
               sx={{
@@ -426,6 +428,7 @@ export const Profile = () => {
             gap={3}
           >
             <Typography
+              className="card-heading"
               fontWeight={700}
               color={"#fff"}
               sx={{

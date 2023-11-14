@@ -36,7 +36,7 @@ export const ColorModeContextProvider: React.FC<any> = ({ children }) => {
   const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
   useEffect(() => {
-    const themeObj = localStorage.getItem("theme");
+    const themeObj = localStorage.getItem("themeMode"); // Corrected key
     if (themeObj) {
       setMode(themeObj === "dark" ? "dark" : "light");
     } else {

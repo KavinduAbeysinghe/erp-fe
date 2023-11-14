@@ -15,6 +15,7 @@ import {
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
 import AlertDialogSlide from "../../components/modals/AlertDialog";
+import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
 
 export const SearchEmployees = () => {
   const [openAlert, setOpenAlert] = useState<boolean>(false);
@@ -44,7 +45,7 @@ export const SearchEmployees = () => {
 
   const empTableHeads = [
     "Emp No",
-    "Name",
+    "Employee",
     "Department",
     "Hired Date",
     "Email",
@@ -93,9 +94,9 @@ export const SearchEmployees = () => {
     return data?.map((e: any) => ({
       empID: e?.empId,
       empNo: e?.empNo,
-      name: <User img={e?.profileImg} name={e?.name} />,
+      name: <EmployeeColumn id={e?.empId} />,
       department: departments?.find(
-        (d: any) => d?.departmentId === e?.departmentId,
+        (d: any) => d?.departmentId === e?.departmentId
       )?.departmentName,
       hiredDate: e?.hiredDate,
       email: e?.email,
@@ -107,13 +108,13 @@ export const SearchEmployees = () => {
   useLayoutEffect(() => {
     setEmpTableData(formatData(employees));
     setEmpList(
-      employees?.map((e: any) => ({ label: e?.name, value: e?.empId })),
+      employees?.map((e: any) => ({ label: e?.name, value: e?.empId }))
     );
     setDeptList(
       departments?.map((d: any) => ({
         label: d?.departmentName,
         value: d?.departmentId,
-      })),
+      }))
     );
   }, []);
 
@@ -128,16 +129,16 @@ export const SearchEmployees = () => {
           ? formatData(employees?.filter((e: any) => e?.empId === employeeName))
           : !employeeName && department
           ? formatData(
-              employees?.filter((e: any) => e?.departmentId === department),
+              employees?.filter((e: any) => e?.departmentId === department)
             )
           : employeeName && department
           ? formatData(
               employees?.filter(
                 (e: any) =>
-                  e?.empId === employeeName && e?.departmentId === department,
-              ),
+                  e?.empId === employeeName && e?.departmentId === department
+              )
             )
-          : formatData(employees),
+          : formatData(employees)
       );
       setShowBackdrop(false);
     }, 1000);

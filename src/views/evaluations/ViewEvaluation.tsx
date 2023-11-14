@@ -4,9 +4,75 @@ import DenseTable from "../../components/tables/DenseTable";
 import { FormTextField } from "../../components/inputs/FormTextField";
 import { Box, Stack } from "@mui/material";
 import { CustomButton } from "../../components/buttons/CustomButton";
+import { useLayoutEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 export const ViewEvaluation = () => {
   const tableHeads = ["#", "Name", "Rating", "Comments"];
+
+  const selfEvalTableHeads = ["#", "Name", "Rating", "Comments", "Review"];
+
+  const location = useLocation();
+
+  const searchParams = new URLSearchParams(location.search);
+
+  const [isSelfEval, setIsSelfEval] = useState<boolean>(false);
+
+  useLayoutEffect(() => {
+    const evalObj = searchParams.get("eval");
+    if (evalObj) {
+      const evaluation = JSON.parse(evalObj);
+      setIsSelfEval(evaluation?.type === "Self");
+    }
+  }, [location]);
+
+  const selfEvalTableData = [
+    {
+      no: 1,
+      name: "Sample KPI 001",
+      rating: 4,
+      comments: "Sample comment has been added",
+      review: (
+        <FormTextField register={undefined} type={"number"} fullWidth={false} />
+      ),
+    },
+    {
+      no: 2,
+      name: "Sample KPI 002",
+      rating: 4,
+      comments: "Sample comment has been added",
+      review: (
+        <FormTextField register={undefined} type={"number"} fullWidth={false} />
+      ),
+    },
+    {
+      no: 3,
+      name: "Sample KPI 003",
+      rating: 4,
+      comments: "Sample comment has been added",
+      review: (
+        <FormTextField register={undefined} type={"number"} fullWidth={false} />
+      ),
+    },
+    {
+      no: 4,
+      name: "Sample KPI 004",
+      rating: 4,
+      comments: "Sample comment has been added",
+      review: (
+        <FormTextField register={undefined} type={"number"} fullWidth={false} />
+      ),
+    },
+    {
+      no: 5,
+      name: "Sample KPI 005",
+      rating: 4,
+      comments: "Sample comment has been added",
+      review: (
+        <FormTextField register={undefined} type={"number"} fullWidth={false} />
+      ),
+    },
+  ];
 
   const tableData = [
     {
@@ -68,16 +134,31 @@ export const ViewEvaluation = () => {
 
   const accordionOptions = [
     {
-      title: "Development KPI - 5 November 2023",
-      body: <AccordionBody tableData={tableData} tableHeads={tableHeads} />,
+      title: "Development KPI",
+      body: (
+        <AccordionBody
+          tableData={isSelfEval ? selfEvalTableData : tableData}
+          tableHeads={isSelfEval ? selfEvalTableHeads : tableHeads}
+        />
+      ),
     },
     {
-      title: "Non-Development KPI - 5 November 2023",
-      body: <AccordionBody tableData={tableData} tableHeads={tableHeads} />,
+      title: "Non-Development KPI",
+      body: (
+        <AccordionBody
+          tableData={isSelfEval ? selfEvalTableData : tableData}
+          tableHeads={isSelfEval ? selfEvalTableHeads : tableHeads}
+        />
+      ),
     },
     {
-      title: "Other - 5 November 2023",
-      body: <AccordionBody tableData={tableData} tableHeads={tableHeads} />,
+      title: "Other",
+      body: (
+        <AccordionBody
+          tableData={isSelfEval ? selfEvalTableData : tableData}
+          tableHeads={isSelfEval ? selfEvalTableHeads : tableHeads}
+        />
+      ),
     },
   ];
 

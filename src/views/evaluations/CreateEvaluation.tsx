@@ -90,22 +90,22 @@ export const CreateEvaluation = () => {
     },
   ];
 
-  const accordionOptions = [
-    {
-      title: "Development KPI",
-      body: (
-        <KpiLayout register={register} errors={errors} tableData={tableData} />
-      ),
-    },
-    {
-      title: "Non-Development",
-      body: <DenseTable tableData={tableData} tableHeaders={tableHeadsKpi} />,
-    },
-    {
-      title: "Other",
-      body: <DenseTable tableData={tableData} tableHeaders={tableHeadsKpi} />,
-    },
-  ];
+  // const accordionOptions = [
+  //   {
+  //     title: "Development KPI",
+  //     body: (
+  //       <KpiLayout register={register} errors={errors} tableData={tableData} />
+  //     ),
+  //   },
+  //   {
+  //     title: "Non-Development",
+  //     body: <DenseTable tableData={tableData} tableHeaders={tableHeadsKpi} />,
+  //   },
+  //   {
+  //     title: "Other",
+  //     body: <DenseTable tableData={tableData} tableHeaders={tableHeadsKpi} />,
+  //   },
+  // ];
 
   const teamMemberList = employees?.map((e: any) => ({
     label: e?.name,
@@ -175,10 +175,16 @@ export const CreateEvaluation = () => {
 
   useEffect(() => {
     setAccordionOptions2(
-      kpiList?.map((i: any) => ({
+      kpiList?.map((i: any, index) => ({
         title: i?.title,
         body: (
-          <KpiLayout register={register} errors={errors} tableData={i?.data} />
+          <KpiLayout
+            register={register}
+            errors={errors}
+            tableData={i?.data}
+            index={index}
+            watch={watch}
+          />
         ),
       }))
     );
@@ -211,7 +217,7 @@ export const CreateEvaluation = () => {
     setValue("createdDate", dayjs(new Date()).format("DD/MM/YYYY"));
   }, []);
 
-  // const { fields } = useFieldArray({ name: "kpis", control: control });
+  // const { fields } = useFieldArray({ control, name: "kpi" });
 
   return (
     <>

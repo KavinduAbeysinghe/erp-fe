@@ -1,4 +1,4 @@
-import { Box, Grid, Stack, Typography } from "@mui/material";
+import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -22,6 +22,8 @@ import dayjs from "dayjs";
 import { useNotification } from "../../contexts/NotificationContext";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 import { useLocation } from "react-router-dom";
+import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export const CreateEmployeePage = () => {
   const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
@@ -153,12 +155,14 @@ export const CreateEmployeePage = () => {
     setRepEmpTableData([]);
   };
 
-  const reportingTableHeads = [
-    "Emp ID",
-    "Name",
-    "Designation",
-    "Date From",
-    "Date To",
+  const reportingTableHeads = ["Emp No", "Name", "Date From", "Date To"];
+
+  const removeEmp = (id: any) => {
+    setRepEmpTableData((prev) => [...prev].filter((d: any) => d?.empId !== id));
+  };
+
+  const actionButtons = [
+    { tooltip: "Delete", icon: faTrash, handleClick: removeEmp },
   ];
 
   const reportingEmp = watch("reportingEmployee");
@@ -175,8 +179,8 @@ export const CreateEmployeePage = () => {
           const emp = employees?.find((e: any) => e?.empId === reportingEmp);
           newArr.push({
             empId: emp?.empId,
-            name: emp?.name,
-            designation: emp?.designation,
+            empNo: emp?.empNo,
+            name: <EmployeeColumn id={emp?.empId} />,
             dateFrom: getFormattedDate(dateFrom),
             dateTo: getFormattedDate(dateTo),
           });
@@ -194,345 +198,433 @@ export const CreateEmployeePage = () => {
   return (
     <>
       <CustomBackdrop showBackdrop={showBackdrop} />
-      <Typography color={"primary"} fontWeight={700} fontSize={"large"} mb={2}>
-        Personal Information
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormTextField
-            register={register("firstName")}
-            label={"First Name"}
-            disabled={false}
-            required={true}
-            error={!!errors?.firstName?.message}
-            helperText={errors?.firstName?.message?.toString()}
-          />
+      <Box
+        mt={3}
+        component={Paper}
+        className={"dash-card"}
+        p={3}
+        display={"flex"}
+        flexDirection={"column"}
+        gap={3}
+        position={"relative"}
+      >
+        <Typography
+          fontWeight={700}
+          color={"#fff"}
+          className="card-heading"
+          sx={{
+            // backgroundColor: "primary.dark",
+            position: "absolute",
+            mt: -5.5,
+            px: 3,
+            borderRadius: "7px",
+            py: 1,
+          }}
+        >
+          Notices
+        </Typography>
+
+        <Grid container spacing={2} mt={2}>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormTextField
+              register={register("firstName")}
+              label={"First Name"}
+              disabled={false}
+              required={true}
+              error={!!errors?.firstName?.message}
+              helperText={errors?.firstName?.message?.toString()}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormTextField
+              type={"text"}
+              register={register("lastName")}
+              label={"Last Name"}
+              disabled={false}
+              required={true}
+              error={!!errors?.lastName?.message}
+              helperText={errors?.lastName?.message?.toString()}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormTextField
+              type={"text"}
+              register={register("callingName")}
+              label={"Calling Name"}
+              disabled={false}
+              required={true}
+              error={!!errors?.callingName?.message}
+              helperText={errors?.callingName?.message?.toString()}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormDatePicker
+              helperText={errors?.dob?.message?.toString()}
+              error={!!errors?.dob?.message}
+              label={"Date of Birth"}
+              name={"dob"}
+              control={control}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormTextField
+              type={"text"}
+              register={register("telephone")}
+              label={"Telephone"}
+              disabled={false}
+              required={true}
+              error={!!errors?.telephone?.message}
+              helperText={errors?.telephone?.message?.toString()}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormTextField
+              type={"text"}
+              register={register("mobile")}
+              label={"Mobile"}
+              disabled={false}
+              required={true}
+              error={!!errors?.mobile?.message}
+              helperText={errors?.mobile?.message?.toString()}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormTextField
+              type={"text"}
+              register={register("personalEmail")}
+              label={"Personal Email"}
+              disabled={false}
+              required={true}
+              error={!!errors?.personalEmail?.message}
+              helperText={errors?.personalEmail?.message?.toString()}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormTextField
+              type={"text"}
+              register={register("nic")}
+              label={"NIC/Passport"}
+              disabled={false}
+              required={true}
+              error={!!errors?.nic?.message}
+              helperText={errors?.nic?.message?.toString()}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormTextField
+              type={"text"}
+              register={register("bloodGroup")}
+              label={"Blood Group"}
+              disabled={false}
+              required={true}
+              error={!!errors?.bloodGroup?.message}
+              helperText={errors?.bloodGroup?.message?.toString()}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormDropdown
+              name={"gender"}
+              options={genders}
+              label={"Gender"}
+              helperText={errors?.gender?.message?.toString()}
+              error={!!errors?.gender?.message}
+              control={control}
+              fullWidth={true}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormDropdown
+              name={"civilStatus"}
+              options={civilStatuses}
+              label={"Civil Status"}
+              helperText={errors?.civilStatus?.message?.toString()}
+              error={!!errors?.civilStatus?.message}
+              control={control}
+              fullWidth={true}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormAutocomplete
+              error={!!errors?.nationality?.message}
+              helperText={errors?.nationality?.message?.toString()}
+              setValue={setValue}
+              label={"Nationality"}
+              options={nationalityList}
+              id={"nationality"}
+              required={true}
+              disabled={false}
+              control={control}
+              watch={watch}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormTextField
+              type={"text"}
+              register={register("religion")}
+              label={"Religion"}
+              disabled={false}
+              required={true}
+              error={!!errors?.religion?.message}
+              helperText={errors?.religion?.message?.toString()}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormTextField
-            type={"text"}
-            register={register("lastName")}
-            label={"Last Name"}
-            disabled={false}
-            required={true}
-            error={!!errors?.lastName?.message}
-            helperText={errors?.lastName?.message?.toString()}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormTextField
-            type={"text"}
-            register={register("callingName")}
-            label={"Calling Name"}
-            disabled={false}
-            required={true}
-            error={!!errors?.callingName?.message}
-            helperText={errors?.callingName?.message?.toString()}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormDatePicker
-            helperText={errors?.dob?.message?.toString()}
-            error={!!errors?.dob?.message}
-            label={"Date of Birth"}
-            name={"dob"}
-            control={control}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormTextField
-            type={"text"}
-            register={register("telephone")}
-            label={"Telephone"}
-            disabled={false}
-            required={true}
-            error={!!errors?.telephone?.message}
-            helperText={errors?.telephone?.message?.toString()}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormTextField
-            type={"text"}
-            register={register("mobile")}
-            label={"Mobile"}
-            disabled={false}
-            required={true}
-            error={!!errors?.mobile?.message}
-            helperText={errors?.mobile?.message?.toString()}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormTextField
-            type={"text"}
-            register={register("personalEmail")}
-            label={"Personal Email"}
-            disabled={false}
-            required={true}
-            error={!!errors?.personalEmail?.message}
-            helperText={errors?.personalEmail?.message?.toString()}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormTextField
-            type={"text"}
-            register={register("nic")}
-            label={"NIC/Passport"}
-            disabled={false}
-            required={true}
-            error={!!errors?.nic?.message}
-            helperText={errors?.nic?.message?.toString()}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormTextField
-            type={"text"}
-            register={register("bloodGroup")}
-            label={"Blood Group"}
-            disabled={false}
-            required={true}
-            error={!!errors?.bloodGroup?.message}
-            helperText={errors?.bloodGroup?.message?.toString()}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormDropdown
-            name={"gender"}
-            options={genders}
-            label={"Gender"}
-            helperText={errors?.gender?.message?.toString()}
-            error={!!errors?.gender?.message}
-            control={control}
-            fullWidth={true}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormDropdown
-            name={"civilStatus"}
-            options={civilStatuses}
-            label={"Civil Status"}
-            helperText={errors?.civilStatus?.message?.toString()}
-            error={!!errors?.civilStatus?.message}
-            control={control}
-            fullWidth={true}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormAutocomplete
-            error={!!errors?.nationality?.message}
-            helperText={errors?.nationality?.message?.toString()}
-            setValue={setValue}
-            label={"Nationality"}
-            options={nationalityList}
-            id={"nationality"}
-            required={true}
-            disabled={false}
-            control={control}
-            watch={watch}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormTextField
-            type={"text"}
-            register={register("religion")}
-            label={"Religion"}
-            disabled={false}
-            required={true}
-            error={!!errors?.religion?.message}
-            helperText={errors?.religion?.message?.toString()}
-          />
-        </Grid>
-      </Grid>
-      <Box mt={2}>
-        <hr className={"divider"} />
       </Box>
-      <Typography color={"primary"} fontWeight={700} fontSize={"large"} mb={2}>
-        Employment Information
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormTextField
-            register={register("staffId")}
-            label={"Staff ID"}
-            disabled={false}
-            required={true}
-            error={!!errors?.staffId?.message}
-            helperText={errors?.staffId?.message?.toString()}
-          />
+      <Box
+        mt={5}
+        component={Paper}
+        className={"dash-card"}
+        p={3}
+        display={"flex"}
+        flexDirection={"column"}
+        gap={3}
+        position={"relative"}
+      >
+        <Typography
+          fontWeight={700}
+          color={"#fff"}
+          className="card-heading"
+          sx={{
+            // backgroundColor: "primary.dark",
+            position: "absolute",
+            mt: -5.5,
+            px: 3,
+            borderRadius: "7px",
+            py: 1,
+          }}
+        >
+          Employment Information
+        </Typography>
+
+        <Grid container spacing={2} mt={2}>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormTextField
+              register={register("staffId")}
+              label={"Staff ID"}
+              disabled={false}
+              required={true}
+              error={!!errors?.staffId?.message}
+              helperText={errors?.staffId?.message?.toString()}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormAutocomplete
+              error={!!errors?.hiringSource?.message}
+              helperText={errors?.hiringSource?.message?.toString()}
+              setValue={setValue}
+              label={"Hiring Source"}
+              options={hiringSources}
+              id={"hiringSource"}
+              required={true}
+              disabled={false}
+              control={control}
+              watch={watch}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormAutocomplete
+              error={!!errors?.department?.message}
+              helperText={errors?.department?.message?.toString()}
+              setValue={setValue}
+              label={"Department"}
+              options={deptList}
+              id={"department"}
+              required={true}
+              disabled={false}
+              control={control}
+              watch={watch}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormDatePicker
+              helperText={errors?.dateOfJoining?.message?.toString()}
+              error={!!errors?.dateOfJoining?.message}
+              label={"Date of Joining"}
+              name={"dateOfJoining"}
+              control={control}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormDatePicker
+              helperText={errors?.employmentFrom?.message?.toString()}
+              error={!!errors?.employmentFrom?.message}
+              label={"Employment From"}
+              name={"employmentFrom"}
+              control={control}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormDatePicker
+              helperText={errors?.employmentTo?.message?.toString()}
+              error={!!errors?.employmentTo?.message}
+              label={"Employment To"}
+              name={"employmentTo"}
+              control={control}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormTextField
+              type={"text"}
+              register={register("cooperateEmail")}
+              label={"Cooperate Email"}
+              disabled={false}
+              required={true}
+              error={!!errors?.cooperateEmail?.message}
+              helperText={errors?.cooperateEmail?.message?.toString()}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormAutocomplete
-            error={!!errors?.hiringSource?.message}
-            helperText={errors?.hiringSource?.message?.toString()}
-            setValue={setValue}
-            label={"Hiring Source"}
-            options={hiringSources}
-            id={"hiringSource"}
-            required={true}
-            disabled={false}
-            control={control}
-            watch={watch}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormAutocomplete
-            error={!!errors?.department?.message}
-            helperText={errors?.department?.message?.toString()}
-            setValue={setValue}
-            label={"Department"}
-            options={deptList}
-            id={"department"}
-            required={true}
-            disabled={false}
-            control={control}
-            watch={watch}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormDatePicker
-            helperText={errors?.dateOfJoining?.message?.toString()}
-            error={!!errors?.dateOfJoining?.message}
-            label={"Date of Joining"}
-            name={"dateOfJoining"}
-            control={control}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormDatePicker
-            helperText={errors?.employmentFrom?.message?.toString()}
-            error={!!errors?.employmentFrom?.message}
-            label={"Employment From"}
-            name={"employmentFrom"}
-            control={control}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormDatePicker
-            helperText={errors?.employmentTo?.message?.toString()}
-            error={!!errors?.employmentTo?.message}
-            label={"Employment To"}
-            name={"employmentTo"}
-            control={control}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormTextField
-            type={"text"}
-            register={register("cooperateEmail")}
-            label={"Cooperate Email"}
-            disabled={false}
-            required={true}
-            error={!!errors?.cooperateEmail?.message}
-            helperText={errors?.cooperateEmail?.message?.toString()}
-          />
-        </Grid>
-      </Grid>
-      <Box mt={2}>
-        <hr className={"divider"} />
       </Box>
-      <Typography color={"primary"} fontWeight={700} fontSize={"large"} mb={2}>
-        Reporting Information
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormAutocomplete
-            helperText={""}
-            error={false}
-            setValue={setValue}
-            label={"Reporting Employee"}
-            options={reportingEmpList}
-            id={"reportingEmployee"}
-            required={true}
-            disabled={false}
-            control={control}
-            watch={watch}
-          />
+
+      <Box
+        mt={5}
+        component={Paper}
+        className={"dash-card"}
+        p={3}
+        display={"flex"}
+        flexDirection={"column"}
+        gap={3}
+        position={"relative"}
+      >
+        <Typography
+          fontWeight={700}
+          color={"#fff"}
+          className="card-heading"
+          sx={{
+            // backgroundColor: "primary.dark",
+            position: "absolute",
+            mt: -5.5,
+            px: 3,
+            borderRadius: "7px",
+            py: 1,
+          }}
+        >
+          Reporting Employees
+        </Typography>
+        <Grid container spacing={2} mt={2}>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormAutocomplete
+              helperText={""}
+              error={false}
+              setValue={setValue}
+              label={"Reporting Employee"}
+              options={reportingEmpList}
+              id={"reportingEmployee"}
+              required={true}
+              disabled={false}
+              control={control}
+              watch={watch}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormDatePicker
+              helperText={""}
+              error={false}
+              label={"Date From"}
+              name={"dateFrom"}
+              control={control}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={3}>
+            <FormDatePicker
+              helperText={""}
+              error={false}
+              label={"Date To"}
+              name={"dateTo"}
+              control={control}
+            />
+          </Grid>
+          <Grid item md={2}>
+            <CustomButton
+              text={"+Add"}
+              variant={"outlined"}
+              onClick={addEmployeeToTable}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormDatePicker
-            helperText={""}
-            error={false}
-            label={"Date From"}
-            name={"dateFrom"}
-            control={control}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={3}>
-          <FormDatePicker
-            helperText={""}
-            error={false}
-            label={"Date To"}
-            name={"dateTo"}
-            control={control}
-          />
-        </Grid>
-        <Grid item md={2}>
-          <CustomButton
-            text={"+Add"}
-            variant={"outlined"}
-            onClick={addEmployeeToTable}
-          />
-        </Grid>
-      </Grid>
+      </Box>
       <Box mt={2}>
         <SearchTable
           tableData={repEmpTableData}
-          id={""}
+          id={"empId"}
+          actionButtons={actionButtons}
           tableHeaders={reportingTableHeads}
           paginate={true}
         />
       </Box>
-      <Box mt={2}>
-        <hr className={"divider"} />
+      <Box
+        mt={5}
+        component={Paper}
+        className={"dash-card"}
+        p={3}
+        display={"flex"}
+        flexDirection={"column"}
+        gap={3}
+        position={"relative"}
+      >
+        <Typography
+          fontWeight={700}
+          color={"#fff"}
+          className="card-heading"
+          sx={{
+            // backgroundColor: "primary.dark",
+            position: "absolute",
+            mt: -5.5,
+            px: 3,
+            borderRadius: "7px",
+            py: 1,
+          }}
+        >
+          Leave Information
+        </Typography>
+
+        <Grid container spacing={2} mt={2}>
+          <Grid item xs={12} sm={6} md={3}>
+            <FormTextField
+              type={"number"}
+              register={register("casualLeaves")}
+              label={"Casual Leaves"}
+              disabled={false}
+              required={true}
+              error={!!errors?.casualLeaves?.message}
+              helperText={errors?.casualLeaves?.message?.toString()}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <FormTextField
+              type={"number"}
+              register={register("bereavementLeaves")}
+              label={"Bereavement Leaves"}
+              disabled={false}
+              required={true}
+              error={!!errors?.bereavementLeaves?.message}
+              helperText={errors?.bereavementLeaves?.message?.toString()}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <FormTextField
+              type={"number"}
+              register={register("familyMedicalLeaves")}
+              label={"Family & Medical Leaves"}
+              disabled={false}
+              required={true}
+              error={!!errors?.familyMedicalLeaves?.message}
+              helperText={errors?.familyMedicalLeaves?.message?.toString()}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={3}>
+            <FormTextField
+              type={"number"}
+              register={register("studyLeaves")}
+              label={"Study"}
+              disabled={false}
+              required={true}
+              error={!!errors?.studyLeaves?.message}
+              helperText={errors?.studyLeaves?.message?.toString()}
+            />
+          </Grid>
+        </Grid>
       </Box>
-      <Typography color={"primary"} fontWeight={700} fontSize={"large"} mb={2}>
-        Leave Information
-      </Typography>
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} md={3}>
-          <FormTextField
-            type={"number"}
-            register={register("casualLeaves")}
-            label={"Casual Leaves"}
-            disabled={false}
-            required={true}
-            error={!!errors?.casualLeaves?.message}
-            helperText={errors?.casualLeaves?.message?.toString()}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <FormTextField
-            type={"number"}
-            register={register("bereavementLeaves")}
-            label={"Bereavement Leaves"}
-            disabled={false}
-            required={true}
-            error={!!errors?.bereavementLeaves?.message}
-            helperText={errors?.bereavementLeaves?.message?.toString()}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <FormTextField
-            type={"number"}
-            register={register("familyMedicalLeaves")}
-            label={"Family & Medical Leaves"}
-            disabled={false}
-            required={true}
-            error={!!errors?.familyMedicalLeaves?.message}
-            helperText={errors?.familyMedicalLeaves?.message?.toString()}
-          />
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <FormTextField
-            type={"number"}
-            register={register("studyLeaves")}
-            label={"Study"}
-            disabled={false}
-            required={true}
-            error={!!errors?.studyLeaves?.message}
-            helperText={errors?.studyLeaves?.message?.toString()}
-          />
-        </Grid>
-      </Grid>
       <Stack direction={"row"} gap={2} justifyContent={"end"} mt={3}>
         <CustomButton text={"Clear"} variant={"outlined"} onClick={resetForm} />
         <CustomButton

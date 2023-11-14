@@ -8,6 +8,7 @@ import { TopCardAttendance } from "./TopCardAttendance";
 import { employees } from "../../util";
 import { useLayoutEffect, useState } from "react";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
+import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
 
 export const TeamsAttendance = () => {
   const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
@@ -21,7 +22,7 @@ export const TeamsAttendance = () => {
   const tableHeads = [
     "S.No",
     "Emp No",
-    "Name",
+    "Team Member",
     "Date",
     "Production",
     "Punch In",
@@ -34,7 +35,7 @@ export const TeamsAttendance = () => {
     return data?.map((d: any) => ({
       sNo: d?.sNo,
       empNo: employees?.find((e: any) => e?.empId === d?.empId)?.empNo,
-      name: employees?.find((e: any) => e?.empId === d?.empId)?.name,
+      name: <EmployeeColumn id={d?.empId} />,
       date: d?.date,
       production: d?.production,
       punchIn: d?.punchIn,
@@ -49,7 +50,7 @@ export const TeamsAttendance = () => {
       sNo: 1005,
       date: "2023-11-05",
       production: 8.5,
-      empId: 1,
+      empId: 5,
       punchIn: "08:30",
       punchOut: "17:30",
       break: "1.5 hrs",
@@ -59,7 +60,7 @@ export const TeamsAttendance = () => {
       sNo: 1004,
       date: "2023-11-04",
       production: 8.5,
-      empId: 1,
+      empId: 4,
       punchIn: "08:30",
       punchOut: "17:30",
       break: "1.5 hrs",
@@ -69,7 +70,7 @@ export const TeamsAttendance = () => {
       sNo: 1003,
       date: "2023-11-03",
       production: 8.5,
-      empId: 1,
+      empId: 3,
       punchIn: "08:30",
       punchOut: "17:30",
       break: "1.5 hrs",
@@ -79,7 +80,7 @@ export const TeamsAttendance = () => {
       sNo: 1002,
       date: "2023-11-02",
       production: 8.5,
-      empId: 1,
+      empId: 2,
       punchIn: "08:30",
       punchOut: "17:30",
       break: "1.5 hrs",

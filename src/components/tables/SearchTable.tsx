@@ -68,7 +68,7 @@ const SearchTable = ({
         <TableHead>
           <TableRow>
             {tableHeaders?.map((header) => (
-              <StyledTableCell key={header} align="center">
+              <StyledTableCell key={header} align="left">
                 {header}
               </StyledTableCell>
             ))}
@@ -89,7 +89,7 @@ const SearchTable = ({
                 {Object.entries(row).map(([key, value], index2) => (
                   <React.Fragment key={index2}>
                     {key !== id && key !== "isIncompleted" && (
-                      <StyledTableCell align="center">
+                      <StyledTableCell align="left">
                         {<>{value}</>}
                       </StyledTableCell>
                     )}

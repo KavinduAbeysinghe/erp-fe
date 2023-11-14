@@ -17,6 +17,7 @@ import { employees, leave } from "../../util";
 import { CustomChip } from "../../components/chips/Chip";
 import { calculateDateDifference } from "./SearchMyLeaves";
 import { useLocation, useNavigate } from "react-router-dom";
+import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
 
 export const SearchTeamLeaves = () => {
   const location = useLocation();
@@ -31,7 +32,7 @@ export const SearchTeamLeaves = () => {
     return data?.map((d: any) => ({
       id: d?.id,
       empNo: d?.empNo,
-      name: d?.name,
+      name: <EmployeeColumn id={d?.empId} />,
       dateFrom: d?.dateFrom,
       dateTo: d?.dateTo,
       days: d?.days,
@@ -57,7 +58,7 @@ export const SearchTeamLeaves = () => {
 
   const tableHeads = [
     "Emp No",
-    "Name",
+    "Team Member",
     "Date From",
     "Date To",
     "Days",
@@ -131,6 +132,7 @@ export const SearchTeamLeaves = () => {
 export const teamLeaves = [
   {
     id: 1,
+    empId: 1,
     empNo: "EMP001",
     name: "Alex Lee",
     leaveTypeId: 1,
@@ -146,7 +148,8 @@ export const teamLeaves = [
   },
   {
     id: 1,
-    empNo: "EMP001",
+    empId: 2,
+    empNo: "EMP002",
     name: "Alex Lee",
     leaveTypeId: 1,
     designation: "Senior Software Engineer",
@@ -161,7 +164,8 @@ export const teamLeaves = [
   },
   {
     id: 1,
-    empNo: "EMP001",
+    empId: 3,
+    empNo: "EMP003",
     name: "Alex Lee",
     leaveTypeId: 1,
     designation: "Senior Software Engineer",
@@ -176,7 +180,8 @@ export const teamLeaves = [
   },
   {
     id: 1,
-    empNo: "EMP001",
+    empId: 4,
+    empNo: "EMP004",
     name: "Alex Lee",
     leaveTypeId: 1,
     designation: "Senior Software Engineer",
@@ -191,7 +196,8 @@ export const teamLeaves = [
   },
   {
     id: 1,
-    empNo: "EMP001",
+    empId: 5,
+    empNo: "EMP005",
     name: "Alex Lee",
     leaveTypeId: 1,
     designation: "Senior Software Engineer",

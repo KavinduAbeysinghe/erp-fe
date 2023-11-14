@@ -35,7 +35,7 @@ export const MyEvaluations = () => {
   const tableHeads = ["Eval ID", "Name", "Activity Name", "Date", "Status"];
 
   const handleViewEvaluation = () => {
-    navigate("/control/evaluation-management/view-evaluation");
+    navigate("/control/evaluation-management/view-my-evaluation");
   };
 
   const actionButtons = [
