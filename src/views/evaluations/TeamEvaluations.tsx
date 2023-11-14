@@ -117,9 +117,26 @@ export const TeamEvaluations = () => {
     },
   ];
 
-  const handleSearch = () => {};
+  const handleSearch = (data: any) => {
+    const payload = {
+      year: data?.filterYear,
+      evaluationName: data?.evaluationName,
+      teamMember: data?.teamMember,
+      status: data?.status,
+    };
+    const filteredData = Object.entries(payload).filter(
+      ([key, value]) => value !== "" || value !== undefined || value !== null
+    );
+    console.log(filteredData);
+  };
 
   const resetForm = () => {};
+
+  const evalNameList = () => {
+    const names = tabelData?.map((d: any) => d?.name);
+    const removedDupNames = Array.from(new Set(names));
+    return removedDupNames?.map((n: any) => ({ label: n, value: n }));
+  };
 
   return (
     <>
@@ -142,7 +159,7 @@ export const TeamEvaluations = () => {
             helperText={""}
             setValue={setValue}
             label={"Evaluation Name"}
-            options={[]}
+            options={evalNameList()}
             id={"evaluationName"}
             required={true}
             disabled={false}
@@ -157,7 +174,7 @@ export const TeamEvaluations = () => {
             setValue={setValue}
             label={"Team Member"}
             options={[]}
-            id={"evaluationName"}
+            id={"teamMember"}
             required={true}
             disabled={false}
             control={control}

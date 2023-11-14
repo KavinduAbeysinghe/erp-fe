@@ -1,5 +1,13 @@
 import { useNavigate } from "react-router-dom";
-import { Box, Divider, Grid, Paper, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  Fab,
+  Grid,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { DigitalClock } from "../../components/digitalClock/DigitalClock";
 import React, { useEffect, useState } from "react";
 import { Notice, NoticeIn } from "../../components/notices/Notice";
@@ -14,6 +22,10 @@ import { CustomButton } from "../../components/buttons/CustomButton";
 import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
 import { TeamLeaves } from "./TeamLeaves";
 import { useTheme } from "@emotion/react";
+import { RichTextEditor } from "../../components/textEditors/RichTextEditor";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFeather } from "@fortawesome/free-solid-svg-icons";
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
@@ -130,8 +142,23 @@ export const Dashboard = () => {
     }
   }, [employeeName]);
 
+  const handleScrollTop = () => {
+    console.log("Scroll to top");
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <Box>
+      <Fab
+        size="small"
+        color="secondary"
+        aria-label="add"
+        sx={{ position: "absolute", bottom: 20, right: 20 }}
+        onClick={handleScrollTop}
+      >
+        <ArrowUpwardIcon />
+      </Fab>
       <Box
         display={"flex"}
         justifyContent={"space-between"}
@@ -589,19 +616,50 @@ export const Dashboard = () => {
             </Box>
           </Box>
         </Grid>
-        {/*<Grid item sm={12} md={4}>*/}
-        {/*  <Box*/}
-        {/*    className={"dash-card"}*/}
-        {/*    p={3}*/}
-        {/*    display={"flex"}*/}
-        {/*    flexDirection={"column"}*/}
-        {/*    gap={3}*/}
-        {/*  >*/}
-        {/*    <Typography fontWeight={700} color={"primary"}>*/}
-        {/*      Voice of Yours*/}
-        {/*    </Typography>*/}
-        {/*  </Box>*/}
-        {/*</Grid>*/}
+        <Grid item sm={12} md={12}>
+          <Box
+            position={"relative"}
+            component={Paper}
+            className={"dash-card"}
+            p={3}
+            display={"flex"}
+            flexDirection={"column"}
+            gap={3}
+          >
+            <Typography
+              fontWeight={700}
+              color={"#fff"}
+              className="card-heading"
+              sx={{
+                // backgroundColor: "primary.dark",
+                position: "absolute",
+                mt: -5.5,
+                px: 3,
+                borderRadius: "7px",
+                py: 1,
+              }}
+            >
+              Voice of Yours
+            </Typography>
+            <Box mt={3}>
+              <Typography color={"text.secondary"} mb={3}>
+                Hey it's your time to send us something on your mind ___ .
+                <span>
+                  <FontAwesomeIcon icon={faFeather} fontSize={"xx-large"} />
+                </span>
+              </Typography>
+              <RichTextEditor />
+              <Box
+                mt={3}
+                display={"flex"}
+                justifyContent={"flex-end"}
+                alignItems={"center"}
+              >
+                <CustomButton text={"Send"} variant="contained" />
+              </Box>
+            </Box>
+          </Box>
+        </Grid>
       </Grid>
     </Box>
   );

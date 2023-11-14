@@ -24,6 +24,8 @@ import { useNotification } from "../../contexts/NotificationContext";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 import dayjs from "dayjs";
+import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
+import { KpiType } from "./kpi/KpiType";
 
 export const CreateEvaluation = () => {
   const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
@@ -47,6 +49,7 @@ export const CreateEvaluation = () => {
       }),
     teamMember: Yup.string(),
     kpiName: Yup.string(),
+    kpiTypeList: Yup.array(),
   });
 
   const {
@@ -61,7 +64,7 @@ export const CreateEvaluation = () => {
     resolver: yupResolver(validationSchema),
   });
 
-  const tableHeads = ["Emp No", "Name", "Designation", "Department"];
+  const tableHeads = ["Emp No", "Name", "Department"];
 
   //   const kpiTableHeads = ["KPI Name", "KPI"];
 
@@ -130,8 +133,7 @@ export const CreateEvaluation = () => {
           newA.push({
             empId: emp?.empId,
             empNo: emp?.empNo,
-            name: emp?.name,
-            designation: emp?.designation,
+            name: <EmployeeColumn id={emp?.empId} />,
             department: departments?.find(
               (d: any) => d?.departmentId === emp?.departmentId
             )?.departmentName,
@@ -154,20 +156,26 @@ export const CreateEvaluation = () => {
     { tooltip: "View", icon: faTrash, handleClick: handleRemove },
   ];
 
+  const { fields, prepend, remove } = useFieldArray({
+    control,
+    name: "kpiTypeList",
+  });
+
   const kpiName = watch("kpiName");
 
   const [kpiList, setKpiList] = useState<Array<any>>([]);
 
   const handleAddKpi = () => {
     if (kpiName) {
-      setKpiList((prev) => {
-        const newA = [...prev];
-        newA.push({
-          title: kpiName,
-          data: [],
+      const dup = fields?.find((d: any) => d?.name === kpiName);
+      if (!dup) {
+        prepend({
+          name: kpiName,
+          kpiList: [],
         });
-        return newA;
-      });
+      } else {
+        notify.warn("Already exists");
+      }
     }
   };
 
@@ -216,8 +224,6 @@ export const CreateEvaluation = () => {
   useEffect(() => {
     setValue("createdDate", dayjs(new Date()).format("DD/MM/YYYY"));
   }, []);
-
-  // const { fields } = useFieldArray({ control, name: "kpi" });
 
   return (
     <>
@@ -371,7 +377,12 @@ export const CreateEvaluation = () => {
             />
           </Grid>
         </Grid>
-        <CustomizedAccordions options={accordionOptions2} />
+        {/* <CustomizedAccordions options={accordionOptions2} /> */}
+        <div>
+          {fields?.map((field: any, index) => (
+            <KpiType key={index} title={field?.name} index={index} />
+          ))}
+        </div>
       </Box>
       <Stack
         direction={"row"}

@@ -10,11 +10,15 @@ export const Breadcrumb = () => {
   useLayoutEffect(() => {
     const pathStr = location?.pathname?.split("control/")[1];
     const pathNames = Array.from(new Set(pathStr?.split("/")));
-    const paths = pathNames?.map((p: string) => ({
-      name: p?.charAt(0).toUpperCase() + p?.slice(1),
-      path: `${location?.pathname?.split(p)[0]}${p}`,
-    }));
-    console.log(paths);
+    const paths = pathNames?.map((p: string) => {
+      const name = p
+        ?.replace(/-/g, " ")
+        .replace(/\b\w/g, (match: any) => match.toUpperCase());
+      return {
+        name: name,
+        path: `${location?.pathname?.split(p)[0]}${p}`,
+      };
+    });
     setPaths(paths);
   }, [location]);
 

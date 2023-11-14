@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   IconButton,
   Popover,
@@ -18,15 +19,18 @@ import { CustomBackdrop } from "../backdrop/CustomBackdrop";
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
-  drawerWidth: number;
+}
+
+interface MyAppBarProps {
   handleDrawerOpen: () => void;
+  drawerWidth: number;
 }
 
 export const MyAppBar = ({
   open,
-  drawerWidth,
   handleDrawerOpen,
-}: AppBarProps) => {
+  drawerWidth,
+}: AppBarProps & MyAppBarProps) => {
   const AppBar = styled(MuiAppBar, {
     shouldForwardProp: (prop) => prop !== "open",
   })<AppBarProps>(({ theme, open }) => ({
@@ -48,12 +52,13 @@ export const MyAppBar = ({
     }),
   }));
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLDivElement | null>(null);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
 
-  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    console.log(event.currentTarget);
-
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+    console.log(event.currentTarget);
   };
 
   const handleClose = () => {
@@ -61,7 +66,7 @@ export const MyAppBar = ({
   };
 
   const openPopper = Boolean(anchorEl);
-  const id = open ? "simple-popover-1" : undefined;
+  const id = openPopper ? "simple-popover" : undefined;
 
   const navigate = useNavigate();
 
@@ -80,12 +85,7 @@ export const MyAppBar = ({
   return (
     <>
       <CustomBackdrop showBackdrop={showBackdrop} />
-      <AppBar
-        position="fixed"
-        open={open}
-        drawerWidth={drawerWidth}
-        handleDrawerOpen={handleDrawerOpen}
-      >
+      <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -96,6 +96,7 @@ export const MyAppBar = ({
           >
             <MenuIcon />
           </IconButton>
+
           <Box
             display={"flex"}
             justifyContent={"space-between"}
@@ -103,51 +104,44 @@ export const MyAppBar = ({
             sx={{ width: "100%" }}
           >
             <Breadcrumb />
-            <Box
-              display={"flex"}
-              alignItems={"center"}
-              gap={1}
-              sx={{ cursor: "pointer" }}
-              aria-describedby={id}
-              onClick={(event) => handleClick(event)}
-            >
-              <img
+            <Box display={"flex"} alignItems={"center"} gap={1}>
+              <Avatar
+                alt="Remy Sharp"
                 src={require("../../assets/images/person1.jpg")}
-                alt="profile-img"
-                height={45}
-                width={45}
-                style={{ borderRadius: "50%", objectFit: "cover" }}
+                sx={{ width: 45, height: 45 }}
+                aria-describedby={id}
+                onClick={(event: any) => handleClick(event)}
               />
+              <Popover
+                id={id}
+                open={openPopper}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+              >
+                <Box
+                  py={2}
+                  px={3}
+                  display={"flex"}
+                  flexDirection={"column"}
+                  gap={1}
+                  alignItems={"center"}
+                  justifyContent={"center"}
+                >
+                  <Typography>@JohnHopkins</Typography>
+                  <ThemeSwitch />
+                  <CustomButton
+                    text={"Logout"}
+                    variant="outlined"
+                    onClick={handleLogout}
+                  />
+                </Box>
+              </Popover>
               <Typography fontWeight={500}>John</Typography>
             </Box>
-            <Popover
-              id={id}
-              open={openPopper}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-            >
-              <Box
-                py={2}
-                px={3}
-                display={"flex"}
-                flexDirection={"column"}
-                gap={1}
-                alignItems={"center"}
-                justifyContent={"center"}
-              >
-                <Typography>@JohnHopkins</Typography>
-                <ThemeSwitch />
-                <CustomButton
-                  text={"Logout"}
-                  variant="outlined"
-                  onClick={handleLogout}
-                />
-              </Box>
-            </Popover>
           </Box>
         </Toolbar>
       </AppBar>

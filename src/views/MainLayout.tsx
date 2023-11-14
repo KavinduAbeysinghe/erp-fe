@@ -57,8 +57,8 @@ const Layout = () => {
       <CssBaseline />
       <MyAppBar
         open={open}
-        drawerWidth={drawerWidth}
         handleDrawerOpen={handleDrawerOpen}
+        drawerWidth={drawerWidth}
       />
       <SideBar
         drawerWidth={drawerWidth}

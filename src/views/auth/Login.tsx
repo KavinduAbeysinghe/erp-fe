@@ -112,7 +112,8 @@ export const Login = () => {
           sm={12}
           md={6}
           p={3}
-          sx={{ backgroundColor: "#312e81", color: "#fff" }}
+          className="login-card"
+          sx={{ color: "#fff" }}
           display={"flex"}
           flexDirection={"column"}
           alignItems={"center"}
