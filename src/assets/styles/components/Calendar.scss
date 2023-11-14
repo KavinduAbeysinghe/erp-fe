@@ -1,0 +1,44 @@
+.rbc-off-range-bg {
+  //   background: #545454 !important;
+}
+
+.rbc-event,
+.rbc-day-slot .rbc-background-event {
+  background: linear-gradient(
+    195deg,
+    rgb(73, 163, 241),
+    rgb(26, 115, 232)
+  ) !important;
+  box-shadow:
+    rgba(0, 0, 0, 0.14) 0rem 0.25rem 1.25rem 0rem,
+    rgba(0, 187, 212, 0.4) 0rem 0.4375rem 0.625rem -0.3125rem !important;
+}
+
+.rbc-today {
+  background: linear-gradient(
+    195deg,
+    rgb(73, 163, 241),
+    rgb(26, 115, 232)
+  ) !important;
+  box-shadow:
+    rgba(0, 0, 0, 0.14) 0rem 0.25rem 1.25rem 0rem,
+    rgba(0, 187, 212, 0.4) 0rem 0.4375rem 0.625rem -0.3125rem !important;
+}
+
+.rbc-toolbar button {
+  background: #ffd700 !important;
+}
+
+.rbc-toolbar button:active,
+.rbc-toolbar button.rbc-active {
+  background-image: none !important;
+  box-shadow: none !important;
+  //   box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125) !important;
+  background-color: #535353 !important;
+  border-color: #adadad !important;
+  color: rgb(236, 236, 236) !important;
+}
+
+.rbc-off-range-bg {
+  background: #ffc6ff !important;
+}

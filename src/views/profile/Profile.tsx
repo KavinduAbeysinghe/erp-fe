@@ -21,6 +21,7 @@ import ContactEmergencyIcon from "@mui/icons-material/ContactEmergency";
 import ArticleIcon from "@mui/icons-material/Article";
 import { CustomModal } from "../../components/modals/CustomModal";
 import { ChangePasswordForm } from "./ChangePasswordForm";
+import { InnerModal } from "../../components/modals/InnerModal";
 
 export const Profile = () => {
   const notify = useNotification();
@@ -129,12 +130,19 @@ export const Profile = () => {
 
   return (
     <>
-      <CustomModal
+      <InnerModal
+        open={showModal}
+        setOpen={setShowModal}
+        maxWidth={"sm"}
+        title={"Change Password"}
+        body={<ChangePasswordForm setShowModal={setShowModal} />}
+      />
+      {/* <CustomModal
         show={showModal}
         handleClose={() => setShowModal(false)}
         title={"Change Password"}
         body={<ChangePasswordForm setShowModal={setShowModal} />}
-      />
+      /> */}
       <CustomBackdrop showBackdrop={showBackdrop} />
       <Grid container rowSpacing={5} columnSpacing={3}>
         <Grid item xs={12} sm={12} md={12}>

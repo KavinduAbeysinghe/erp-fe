@@ -18,6 +18,7 @@ const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
 export const ColorModeContextProvider: React.FC<any> = ({ children }) => {
   const [mode, setMode] = React.useState<"light" | "dark">("light");
+
   const colorMode = React.useMemo(
     () => ({
       toggleColorMode: () => {
@@ -36,12 +37,27 @@ export const ColorModeContextProvider: React.FC<any> = ({ children }) => {
   const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
   useEffect(() => {
-    const themeObj = localStorage.getItem("themeMode"); // Corrected key
-    if (themeObj) {
-      setMode(themeObj === "dark" ? "dark" : "light");
-    } else {
-      setMode("light");
-    }
+    const themeFromStorage = localStorage.getItem("themeMode");
+
+    const prefersDarkMode = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    setMode(
+      (themeFromStorage as "dark" | "light") ||
+        (prefersDarkMode ? "dark" : "light")
+    );
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = () => {
+      setMode(mediaQuery.matches ? "dark" : "light");
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
   }, []);
 
   return (
