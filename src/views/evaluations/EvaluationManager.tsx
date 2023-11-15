@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 import { CustomButton } from "../../components/buttons/CustomButton";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { TopCardAttendance } from "../attendance/TopCardAttendance";
 import SearchTable from "../../components/tables/SearchTable";
 import { CustomChip } from "../../components/chips/Chip";
@@ -23,6 +23,8 @@ export const EvaluationManager = () => {
 
   const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
 
+  const [evalTableData, setEvalTableData] = useState<Array<any>>([]);
+
   const tableHeads = [
     "Eval ID",
     "Name",
@@ -43,7 +45,7 @@ export const EvaluationManager = () => {
     },
     {
       evalId: "1002",
-      name: "Sample Evaluation 001",
+      name: "Sample Evaluation 002",
       createdDate: "2023-11-01",
       openedDate: "2023-11-02",
       dueDate: "2023-11-10",
@@ -51,7 +53,7 @@ export const EvaluationManager = () => {
     },
     {
       evalId: "1002",
-      name: "Sample Evaluation 001",
+      name: "Sample Evaluation 003",
       createdDate: "2023-11-01",
       openedDate: "2023-11-02",
       dueDate: "2023-11-10",
@@ -59,7 +61,7 @@ export const EvaluationManager = () => {
     },
     {
       evalId: "1002",
-      name: "Sample Evaluation 001",
+      name: "Sample Evaluation 004",
       createdDate: "2023-11-01",
       openedDate: "2023-11-02",
       dueDate: "2023-11-10",
@@ -67,7 +69,7 @@ export const EvaluationManager = () => {
     },
     {
       evalId: "1003",
-      name: "Sample Evaluation 001",
+      name: "Sample Evaluation 005",
       createdDate: "2023-11-01",
       openedDate: "2023-11-02",
       dueDate: "2023-11-10",
@@ -92,8 +94,6 @@ export const EvaluationManager = () => {
         ),
     }));
   };
-
-  const teamEvalData = formatData(tableData);
 
   const handleViewEvaluation = (id: any) => {
     navigate("/control/evaluation-management/view-evaluation");
@@ -125,9 +125,25 @@ export const EvaluationManager = () => {
 
   const handleSearch = (data: any) => {
     console.log(data);
+    setShowBackdrop(true);
+    setTimeout(() => {
+      const evalName = data?.evaluationName;
+      const status = data?.status;
+      const filteredArray = tableData?.filter((item) => {
+        const evalNameMatches = evalName ? item?.name === evalName : true;
+        const statusMatches = status ? item?.status === status : true;
+        return evalNameMatches && statusMatches;
+      });
+      setEvalTableData(formatData(filteredArray));
+      setShowBackdrop(false);
+    }, 1000);
   };
 
-  const resetForm = () => {};
+  const resetForm = () => {
+    setValue("evaluationName", "");
+    setValue("status", "");
+    setEvalTableData(formatData(tableData));
+  };
 
   const navigate = useNavigate();
 
@@ -145,6 +161,26 @@ export const EvaluationManager = () => {
       setShowBackdrop(false);
     }, 1000);
   };
+
+  const evalNameList = tableData?.map((d: any) => ({
+    label: d?.name,
+    value: d?.name,
+  }));
+
+  const statusList = [
+    {
+      label: "Opened",
+      value: "opened",
+    },
+    {
+      label: "Unopened",
+      value: "unopened",
+    },
+  ];
+
+  useLayoutEffect(() => {
+    setEvalTableData(formatData(tableData));
+  }, []);
 
   return (
     <>
@@ -182,7 +218,7 @@ export const EvaluationManager = () => {
             helperText={""}
             setValue={setValue}
             label={"Evaluation Name"}
-            options={[]}
+            options={evalNameList}
             id={"evaluationName"}
             required={true}
             disabled={false}
@@ -202,7 +238,7 @@ export const EvaluationManager = () => {
         <Grid item xs={12} sm={6} md={3}>
           <FormDropdown
             name={"status"}
-            options={[]}
+            options={statusList}
             helperText={""}
             control={control}
             label={"Status"}
@@ -233,7 +269,7 @@ export const EvaluationManager = () => {
         </Grid>
       </Grid>
       <SearchTable
-        tableData={teamEvalData}
+        tableData={evalTableData}
         tableHeaders={tableHeads}
         id={""}
         paginate={false}

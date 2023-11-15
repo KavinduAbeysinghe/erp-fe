@@ -9,6 +9,8 @@ import Slide from "@mui/material/Slide";
 import { TransitionProps } from "@mui/material/transitions";
 import WarningIcon from "@mui/icons-material/Warning";
 import { Box } from "@mui/material";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";
 
 interface AlertDialogProps {
   message: string;
@@ -22,7 +24,7 @@ const Transition = React.forwardRef(function Transition(
   props: TransitionProps & {
     children: React.ReactElement<any, any>;
   },
-  ref: React.Ref<unknown>,
+  ref: React.Ref<unknown>
 ) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -47,9 +49,11 @@ export default function AlertDialogSlide({
       </DialogTitle>
       <DialogContent>
         <Box display={"flex"} justifyContent={"center"}>
-          <WarningIcon
-            sx={{ fontSize: "80px", textAlign: "center" }}
-            color={"warning"}
+          <FontAwesomeIcon
+            icon={faTriangleExclamation}
+            fontSize={"80px"}
+            textAnchor="center"
+            color="#ED6C02"
           />
         </Box>
         <DialogContentText

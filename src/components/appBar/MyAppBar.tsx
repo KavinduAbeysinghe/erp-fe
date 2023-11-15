@@ -58,7 +58,7 @@ export const MyAppBar = ({
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
-    console.log(event.currentTarget);
+    console.log(event.currentTarget.parentNode?.parentNode);
   };
 
   const handleClose = () => {
@@ -104,44 +104,50 @@ export const MyAppBar = ({
             sx={{ width: "100%" }}
           >
             <Breadcrumb />
-            <Box display={"flex"} alignItems={"center"} gap={1}>
+            <Box
+              aria-describedby={id}
+              display={"flex"}
+              alignItems={"center"}
+              gap={1}
+              onClick={(event: any) => handleClick(event)}
+              sx={{ position: "relative !important" }}
+            >
               <Avatar
                 alt="Remy Sharp"
                 src={require("../../assets/images/person1.jpg")}
                 sx={{ width: 45, height: 45 }}
-                aria-describedby={id}
-                onClick={(event: any) => handleClick(event)}
               />
-              <Popover
-                id={id}
-                open={openPopper}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: "bottom",
-                  horizontal: "left",
-                }}
-              >
-                <Box
-                  py={2}
-                  px={3}
-                  display={"flex"}
-                  flexDirection={"column"}
-                  gap={1}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                >
-                  <Typography>@JohnHopkins</Typography>
-                  <ThemeSwitch />
-                  <CustomButton
-                    text={"Logout"}
-                    variant="outlined"
-                    onClick={handleLogout}
-                  />
-                </Box>
-              </Popover>
               <Typography fontWeight={500}>John</Typography>
             </Box>
+            <Popover
+              id={id}
+              open={openPopper}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              sx={{ right: 0 }}
+            >
+              <Box
+                py={2}
+                px={3}
+                display={"flex"}
+                flexDirection={"column"}
+                gap={1}
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
+                <Typography>@JohnHopkins</Typography>
+                <ThemeSwitch />
+                <CustomButton
+                  text={"Logout"}
+                  variant="outlined"
+                  onClick={handleLogout}
+                />
+              </Box>
+            </Popover>
           </Box>
         </Toolbar>
       </AppBar>

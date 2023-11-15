@@ -24,8 +24,11 @@ import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 import { useLocation } from "react-router-dom";
 import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import AlertDialogSlide from "../../components/modals/AlertDialog";
 
 export const CreateEmployeePage = () => {
+  const [openAlert, setOpenAlert] = useState<boolean>(false);
+
   const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
 
   const [nationalityList, setNationalityList] = useState<Array<any>>([]);
@@ -60,7 +63,6 @@ export const CreateEmployeePage = () => {
         setIsEdit(true);
       }
       const employee = employees?.find((d: any) => d?.empId === emp?.id);
-      console.log(employee);
       if (employee) {
         const name = employee?.name;
         const defVals = {
@@ -90,12 +92,23 @@ export const CreateEmployeePage = () => {
           ),
           cooperateEmail: employee?.personalEmail,
           religion: employee?.religion,
+          casualLeaves: employee?.leaveInfo?.casual,
+          familyMedicalLeaves: employee?.leaveInfo?.familyMedical,
+          bereavementLeaves: employee?.leaveInfo?.bereavement,
+          studyLeaves: employee?.leaveInfo?.study,
         };
-        setUploadedImg(employee?.profileImg);
-        console.log(defVals.depatment);
-
+        console.log(defVals);
         reset(defVals);
-        setValue("gender", defVals.gender);
+        setUploadedImg(employee?.profileImg);
+        setRepEmpTableData(
+          employee?.reportingEmployees?.map((e: any) => ({
+            empId: e?.empId,
+            empNo: e?.empNo,
+            name: <EmployeeColumn id={e?.empId} />,
+            dateFrom: dayjs(new Date(e?.dateFrom)).format("DD/MM/YYYY"),
+            dateTo: dayjs(new Date(e?.dateTo)).format("DD/MM/YYYY"),
+          }))
+        );
       }
     }
   }, [location]);
@@ -135,8 +148,8 @@ export const CreateEmployeePage = () => {
     bloodGroup: Yup.string().required(commonError),
     religion: Yup.string().required(commonError),
     nic: Yup.string().required(commonError),
-    gender: Yup.string().required(commonError),
-    civilStatus: Yup.string().required(commonError),
+    gender: Yup.number().required(commonError).typeError(commonError),
+    civilStatus: Yup.number().required(commonError).typeError(commonError),
     nationality: Yup.number().required(commonError).typeError(commonError),
     staffId: Yup.string().required(commonError),
     hiringSource: Yup.number().required(commonError).typeError(commonError),
@@ -203,8 +216,11 @@ export const CreateEmployeePage = () => {
 
   const reportingTableHeads = ["Emp No", "Name", "Date From", "Date To"];
 
+  const [delId, setDelId] = useState<any>("");
+
   const removeEmp = (id: any) => {
-    setRepEmpTableData((prev) => [...prev].filter((d: any) => d?.empId !== id));
+    setDelId(id);
+    setOpenAlert(true);
   };
 
   const actionButtons = [
@@ -272,13 +288,28 @@ export const CreateEmployeePage = () => {
     }
   };
 
+  const handleYesClick = () => {
+    setOpenAlert(false);
+    if (delId) {
+      setRepEmpTableData((prev) =>
+        [...prev].filter((d: any) => d?.empId !== delId)
+      );
+    }
+  };
+
   return (
     <>
+      <AlertDialogSlide
+        message={"Do you want to remove selected employee?"}
+        handleYesClick={handleYesClick}
+        handleNoClick={() => setOpenAlert(false)}
+        openAlert={openAlert}
+        setOpenAlert={setOpenAlert}
+      />
       <CustomBackdrop showBackdrop={showBackdrop} />
       <Box
         mt={3}
         component={Paper}
-        className={"dash-card"}
         p={3}
         display={"flex"}
         flexDirection={"column"}
@@ -311,9 +342,9 @@ export const CreateEmployeePage = () => {
                 height: 100,
                 ":hover": { filter: "brightness(50%)" },
                 transition: "0.2s all ease-in-out",
-                cursor: "pointer",
+                cursor: !isView ? "pointer" : "not-allowed",
               }}
-              onClick={handleAvatarClick}
+              onClick={!isView ? handleAvatarClick : () => {}}
             />
             <input
               type="file"
@@ -476,7 +507,6 @@ export const CreateEmployeePage = () => {
       <Box
         mt={5}
         component={Paper}
-        className={"dash-card"}
         p={3}
         display={"flex"}
         flexDirection={"column"}
@@ -585,7 +615,6 @@ export const CreateEmployeePage = () => {
       <Box
         mt={5}
         component={Paper}
-        className={"dash-card"}
         p={3}
         display={"flex"}
         flexDirection={"column"}
@@ -607,63 +636,64 @@ export const CreateEmployeePage = () => {
         >
           Reporting Employees
         </Typography>
-        <Grid container spacing={2} mt={2}>
-          <Grid item xs={12} sm={12} md={3}>
-            <FormAutocomplete
-              helperText={""}
-              error={false}
-              setValue={setValue}
-              label={"Reporting Employee"}
-              options={reportingEmpList}
-              id={"reportingEmployee"}
-              required={true}
-              disabled={isView}
-              control={control}
-              watch={watch}
-            />
+        {!isView && (
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={12} md={3}>
+              <FormAutocomplete
+                helperText={""}
+                error={false}
+                setValue={setValue}
+                label={"Reporting Employee"}
+                options={reportingEmpList}
+                id={"reportingEmployee"}
+                required={true}
+                disabled={isView}
+                control={control}
+                watch={watch}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={3}>
+              <FormDatePicker
+                helperText={""}
+                error={false}
+                label={"Date From"}
+                name={"dateFrom"}
+                control={control}
+                disabled={isView}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12} md={3}>
+              <FormDatePicker
+                helperText={""}
+                error={false}
+                label={"Date To"}
+                name={"dateTo"}
+                control={control}
+                disabled={isView}
+              />
+            </Grid>
+            <Grid item md={2}>
+              <CustomButton
+                text={"+Add"}
+                variant={"outlined"}
+                onClick={addEmployeeToTable}
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={12} md={3}>
-            <FormDatePicker
-              helperText={""}
-              error={false}
-              label={"Date From"}
-              name={"dateFrom"}
-              control={control}
-              disabled={isView}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={3}>
-            <FormDatePicker
-              helperText={""}
-              error={false}
-              label={"Date To"}
-              name={"dateTo"}
-              control={control}
-              disabled={isView}
-            />
-          </Grid>
-          <Grid item md={2}>
-            <CustomButton
-              text={"+Add"}
-              variant={"outlined"}
-              onClick={addEmployeeToTable}
-            />
-          </Grid>
-        </Grid>
-      </Box>
-      <Box mt={2}>
-        <SearchTable
-          tableData={repEmpTableData}
-          id={"empId"}
-          actionButtons={actionButtons}
-          tableHeaders={reportingTableHeads}
-          paginate={true}
-        />
+        )}
+        <Box mt={1}>
+          <SearchTable
+            tableData={repEmpTableData}
+            id={"empId"}
+            actionButtons={actionButtons}
+            tableHeaders={reportingTableHeads}
+            paginate={true}
+          />
+        </Box>
       </Box>
       <Box
         mt={5}
         component={Paper}
-        className={"dash-card"}
         p={3}
         display={"flex"}
         flexDirection={"column"}

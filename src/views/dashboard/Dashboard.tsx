@@ -1,31 +1,22 @@
-import { useNavigate } from "react-router-dom";
-import {
-  Box,
-  Divider,
-  Fab,
-  Grid,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { DigitalClock } from "../../components/digitalClock/DigitalClock";
-import React, { useEffect, useState } from "react";
-import { Notice, NoticeIn } from "../../components/notices/Notice";
-import { FormDropdown } from "../../components/inputs/FormDropdown";
-import { useForm } from "react-hook-form";
-import { employees, OptionIn } from "../../util";
-import BasicTabs from "../../components/tabs/BasicTabs";
-import { MyAttendance } from "./MyAttendance";
-import { TeamAttendance } from "./TeamAttendance";
-import { MyLeaves } from "./MyLeaves";
-import { CustomButton } from "../../components/buttons/CustomButton";
-import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
-import { TeamLeaves } from "./TeamLeaves";
-import { useTheme } from "@emotion/react";
-import { RichTextEditor } from "../../components/textEditors/RichTextEditor";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFeather } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import { Box, Fab, Grid, Paper, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { CustomButton } from "../../components/buttons/CustomButton";
+import { DigitalClock } from "../../components/digitalClock/DigitalClock";
+import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
+import { FormDropdown } from "../../components/inputs/FormDropdown";
+import { Notice, NoticeIn } from "../../components/notices/Notice";
+import BasicTabs from "../../components/tabs/BasicTabs";
+import { RichTextEditor } from "../../components/textEditors/RichTextEditor";
+import { OptionIn, employees } from "../../util";
+import { MyAttendance } from "./MyAttendance";
+import { MyLeaves } from "./MyLeaves";
+import { TeamAttendance } from "./TeamAttendance";
+import { TeamLeaves } from "./TeamLeaves";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
@@ -655,7 +646,11 @@ export const Dashboard = () => {
                 justifyContent={"flex-end"}
                 alignItems={"center"}
               >
-                <CustomButton text={"Send"} variant="contained" />
+                <CustomButton
+                  text={"Send"}
+                  variant="contained"
+                  onClick={() => {}}
+                />
               </Box>
             </Box>
           </Box>

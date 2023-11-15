@@ -24,8 +24,8 @@ export const employees = [
     nationality: "Sri Lankan",
     nationalityId: 1,
     religion: "Buddhism",
-    civilStatus: "Unmarried",
-    gender: "Male",
+    civilStatus: 1,
+    gender: 1,
     bloodGroup: "A+",
     email: "alex.l@biznexa.com",
     personalEmail: "alex.l@gmail.com",
@@ -34,6 +34,26 @@ export const employees = [
     hiringSource: 1,
     employmentFrom: "1990-12-12",
     employmentTo: "2006-12-12",
+    reportingEmployees: [
+      {
+        empId: 3,
+        empNo: "EMP003",
+        dateFrom: "1990-12-12",
+        dateTo: "2006-12-12",
+      },
+      {
+        empId: 4,
+        empNo: "EMP004",
+        dateFrom: "1990-12-12",
+        dateTo: "2006-12-12",
+      },
+    ],
+    leaveInfo: {
+      casual: 6,
+      bereavement: 7,
+      familyMedical: 5,
+      study: 4,
+    },
   },
   {
     empId: 2,
@@ -52,8 +72,8 @@ export const employees = [
     nationality: "American",
     nationalityId: 1,
     religion: "Christianity",
-    civilStatus: "Married",
-    gender: "Female",
+    civilStatus: 1,
+    gender: 2,
     bloodGroup: "B-",
     email: "emily.j@companyxyz.com",
     personalEmail: "emily.j@gmail.com",
@@ -62,6 +82,26 @@ export const employees = [
     hiringSource: 1,
     employmentFrom: "1990-12-12",
     employmentTo: "2006-12-12",
+    reportingEmployees: [
+      {
+        empId: 3,
+        empNo: "EMP003",
+        dateFrom: "1990-12-12",
+        dateTo: "2006-12-12",
+      },
+      {
+        empId: 4,
+        empNo: "EMP004",
+        dateFrom: "1990-12-12",
+        dateTo: "2006-12-12",
+      },
+    ],
+    leaveInfo: {
+      casual: 6,
+      bereavement: 7,
+      familyMedical: 5,
+      study: 4,
+    },
   },
   {
     empId: 3,
@@ -80,8 +120,8 @@ export const employees = [
     nationality: "British",
     nationalityId: 1,
     religion: "Atheist",
-    civilStatus: "Divorced",
-    gender: "Male",
+    civilStatus: 1,
+    gender: 1,
     bloodGroup: "O+",
     email: "john.s@salesco.com",
     personalEmail: "john.s@gmail.com",
@@ -90,6 +130,26 @@ export const employees = [
     hiringSource: 1,
     employmentFrom: "1990-12-12",
     employmentTo: "2006-12-12",
+    reportingEmployees: [
+      {
+        empId: 3,
+        empNo: "EMP003",
+        dateFrom: "1990-12-12",
+        dateTo: "2006-12-12",
+      },
+      {
+        empId: 4,
+        empNo: "EMP004",
+        dateFrom: "1990-12-12",
+        dateTo: "2006-12-12",
+      },
+    ],
+    leaveInfo: {
+      casual: 6,
+      bereavement: 7,
+      familyMedical: 5,
+      study: 4,
+    },
   },
   {
     empId: 4,
@@ -108,8 +168,8 @@ export const employees = [
     nationality: "American",
     nationalityId: 1,
     religion: "Catholicism",
-    civilStatus: "Married",
-    gender: "Female",
+    civilStatus: 1,
+    gender: 2,
     bloodGroup: "A-",
     email: "linda.m@hrworld.com",
     personalEmail: "linda.m@gmail.com",
@@ -118,6 +178,26 @@ export const employees = [
     hiringSource: 1,
     employmentFrom: "1990-12-12",
     employmentTo: "2006-12-12",
+    reportingEmployees: [
+      {
+        empId: 3,
+        empNo: "EMP003",
+        dateFrom: "1990-12-12",
+        dateTo: "2006-12-12",
+      },
+      {
+        empId: 4,
+        empNo: "EMP004",
+        dateFrom: "1990-12-12",
+        dateTo: "2006-12-12",
+      },
+    ],
+    leaveInfo: {
+      casual: 6,
+      bereavement: 7,
+      familyMedical: 5,
+      study: 4,
+    },
   },
   {
     empId: 5,
@@ -136,8 +216,8 @@ export const employees = [
     nationality: "Chinese",
     nationalityId: 1,
     religion: "Non-religious",
-    civilStatus: "Single",
-    gender: "Male",
+    civilStatus: 1,
+    gender: 1,
     bloodGroup: "AB+",
     email: "michael.c@techco.cn",
     personalEmail: "michael.c@gmail.com",
@@ -146,6 +226,26 @@ export const employees = [
     hiringSource: 1,
     employmentFrom: "1990-12-12",
     employmentTo: "2006-12-12",
+    reportingEmployees: [
+      {
+        empId: 3,
+        empNo: "EMP003",
+        dateFrom: "1990-12-12",
+        dateTo: "2006-12-12",
+      },
+      {
+        empId: 4,
+        empNo: "EMP004",
+        dateFrom: "1990-12-12",
+        dateTo: "2006-12-12",
+      },
+    ],
+    leaveInfo: {
+      casual: 6,
+      bereavement: 7,
+      familyMedical: 5,
+      study: 4,
+    },
   },
 ];
 
@@ -180,8 +280,8 @@ export const currentUser = {
   nicIssuedDate: "2010-01-01",
   nationality: "Sri Lankan",
   religion: "Buddhism",
-  civilStatus: "Unmarried",
-  gender: "Male",
+  civilStatus: 1,
+  gender: 1,
   bloodGroup: "A+",
   email: "alex.l@biznexa.com",
   personalEmail: "alex.l@gmail.com",
@@ -222,8 +322,8 @@ export const departments = [
 ];
 
 export const genders = [
-  { label: "Male", value: "male" },
-  { label: "Female", value: "female" },
+  { label: "Male", value: 1 },
+  { label: "Female", value: 2 },
 ];
 
 export const nationalities = [
@@ -428,4 +528,9 @@ export const leave = [
   { label: "Family & Medical", value: 2 },
   { label: "Study", value: 3 },
   { label: "Bereavement", value: 4 },
+];
+
+export const evaluationType = [
+  { label: "Self", value: 1 },
+  { label: "Non-Self", value: 1 },
 ];

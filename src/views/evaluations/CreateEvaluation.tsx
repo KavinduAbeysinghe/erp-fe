@@ -18,7 +18,7 @@ import Avatar from "@mui/material/Avatar";
 import CustomizedAccordions from "../../components/accordions/CustomAccordion";
 import DenseTable from "../../components/tables/DenseTable";
 import { KpiLayout } from "./kpi/KpiLayout";
-import { departments, employees } from "../../util";
+import { departments, employees, evaluationType } from "../../util";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useNotification } from "../../contexts/NotificationContext";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -26,6 +26,7 @@ import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 import dayjs from "dayjs";
 import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
 import { KpiType } from "./kpi/KpiType";
+import { error } from "console";
 
 export const CreateEvaluation = () => {
   const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
@@ -39,9 +40,7 @@ export const CreateEvaluation = () => {
     createdDate: Yup.string().test("required-err", commonError, (value) => {
       return !(value === undefined || value === null || value === "");
     }),
-    openedDate: Yup.string().test("required-err", commonError, (value) => {
-      return !(value === undefined || value === null || value === "");
-    }),
+    openedDate: Yup.string(),
     dueDate: Yup.string()
       .required(commonError)
       .test("required-err", commonError, (value) => {
@@ -50,6 +49,7 @@ export const CreateEvaluation = () => {
     teamMember: Yup.string(),
     kpiName: Yup.string(),
     kpiTypeList: Yup.array(),
+    evaluationType: Yup.number().typeError(commonError).required(commonError),
   });
 
   const {
@@ -65,50 +65,6 @@ export const CreateEvaluation = () => {
   });
 
   const tableHeads = ["Emp No", "Name", "Department"];
-
-  //   const kpiTableHeads = ["KPI Name", "KPI"];
-
-  const tableHeadsKpi = ["#", "Name"];
-
-  const tableData = [
-    {
-      no: 1,
-      name: "Sample Name 001",
-    },
-    {
-      no: 1,
-      name: "Sample Name 002",
-    },
-    {
-      no: 1,
-      name: "Sample Name 003",
-    },
-    {
-      no: 1,
-      name: "Sample Name 004",
-    },
-    {
-      no: 1,
-      name: "Sample Name 005",
-    },
-  ];
-
-  // const accordionOptions = [
-  //   {
-  //     title: "Development KPI",
-  //     body: (
-  //       <KpiLayout register={register} errors={errors} tableData={tableData} />
-  //     ),
-  //   },
-  //   {
-  //     title: "Non-Development",
-  //     body: <DenseTable tableData={tableData} tableHeaders={tableHeadsKpi} />,
-  //   },
-  //   {
-  //     title: "Other",
-  //     body: <DenseTable tableData={tableData} tableHeaders={tableHeadsKpi} />,
-  //   },
-  // ];
 
   const teamMemberList = employees?.map((e: any) => ({
     label: e?.name,
@@ -163,48 +119,36 @@ export const CreateEvaluation = () => {
 
   const kpiName = watch("kpiName");
 
-  const [kpiList, setKpiList] = useState<Array<any>>([]);
-
   const handleAddKpi = () => {
-    if (kpiName) {
+    if (!!kpiName) {
       const dup = fields?.find((d: any) => d?.name === kpiName);
       if (!dup) {
         prepend({
           name: kpiName,
-          kpiList: [],
+          subList: [],
         });
+        setValue("kpiName", "");
       } else {
+        setValue("kpiName", "");
         notify.warn("Already exists");
       }
+    } else {
+      return;
     }
   };
-
-  const [accordionOptions2, setAccordionOptions2] = useState<Array<any>>([]);
-
-  useEffect(() => {
-    setAccordionOptions2(
-      kpiList?.map((i: any, index) => ({
-        title: i?.title,
-        body: (
-          <KpiLayout
-            register={register}
-            errors={errors}
-            tableData={i?.data}
-            index={index}
-            watch={watch}
-          />
-        ),
-      }))
-    );
-  }, [kpiList]);
 
   const onSubmit = (data: any) => {
     setShowBackdrop(true);
     setTimeout(() => {
       console.log(data);
+      notify.success("Evaluation Creation Success");
       setShowBackdrop(false);
     }, 1000);
   };
+
+  useEffect(() => {
+    console.log(errors);
+  }, [errors]);
 
   const statusList = [
     {
@@ -308,6 +252,18 @@ export const CreateEvaluation = () => {
               disabled={true}
             />
           </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <FormDropdown
+              label={"Evaluation Type"}
+              name={"evaluationType"}
+              options={evaluationType}
+              helperText={errors?.evaluationType?.message?.toString()}
+              error={!!errors?.evaluationType?.message}
+              control={control}
+              required={true}
+              fullWidth={true}
+            />
+          </Grid>
         </Grid>
         <Grid container spacing={2} mt={2}>
           <Grid item xs={12} sm={6} md={4}>
@@ -380,7 +336,15 @@ export const CreateEvaluation = () => {
         {/* <CustomizedAccordions options={accordionOptions2} /> */}
         <div>
           {fields?.map((field: any, index) => (
-            <KpiType key={index} title={field?.name} index={index} />
+            <KpiType
+              control={control}
+              watch={watch}
+              key={field.id}
+              title={field?.name}
+              index={index}
+              register={register}
+              setValue={setValue}
+            />
           ))}
         </div>
       </Box>

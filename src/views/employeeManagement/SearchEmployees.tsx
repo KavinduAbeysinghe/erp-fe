@@ -16,11 +16,14 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import AlertDialogSlide from "../../components/modals/AlertDialog";
 import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
+import { useNotification } from "../../contexts/NotificationContext";
 
 export const SearchEmployees = () => {
   const [openAlert, setOpenAlert] = useState<boolean>(false);
 
   const navigate = useNavigate();
+
+  const notify = useNotification();
 
   const location = useLocation();
 
@@ -154,11 +157,20 @@ export const SearchEmployees = () => {
     navigate("/control/employee-management/create-employee");
   };
 
+  const handleYesClick = () => {
+    setOpenAlert(false);
+    setShowBackdrop(true);
+    setTimeout(() => {
+      notify.success("Deleted Succesfully");
+      setShowBackdrop(false);
+    }, 1000);
+  };
+
   return (
     <>
       <AlertDialogSlide
         message={"Do you want to remove selected employee?"}
-        handleYesClick={() => {}}
+        handleYesClick={handleYesClick}
         handleNoClick={() => setOpenAlert(false)}
         openAlert={openAlert}
         setOpenAlert={setOpenAlert}
