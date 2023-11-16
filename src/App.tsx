@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.scss";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 import { MainLayout } from "./views/MainLayout";
 import {
   createTheme,
@@ -15,9 +15,9 @@ function App() {
   return (
     <ColorModeContextProvider>
       <NotificationContextProvider>
-        <BrowserRouter>
+        <HashRouter>
           <MainLayout />
-        </BrowserRouter>
+        </HashRouter>
       </NotificationContextProvider>
     </ColorModeContextProvider>
   );
