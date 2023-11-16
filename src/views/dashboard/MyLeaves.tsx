@@ -122,18 +122,18 @@ export const MyLeaves = () => {
   const valueFormatter = (value: number) => `${value} days`;
 
   const series: MakeOptional<BarSeriesType, "type">[] = [
-    { dataKey: "casual", valueFormatter, color: "#818cf8", label: "Casual" },
+    { dataKey: "casual", valueFormatter, color: "#90caf9", label: "Casual" },
     {
       dataKey: "familyAndMedical",
       valueFormatter,
-      color: "#6366f1",
+      color: "#42a5f5",
       label: "Family & Medical",
     },
-    { dataKey: "study", valueFormatter, color: "#4f46e5", label: "Study" },
+    { dataKey: "study", valueFormatter, color: "#1e88e5", label: "Study" },
     {
       dataKey: "bereavement",
       valueFormatter,
-      color: "#312e81",
+      color: "#1565c0",
       label: "Bereavement",
     },
   ];

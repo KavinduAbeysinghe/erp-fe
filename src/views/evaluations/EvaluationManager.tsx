@@ -14,9 +14,10 @@ import { FormDropdown } from "../../components/inputs/FormDropdown";
 import { FormDatePicker } from "../../components/datePickers/FormDatePicker";
 import { useForm } from "react-hook-form";
 import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import AlertDialogSlide from "../../components/modals/AlertDialog";
 import { useNotification } from "../../contexts/NotificationContext";
+import { evaluationManagerData, evaluationType } from "../../util";
 
 export const EvaluationManager = () => {
   const [openAlert, setOpenAlert] = useState<boolean>(false);
@@ -25,62 +26,28 @@ export const EvaluationManager = () => {
 
   const [evalTableData, setEvalTableData] = useState<Array<any>>([]);
 
+  const location = useLocation();
+
+  const searchParams = new URLSearchParams(location.search);
+
   const tableHeads = [
-    "Eval ID",
+    "Eval Code",
     "Name",
+    "Evaluation Type",
     "Created Date",
     "openedDate",
     "Due Date",
     "Status",
   ];
 
-  const tableData = [
-    {
-      evalId: "1001",
-      name: "Sample Evaluation 001",
-      createdDate: "2023-11-01",
-      openedDate: "2023-11-02",
-      dueDate: "2023-11-10",
-      status: "opened",
-    },
-    {
-      evalId: "1002",
-      name: "Sample Evaluation 002",
-      createdDate: "2023-11-01",
-      openedDate: "2023-11-02",
-      dueDate: "2023-11-10",
-      status: "closed",
-    },
-    {
-      evalId: "1002",
-      name: "Sample Evaluation 003",
-      createdDate: "2023-11-01",
-      openedDate: "2023-11-02",
-      dueDate: "2023-11-10",
-      status: "unopened",
-    },
-    {
-      evalId: "1002",
-      name: "Sample Evaluation 004",
-      createdDate: "2023-11-01",
-      openedDate: "2023-11-02",
-      dueDate: "2023-11-10",
-      status: "closed",
-    },
-    {
-      evalId: "1003",
-      name: "Sample Evaluation 005",
-      createdDate: "2023-11-01",
-      openedDate: "2023-11-02",
-      dueDate: "2023-11-10",
-      status: "opened",
-    },
-  ];
-
   const formatData = (data: Array<any>) => {
     return data?.map((d: any) => ({
       evalId: d?.evalId,
+      evalCode: d?.evalCode,
       name: d?.name,
+      evaluationType: evaluationType.find(
+        (e: any) => e?.value === d?.evaluationType
+      )?.label,
       createdDate: d?.createdDate,
       openedDate: d?.openedDate,
       dueDate: d?.dueDate,
@@ -96,11 +63,15 @@ export const EvaluationManager = () => {
   };
 
   const handleViewEvaluation = (id: any) => {
-    navigate("/control/evaluation-management/view-evaluation");
+    const evalManager = { page: "view", id: id };
+    searchParams.set("evalManager", JSON.stringify(evalManager));
+    navigate(`/control/evaluation-management/view-evaluation?${searchParams}`);
   };
 
   const handleEditEvaluation = (id: any) => {
-    navigate("/control/evaluation-management/edit-evaluation");
+    const evalManager = { page: "edit", id: id };
+    searchParams.set("evalManager", JSON.stringify(evalManager));
+    navigate(`/control/evaluation-management/edit-evaluation?${searchParams}`);
   };
 
   const handleDeleteEvaluation = (id: any) => {
@@ -129,7 +100,7 @@ export const EvaluationManager = () => {
     setTimeout(() => {
       const evalName = data?.evaluationName;
       const status = data?.status;
-      const filteredArray = tableData?.filter((item) => {
+      const filteredArray = evaluationManagerData?.filter((item) => {
         const evalNameMatches = evalName ? item?.name === evalName : true;
         const statusMatches = status ? item?.status === status : true;
         return evalNameMatches && statusMatches;
@@ -142,7 +113,7 @@ export const EvaluationManager = () => {
   const resetForm = () => {
     setValue("evaluationName", "");
     setValue("status", "");
-    setEvalTableData(formatData(tableData));
+    setEvalTableData(formatData(evaluationManagerData));
   };
 
   const navigate = useNavigate();
@@ -162,7 +133,7 @@ export const EvaluationManager = () => {
     }, 1000);
   };
 
-  const evalNameList = tableData?.map((d: any) => ({
+  const evalNameList = evaluationManagerData?.map((d: any) => ({
     label: d?.name,
     value: d?.name,
   }));
@@ -179,7 +150,7 @@ export const EvaluationManager = () => {
   ];
 
   useLayoutEffect(() => {
-    setEvalTableData(formatData(tableData));
+    setEvalTableData(formatData(evaluationManagerData));
   }, []);
 
   return (
@@ -271,7 +242,7 @@ export const EvaluationManager = () => {
       <SearchTable
         tableData={evalTableData}
         tableHeaders={tableHeads}
-        id={""}
+        id={"evalId"}
         paginate={false}
         actionButtons={actionButtons}
       />

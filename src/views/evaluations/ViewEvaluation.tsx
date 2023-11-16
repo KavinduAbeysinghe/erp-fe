@@ -6,6 +6,8 @@ import { Box, Stack } from "@mui/material";
 import { CustomButton } from "../../components/buttons/CustomButton";
 import { useLayoutEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { AvatarDetail } from "../../components/avatars/AvatarDetail";
+import { currentUser, employees, teamEvaluationData } from "../../util";
 
 export const ViewEvaluation = () => {
   const tableHeads = ["#", "Name", "Rating", "Comments"];
@@ -18,11 +20,40 @@ export const ViewEvaluation = () => {
 
   const [isSelfEval, setIsSelfEval] = useState<boolean>(false);
 
+  const [id, setId] = useState<any>("");
+
+  const [teamMemberDetails, setTeamMemberDetails] = useState<any>(null);
+
   useLayoutEffect(() => {
     const evalObj = searchParams.get("eval");
     if (evalObj) {
       const evaluation = JSON.parse(evalObj);
       setIsSelfEval(evaluation?.type === "Self");
+      const teamEval = teamEvaluationData?.find(
+        (d: any) => d?.id === evaluation?.id
+      );
+
+      if (teamEval) {
+        setId(evaluation?.id);
+        const tm = employees?.find(
+          (e: any) => e?.empId === teamEval?.teamMember
+        );
+        if (tm) {
+          setTeamMemberDetails({
+            profileImg: tm?.profileImg,
+            designation: tm?.designation,
+            name: tm?.name,
+            empNo: tm?.empNo,
+          });
+        }
+      }
+    } else {
+      setTeamMemberDetails({
+        profileImg: currentUser?.profileImg,
+        designation: currentUser?.designation,
+        name: currentUser?.name,
+        empNo: currentUser?.empNo,
+      });
     }
   }, [location]);
 
@@ -163,8 +194,16 @@ export const ViewEvaluation = () => {
   ];
 
   return (
-    <div>
-      <CustomizedAccordions options={accordionOptions} />
-    </div>
+    <>
+      <AvatarDetail
+        profileImg={teamMemberDetails?.profileImg}
+        name={teamMemberDetails?.name}
+        designation={teamMemberDetails?.designation}
+        empNo={teamMemberDetails?.empNo}
+      />
+      <div>
+        <CustomizedAccordions options={accordionOptions} />
+      </div>
+    </>
   );
 };

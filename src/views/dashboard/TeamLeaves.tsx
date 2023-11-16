@@ -1,6 +1,6 @@
 import { FormDropdown } from "../../components/inputs/FormDropdown";
 import { axisClasses, BarChart } from "@mui/x-charts";
-import React from "react";
+import React, { useEffect } from "react";
 import { MakeOptional } from "@mui/x-charts/models/helpers";
 import { BarSeriesType } from "@mui/x-charts/models/seriesType/bar";
 import { employees, OptionIn } from "../../util";
@@ -155,6 +155,10 @@ export const TeamLeaves = ({ control, setValue, watch }: TeamLeavesProps) => {
     label: e?.name,
     value: e?.empId,
   }));
+
+  useEffect(() => {
+    setValue("employeeName", 1);
+  }, []);
 
   return (
     <>

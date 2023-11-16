@@ -91,16 +91,22 @@ export const ChangePasswordForm = ({
             disabled={false}
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={12} display={"flex"} gap={2}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          display={"flex"}
+          gap={2}
+          justifyContent={"end"}
+        >
           <CustomButton
-            sx={{ mt: 3 }}
             text={"Clear"}
             variant={"outlined"}
             type={"submit"}
             onClick={clearForm}
           />
           <CustomButton
-            sx={{ mt: 3 }}
             text={"Save"}
             variant={"contained"}
             type={"submit"}

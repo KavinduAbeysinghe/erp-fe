@@ -37,27 +37,28 @@ export const ColorModeContextProvider: React.FC<any> = ({ children }) => {
   const theme = React.useMemo(() => createTheme(getDesignTokens(mode)), [mode]);
 
   useEffect(() => {
-    const themeFromStorage = localStorage.getItem("themeMode");
+    const themeObj = localStorage.getItem("themeMode");
 
-    const prefersDarkMode = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
+    // const prefersDarkMode = window.matchMedia(
+    //   "(prefers-color-scheme: dark)"
+    // ).matches;
 
-    setMode(
-      (themeFromStorage as "dark" | "light") ||
-        (prefersDarkMode ? "dark" : "light")
-    );
+    if (themeObj) {
+      setMode(themeObj === "dark" ? "dark" : "light");
+    } else {
+      setMode("light");
+    }
 
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-    const handleChange = () => {
-      setMode(mediaQuery.matches ? "dark" : "light");
-    };
+    // const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    // const handleChange = () => {
+    //   setMode(mediaQuery.matches ? "dark" : "light");
+    // };
 
-    mediaQuery.addEventListener("change", handleChange);
+    // mediaQuery.addEventListener("change", handleChange);
 
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange);
-    };
+    // return () => {
+    //   mediaQuery.removeEventListener("change", handleChange);
+    // };
   }, []);
 
   return (

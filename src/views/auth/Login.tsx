@@ -94,7 +94,7 @@ export const Login = () => {
           zIndex: -1,
         }}
       >
-        <source src={require("../../assets/videos/ocean.mp4")} />
+        <source src={require("../../assets/videos/bgV2.mp4")} />
       </video>
       <Grid
         container

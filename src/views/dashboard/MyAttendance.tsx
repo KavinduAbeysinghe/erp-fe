@@ -77,7 +77,7 @@ export const MyAttendance = ({
     {
       dataKey: "attendance",
       valueFormatter,
-      color: filterMyAttendance === "weekly" ? "#312e81" : "#1e1b4b",
+      color: filterMyAttendance === "weekly" ? "#0d47a1" : "#0d47a1",
     },
   ];
 

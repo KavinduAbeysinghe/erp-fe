@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import { Login } from "./auth/Login";
-import { Box, CssBaseline, styled } from "@mui/material";
+import { Box, CssBaseline, styled, useTheme } from "@mui/material";
 import { useLayoutEffect, useState } from "react";
 import { MyAppBar } from "../components/appBar/MyAppBar";
 import { SideBar } from "../components/sideBar/SideBar";
@@ -13,6 +13,7 @@ import { AttendanceManagement } from "./attendance/AttendanceManagement";
 import { MyCalendar } from "./calendar/MyCalendar";
 import { Evaluations } from "./evaluations/Evaluations";
 import { EvaluationManagement } from "./evaluations/EvaluationManagement";
+import { MyDrawer } from "../components/drawer/MyDrawer";
 
 export const MainLayout = () => {
   return (
@@ -52,19 +53,17 @@ const Layout = () => {
     if (openDrawer) setOpen(openDrawer === "true");
   }, []);
 
+  const theme = useTheme();
+
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        display: "flex",
+        backgroundColor: theme.palette.mode === "light" ? "#f6f6f6" : "#2c2c2c",
+      }}
+    >
       <CssBaseline />
-      <MyAppBar
-        open={open}
-        handleDrawerOpen={handleDrawerOpen}
-        drawerWidth={drawerWidth}
-      />
-      <SideBar
-        drawerWidth={drawerWidth}
-        handleDrawerClose={handleDrawerClose}
-        drawerOpen={open}
-      />
+      <MyDrawer />
       <Box
         component="main"
         sx={{

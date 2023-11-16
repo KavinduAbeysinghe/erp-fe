@@ -18,6 +18,8 @@ export const TeamAttendance = ({
   setValue,
   watch,
 }: TeamAttendanceProps) => {
+  const [seriesData, setSeriesData] = useState<any>(null);
+
   const chartSetting = {
     yAxis: [
       {
@@ -78,7 +80,7 @@ export const TeamAttendance = ({
     {
       dataKey: "attendance",
       valueFormatter,
-      color: filterMyAttendance === "weekly" ? "#312e81" : "#1e1b4b",
+      color: filterMyAttendance === "weekly" ? "#1565c0" : "#1565c0",
     },
   ];
 
@@ -89,12 +91,54 @@ export const TeamAttendance = ({
 
   useEffect(() => {
     setValue("filterMyAttendance", "weekly");
+    setValue("employeeName_TA", 1);
   }, []);
+
+  const attendanceData = [
+    {
+      empId: 1,
+      weeklyDataSet: weeklyDataSet,
+      monthlyDataSet: monthlyDataSet,
+    },
+    {
+      empId: 2,
+      weeklyDataSet: weeklyDataSet,
+      monthlyDataSet: monthlyDataSet,
+    },
+    {
+      empId: 3,
+      weeklyDataSet: weeklyDataSet,
+      monthlyDataSet: monthlyDataSet,
+    },
+    {
+      empId: 4,
+      weeklyDataSet: weeklyDataSet,
+      monthlyDataSet: monthlyDataSet,
+    },
+    {
+      empId: 5,
+      weeklyDataSet: weeklyDataSet,
+      monthlyDataSet: monthlyDataSet,
+    },
+  ];
 
   const employeeOptions: Array<OptionIn> = employees?.map((e: any) => ({
     label: e?.name,
     value: e?.empId,
   }));
+
+  const empId = watch("employeeName_TA");
+
+  useEffect(() => {
+    if (empId && filterMyAttendance) {
+      const i = attendanceData?.find((d: any) => d?.empId === empId);
+      if (i) {
+        setSeriesData(
+          filterMyAttendance === "weekly" ? i?.weeklyDataSet : i?.monthlyDataSet
+        );
+      }
+    }
+  }, [empId, filterMyAttendance]);
 
   return (
     <>
@@ -125,21 +169,21 @@ export const TeamAttendance = ({
           />
         </Grid>
       </Grid>
-      <BarChart
-        dataset={
-          filterMyAttendance === "weekly" ? weeklyDataSet : monthlyDataSet
-        }
-        xAxis={[
-          {
-            scaleType: "band",
-            dataKey: filterMyAttendance === "weekly" ? "week" : "month",
-          },
-        ]}
-        series={series}
-        // width={350}
-        height={400}
-        {...chartSetting}
-      />
+      {seriesData && (
+        <BarChart
+          dataset={seriesData}
+          xAxis={[
+            {
+              scaleType: "band",
+              dataKey: filterMyAttendance === "weekly" ? "week" : "month",
+            },
+          ]}
+          series={series}
+          // width={350}
+          height={400}
+          {...chartSetting}
+        />
+      )}
     </>
   );
 };

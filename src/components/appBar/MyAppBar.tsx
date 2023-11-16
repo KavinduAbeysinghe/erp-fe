@@ -102,6 +102,7 @@ export const MyAppBar = ({
             justifyContent={"space-between"}
             alignItems={"center"}
             sx={{ width: "100%" }}
+            className={"appbar-inner-container"}
           >
             <Breadcrumb />
             <Box
@@ -109,8 +110,8 @@ export const MyAppBar = ({
               display={"flex"}
               alignItems={"center"}
               gap={1}
-              onClick={(event: any) => handleClick(event)}
               sx={{ position: "relative !important" }}
+              onClick={(event: any) => handleClick(event)}
             >
               <Avatar
                 alt="Remy Sharp"
@@ -126,9 +127,8 @@ export const MyAppBar = ({
               onClose={handleClose}
               anchorOrigin={{
                 vertical: "bottom",
-                horizontal: "left",
+                horizontal: "right",
               }}
-              sx={{ right: 0 }}
             >
               <Box
                 py={2}

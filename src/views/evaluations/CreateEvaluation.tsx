@@ -1,34 +1,37 @@
-import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
-import { FormTextField } from "../../components/inputs/FormTextField";
-import { useFieldArray, useForm } from "react-hook-form";
-import * as Yup from "yup";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FormDropdown } from "../../components/inputs/FormDropdown";
+import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
+import dayjs from "dayjs";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
+import * as Yup from "yup";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
+import { CustomButton } from "../../components/buttons/CustomButton";
 import { FormDatePicker } from "../../components/datePickers/FormDatePicker";
 import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
-import SearchTable from "../../components/tables/SearchTable";
-import { CustomButton } from "../../components/buttons/CustomButton";
-import * as React from "react";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import CustomizedAccordions from "../../components/accordions/CustomAccordion";
-import DenseTable from "../../components/tables/DenseTable";
-import { KpiLayout } from "./kpi/KpiLayout";
-import { departments, employees, evaluationType } from "../../util";
-import { useEffect, useLayoutEffect, useState } from "react";
-import { useNotification } from "../../contexts/NotificationContext";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
-import dayjs from "dayjs";
+import { FormDropdown } from "../../components/inputs/FormDropdown";
+import { FormTextField } from "../../components/inputs/FormTextField";
 import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
+import SearchTable from "../../components/tables/SearchTable";
+import { useNotification } from "../../contexts/NotificationContext";
+import {
+  departments,
+  employees,
+  evaluationManagerData,
+  evaluationType,
+} from "../../util";
 import { KpiType } from "./kpi/KpiType";
-import { error } from "console";
 
 export const CreateEvaluation = () => {
+  const location = useLocation();
+
+  const searchParams = new URLSearchParams(location.search);
+
+  const [page, setPage] = useState<string>("");
+
+  const [id, setId] = useState<any>("");
+
   const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
 
   const commonError = "Field is required";
@@ -60,6 +63,7 @@ export const CreateEvaluation = () => {
     formState: { errors },
     handleSubmit,
     reset,
+    getValues,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });
@@ -146,10 +150,6 @@ export const CreateEvaluation = () => {
     }, 1000);
   };
 
-  useEffect(() => {
-    console.log(errors);
-  }, [errors]);
-
   const statusList = [
     {
       label: "Opened",
@@ -168,6 +168,60 @@ export const CreateEvaluation = () => {
   useEffect(() => {
     setValue("createdDate", dayjs(new Date()).format("DD/MM/YYYY"));
   }, []);
+
+  useEffect(() => {
+    const evalObj = searchParams.get("evalManager");
+    if (evalObj) {
+      const evalManager = JSON.parse(evalObj);
+      setPage(evalManager?.page);
+      setId(evalManager?.id);
+      const evaluation = evaluationManagerData?.find(
+        (i: any) => i?.evalId === evalManager?.id
+      );
+      if (evaluation) {
+        const defVals = {
+          evalName: evaluation?.name,
+          evalDesc: evaluation?.description,
+          status: evaluation?.status,
+          createdDate: dayjs(new Date(evaluation?.createdDate)).format(
+            "DD/MM/YYYY"
+          ),
+          dueDate: dayjs(new Date(evaluation?.dueDate)).format("DD/MM/YYYY"),
+          openedDate: dayjs(new Date(evaluation?.openedDate)).format(
+            "DD/MM/YYYY"
+          ),
+          evaluationType: evaluation?.evaluationType,
+        };
+        setTeamMemberTblData(
+          evaluation?.teamMemberData?.map((i: any) => {
+            const emp = employees?.find((e: any) => e?.empId === i?.empId);
+            if (emp) {
+              return {
+                empId: emp?.empId,
+                empNo: emp?.empNo,
+                name: <EmployeeColumn id={emp?.empId} />,
+                department: departments?.find(
+                  (d: any) => d?.departmentId === emp?.departmentId
+                )?.departmentName,
+              };
+            }
+          })
+        );
+        reset(defVals);
+        const kpis = evaluation?.kpiData?.map((d: any) => ({
+          name: d?.name,
+          subList: d?.kpiTypes?.map((t: any) => ({
+            kpiType: t?.name,
+          })),
+        }));
+        console.log(kpis);
+
+        setValue("kpiTypeList", kpis);
+        console.log(fields);
+        console.log(getValues());
+      }
+    }
+  }, [location.search]);
 
   return (
     <>
@@ -193,7 +247,7 @@ export const CreateEvaluation = () => {
             <FormTextField
               register={register("evalName")}
               label={"Evaluation Name"}
-              disabled={false}
+              disabled={page === "view"}
               required={true}
               error={!!errors?.evalName?.message}
               helperText={errors?.evalName?.message?.toString()}
@@ -203,7 +257,7 @@ export const CreateEvaluation = () => {
             <FormTextField
               register={register("evalDesc")}
               label={"Evaluation Description"}
-              disabled={false}
+              disabled={page === "view"}
               required={true}
               error={!!errors?.evalDesc?.message}
               helperText={errors?.evalDesc?.message?.toString()}
@@ -220,6 +274,7 @@ export const CreateEvaluation = () => {
               helperText={errors?.status?.message?.toString()}
               fullWidth={true}
               required={true}
+              disabled={page === "view"}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
@@ -229,7 +284,7 @@ export const CreateEvaluation = () => {
               label={"Created Date"}
               name={"createdDate"}
               control={control}
-              disabled={true}
+              disabled={page === "view"}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
@@ -240,6 +295,7 @@ export const CreateEvaluation = () => {
               name={"dueDate"}
               control={control}
               required={true}
+              disabled={page === "view"}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
@@ -249,7 +305,7 @@ export const CreateEvaluation = () => {
               label={"Opened Date"}
               name={"openedDate"}
               control={control}
-              disabled={true}
+              disabled={page === "view"}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={4}>
@@ -262,39 +318,42 @@ export const CreateEvaluation = () => {
               control={control}
               required={true}
               fullWidth={true}
+              disabled={page === "view"}
             />
           </Grid>
         </Grid>
-        <Grid container spacing={2} mt={2}>
-          <Grid item xs={12} sm={6} md={4}>
-            <FormAutocomplete
-              helperText={""}
-              error={false}
-              setValue={setValue}
-              label={"Team Member"}
-              options={teamMemberList}
-              id={"teamMember"}
-              required={true}
-              disabled={false}
-              control={control}
-              watch={watch}
-            />
+        {page !== "view" && (
+          <Grid container spacing={2} mt={2}>
+            <Grid item xs={12} sm={6} md={4}>
+              <FormAutocomplete
+                helperText={""}
+                error={false}
+                setValue={setValue}
+                label={"Team Member"}
+                options={teamMemberList}
+                id={"teamMember"}
+                required={true}
+                disabled={page === "view"}
+                control={control}
+                watch={watch}
+              />
+            </Grid>
+            <Grid item md={2}>
+              <CustomButton
+                onClick={handleAddTeamMembers}
+                text={"+ Add"}
+                variant="outlined"
+              />
+            </Grid>
           </Grid>
-          <Grid item md={2}>
-            <CustomButton
-              onClick={handleAddTeamMembers}
-              text={"+ Add"}
-              variant="outlined"
-            />
-          </Grid>
-        </Grid>
+        )}
         <Box mt={2}>
           <SearchTable
             tableData={teamMemberTblData}
             id={"empId"}
             tableHeaders={tableHeads}
             paginate={true}
-            actionButtons={actionButtons}
+            actionButtons={page !== "view" ? actionButtons : []}
           />
         </Box>
       </Box>
@@ -314,25 +373,27 @@ export const CreateEvaluation = () => {
         >
           KPIs
         </Typography>
-        <Grid container spacing={2} mb={3} mt={3}>
-          <Grid item xs={12} sm={6} md={4}>
-            <FormTextField
-              register={register("kpiName")}
-              label={"KPI Name"}
-              disabled={false}
-              required={true}
-              error={!!errors?.kpiName?.message}
-              helperText={errors?.kpiName?.message?.toString()}
-            />
+        {page !== "view" && (
+          <Grid container spacing={2} mb={3} mt={3}>
+            <Grid item xs={12} sm={6} md={4}>
+              <FormTextField
+                register={register("kpiName")}
+                label={"KPI Name"}
+                disabled={false}
+                required={true}
+                error={!!errors?.kpiName?.message}
+                helperText={errors?.kpiName?.message?.toString()}
+              />
+            </Grid>
+            <Grid item md={2}>
+              <CustomButton
+                onClick={handleAddKpi}
+                text={"+ Add"}
+                variant="outlined"
+              />
+            </Grid>
           </Grid>
-          <Grid item md={2}>
-            <CustomButton
-              onClick={handleAddKpi}
-              text={"+ Add"}
-              variant="outlined"
-            />
-          </Grid>
-        </Grid>
+        )}
         {/* <CustomizedAccordions options={accordionOptions2} /> */}
         <div>
           {fields?.map((field: any, index) => (
@@ -348,20 +409,22 @@ export const CreateEvaluation = () => {
           ))}
         </div>
       </Box>
-      <Stack
-        direction={"row"}
-        justifyContent={"flex-end"}
-        alignItems={"center"}
-        gap={2}
-        mt={3}
-      >
-        <CustomButton text={"Clear"} variant="outlined" />
-        <CustomButton
-          text={"Save"}
-          variant="contained"
-          onClick={handleSubmit(onSubmit)}
-        />
-      </Stack>
+      {page !== "view" && (
+        <Stack
+          direction={"row"}
+          justifyContent={"flex-end"}
+          alignItems={"center"}
+          gap={2}
+          mt={3}
+        >
+          <CustomButton text={"Clear"} variant="outlined" />
+          <CustomButton
+            text={"Save"}
+            variant="contained"
+            onClick={handleSubmit(onSubmit)}
+          />
+        </Stack>
+      )}
     </>
   );
 };

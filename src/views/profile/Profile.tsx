@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Grid,
   IconButton,
@@ -13,7 +14,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import SearchTable from "../../components/tables/SearchTable";
 import { CustomButton } from "../../components/buttons/CustomButton";
 import EditNoteIcon from "@mui/icons-material/EditNote";
-import { currentUser } from "../../util";
+import { civilStatuses, currentUser, employees, genders } from "../../util";
 import { useNotification } from "../../contexts/NotificationContext";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 import LockResetIcon from "@mui/icons-material/LockReset";
@@ -22,8 +23,14 @@ import ArticleIcon from "@mui/icons-material/Article";
 import { CustomModal } from "../../components/modals/CustomModal";
 import { ChangePasswordForm } from "./ChangePasswordForm";
 import { InnerModal } from "../../components/modals/InnerModal";
+import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
+import { DocPreviewModal } from "../../components/modals/DocPreviewModal";
 
 export const Profile = () => {
+  const [showDocModal, setShowDocModal] = useState<boolean>(false);
+
+  const [docDetails, setDocDetails] = useState<any>(null);
+
   const notify = useNotification();
 
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -31,6 +38,8 @@ export const Profile = () => {
   const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
 
   const [currentUserDetails, setCurrentUserDetails] = useState<any>(null);
+
+  const [reportingEmpList, setReportingEmpList] = useState<Array<any>>([]);
 
   useLayoutEffect(() => {
     setCurrentUserDetails(currentUser);
@@ -58,44 +67,50 @@ export const Profile = () => {
     setValuePF("nationality", currentUserDetails?.nationality);
     setValuePF("religion", currentUserDetails?.religion);
     setValuePF("bloodGroup", currentUserDetails?.bloodGroup);
-    setValuePF("civilStatus", currentUserDetails?.civilStatus);
-    setValuePF("gender", currentUserDetails?.gender);
+    setValuePF(
+      "civilStatus",
+      civilStatuses?.find(
+        (g: any) => g?.value === currentUserDetails?.civilStatus
+      )?.label
+    );
+    setValuePF(
+      "gender",
+      genders?.find((g: any) => g?.value === currentUserDetails?.gender)?.label
+    );
     setValuePF("personalEmail", currentUserDetails?.personalEmail);
+  };
+
+  const getReportingDetails = () => {
+    setReportingEmpList(
+      currentUserDetails?.reportingEmployees?.map((e: any) => {
+        const emp = employees?.find((d: any) => d?.empId === e?.empId);
+        if (emp) {
+          return {
+            empNo: emp?.empNo,
+            name: <EmployeeColumn id={emp?.empId} />,
+            email: emp?.personalEmail,
+            telephone: emp?.telephone,
+            mobile: emp?.mobile,
+          };
+        }
+      })
+    );
   };
 
   useEffect(() => {
     if (currentUserDetails) {
       getUserdetails();
       getPersonalDetails();
+      getReportingDetails();
     }
   }, [currentUserDetails]);
 
   const reportingDetailTableHeads = [
-    "Type",
+    "Emp No",
     "Name",
-    "Position",
+    "Email",
     "Telephone",
     "Mobile",
-    "Email",
-  ];
-
-  const reportingDetailsTableData = [
-    {
-      type: "Direct",
-      name: "Steven Lee",
-      position: "Software Architect",
-      telephone: "+112-112-112-112",
-      mobile: "+112-112-122-112",
-      email: "steven.l@biznexa.com",
-    },
-    {
-      type: "Direct",
-      name: "Mary Jane",
-      position: "Technical Lead",
-      telephone: "+112-112-112-112",
-      mobile: "+112-112-122-112",
-      email: "steven.l@biznexa.com",
-    },
   ];
 
   const [isPFVisible, setIsPFVisible] = useState<boolean>(false);
@@ -128,8 +143,33 @@ export const Profile = () => {
     }, 1000);
   };
 
+  const handleDocPreview = (isResume: boolean) => {
+    if (isResume) {
+      setDocDetails({
+        title: "Resume",
+        docType: "application/pdf",
+        doc: require("../../assets/files/sample.pdf"),
+      });
+    } else {
+      setDocDetails({
+        title: "Business Card",
+        docType: "application/pdf",
+        doc: require("../../assets/files/sample.pdf"),
+      });
+    }
+    setShowDocModal(true);
+  };
+
   return (
     <>
+      <DocPreviewModal
+        open={showDocModal}
+        setOpen={setShowDocModal}
+        maxWidth={"lg"}
+        doc={docDetails?.doc}
+        docType={docDetails?.docType}
+        title={"Resume"}
+      />
       <InnerModal
         open={showModal}
         setOpen={setShowModal}
@@ -164,29 +204,25 @@ export const Profile = () => {
               gap={3}
               alignItems={"center"}
             >
-              <img
-                src={require("../../assets/images/person1.jpg")}
-                alt="profile-img"
-                style={{
-                  height: "100px",
-                  width: "100px",
-                  objectFit: "cover",
-                  borderRadius: "50%",
-                }}
+              <Avatar
+                alt="Remy Sharp"
+                src={currentUserDetails?.profileImg}
+                sx={{ width: 100, height: 100 }}
               />
+
               <Box>
                 <Typography
                   color={"text.primary"}
                   fontWeight={900}
                   fontSize={"x-large"}
                 >
-                  John Smith
+                  {currentUserDetails?.name}
                 </Typography>
                 <Typography color={"text.secondary"}>
-                  Senior Software Engineer
+                  {currentUserDetails?.designation}
                 </Typography>
                 <Typography color={"text.secondary"}>
-                  Research & Development
+                  {currentUserDetails?.department}
                 </Typography>
               </Box>
             </Box>
@@ -195,14 +231,14 @@ export const Profile = () => {
                 fullWidth={false}
                 text={"Resume"}
                 variant={"outlined"}
-                onClick={() => {}}
+                onClick={() => handleDocPreview(true)}
                 startIcon={<ArticleIcon fontSize="small" />}
               />
               <CustomButton
                 fullWidth={false}
                 text={"Business Card"}
                 variant={"outlined"}
-                onClick={() => {}}
+                onClick={() => handleDocPreview(false)}
                 startIcon={<ArticleIcon fontSize="small" />}
               />
               <CustomButton
@@ -378,7 +414,7 @@ export const Profile = () => {
               <Grid item xs={12} sm={12} md={4}>
                 <FormTextField
                   register={registerPF("civilStatus")}
-                  label={"civilStatus"}
+                  label={"Civil Status"}
                   disabled={!isPFVisible}
                 />
               </Grid>
@@ -452,7 +488,7 @@ export const Profile = () => {
             </Typography>
             <Box mt={3} width={"100%"}>
               <SearchTable
-                tableData={reportingDetailsTableData}
+                tableData={reportingEmpList}
                 tableHeaders={reportingDetailTableHeads}
                 id={""}
                 paginate={true}

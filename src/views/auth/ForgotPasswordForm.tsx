@@ -91,7 +91,15 @@ export const ForgotPasswordForm = ({
             disabled={false}
           />
         </Grid>
-        <Grid item xs={12} sm={12} md={12} display={"flex"} gap={2}>
+        <Grid
+          item
+          xs={12}
+          sm={12}
+          md={12}
+          display={"flex"}
+          gap={2}
+          justifyContent={"end"}
+        >
           <CustomButton
             sx={{ mt: 3 }}
             text={"Clear"}

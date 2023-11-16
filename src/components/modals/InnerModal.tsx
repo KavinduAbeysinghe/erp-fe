@@ -4,6 +4,8 @@ import Dialog, { DialogProps } from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
+import { Box, IconButton, Typography } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface InnerModalProps {
   open: boolean;
@@ -26,12 +28,26 @@ export const InnerModal = ({
 
   return (
     <Dialog
+      sx={{ top: 0 }}
       fullWidth={true}
       maxWidth={maxWidth}
       open={open}
       onClose={handleClose}
     >
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle>
+        <Box
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
+        >
+          <Typography fontSize={"large"} fontWeight={700}>
+            {title}
+          </Typography>
+          <IconButton onClick={handleClose}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+      </DialogTitle>
       <DialogContent>{body}</DialogContent>
     </Dialog>
   );

@@ -265,27 +265,52 @@ export const months: Array<string> = [
 ];
 
 export const currentUser = {
-  empId: 5,
-  name: "Alex Lee",
-  username: "alexLee",
-  password: "alexLee@2001",
-  designation: "Associate Software Engineer",
-  department: "",
-  profileImg: "",
-  empNo: "EMP007777",
-  mobile: "+94-76-223-9975",
-  telephone: "+11-234-123-134",
-  dob: "1990-08-22",
-  nic: "123456789V",
-  nicIssuedDate: "2010-01-01",
-  nationality: "Sri Lankan",
-  religion: "Buddhism",
+  empId: 3,
+  name: "John Smith",
+  username: "johnSmith",
+  password: "john@7890",
+  designation: "Sales Representative",
+  departmentId: 3,
+  profileImg: require("../assets/images/person1.jpg"),
+  empNo: "EMP003",
+  mobile: "+44-777-555-1234",
+  telephone: "+44-20-1234-5678",
+  dob: "1988-12-10",
+  nic: "112233445S",
+  nicIssuedDate: "2007-06-30",
+  nationality: "British",
+  nationalityId: 1,
+  religion: "Atheist",
   civilStatus: 1,
   gender: 1,
-  bloodGroup: "A+",
-  email: "alex.l@biznexa.com",
-  personalEmail: "alex.l@gmail.com",
-  address: "No.213, Eksath Mw, Rajagiriya",
+  bloodGroup: "O+",
+  email: "john.s@salesco.com",
+  personalEmail: "john.s@gmail.com",
+  address: "45 High St, London, UK",
+  hiredDate: "2006-04-15",
+  hiringSource: 1,
+  employmentFrom: "1990-12-12",
+  employmentTo: "2006-12-12",
+  reportingEmployees: [
+    {
+      empId: 5,
+      empNo: "EMP003",
+      dateFrom: "1990-12-12",
+      dateTo: "2006-12-12",
+    },
+    {
+      empId: 4,
+      empNo: "EMP004",
+      dateFrom: "1990-12-12",
+      dateTo: "2006-12-12",
+    },
+  ],
+  leaveInfo: {
+    casual: 6,
+    bereavement: 7,
+    familyMedical: 5,
+    study: 4,
+  },
 };
 
 export const departments = [
@@ -532,5 +557,276 @@ export const leave = [
 
 export const evaluationType = [
   { label: "Self", value: 1 },
-  { label: "Non-Self", value: 1 },
+  { label: "Non-Self", value: 2 },
+];
+
+export const evaluationManagerData = [
+  {
+    evalId: "1001",
+    evalCode: "E1001",
+    name: "Sample Evaluation 001",
+    description: "Sample Evaluation Description",
+    evaluationType: 1,
+    createdDate: "2023-11-01",
+    openedDate: "2023-11-02",
+    dueDate: "2023-11-10",
+    status: "opened",
+    teamMemberData: [{ empId: 1 }, { empId: 2 }],
+    kpiData: [
+      {
+        id: 1,
+        name: "Development",
+        kpiTypes: [
+          {
+            id: 1,
+            name: "Sample KPI Type 001",
+          },
+          {
+            id: 2,
+            name: "Sample KPI Type 002",
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: "Non-Development",
+        kpiTypes: [
+          {
+            id: 3,
+            name: "Sample KPI Type 003",
+          },
+          {
+            id: 4,
+            name: "Sample KPI Type 004",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    evalId: "1002",
+    evalCode: "E1002",
+    name: "Sample Evaluation 002",
+    description: "Sample Evaluation Description",
+    evaluationType: 2,
+    createdDate: "2023-11-01",
+    openedDate: "2023-11-02",
+    dueDate: "2023-11-10",
+    status: "closed",
+    teamMemberData: [{ empId: 1 }, { empId: 2 }],
+    kpiData: [
+      {
+        id: 1,
+        name: "Development",
+        kpiTypes: [
+          {
+            id: 1,
+            name: "Sample KPI Type 001",
+          },
+          {
+            id: 2,
+            name: "Sample KPI Type 002",
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: "Non-Development",
+        kpiTypes: [
+          {
+            id: 3,
+            name: "Sample KPI Type 003",
+          },
+          {
+            id: 4,
+            name: "Sample KPI Type 004",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    evalId: "1002",
+    evalCode: "E1003",
+    name: "Sample Evaluation 003",
+    description: "Sample Evaluation Description",
+    evaluationType: 1,
+    createdDate: "2023-11-01",
+    openedDate: "2023-11-02",
+    dueDate: "2023-11-10",
+    status: "unopened",
+    teamMemberData: [{ empId: 1 }, { empId: 2 }],
+    kpiData: [
+      {
+        id: 1,
+        name: "Development",
+        kpiTypes: [
+          {
+            id: 1,
+            name: "Sample KPI Type 001",
+          },
+          {
+            id: 2,
+            name: "Sample KPI Type 002",
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: "Non-Development",
+        kpiTypes: [
+          {
+            id: 3,
+            name: "Sample KPI Type 003",
+          },
+          {
+            id: 4,
+            name: "Sample KPI Type 004",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    evalId: "1002",
+    evalCode: "E1004",
+    name: "Sample Evaluation 004",
+    description: "Sample Evaluation Description",
+    evaluationType: 2,
+    createdDate: "2023-11-01",
+    openedDate: "2023-11-02",
+    dueDate: "2023-11-10",
+    status: "closed",
+    teamMemberData: [{ empId: 1 }, { empId: 2 }],
+    kpiData: [
+      {
+        id: 1,
+        name: "Development",
+        kpiTypes: [
+          {
+            id: 1,
+            name: "Sample KPI Type 001",
+          },
+          {
+            id: 2,
+            name: "Sample KPI Type 002",
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: "Non-Development",
+        kpiTypes: [
+          {
+            id: 3,
+            name: "Sample KPI Type 003",
+          },
+          {
+            id: 4,
+            name: "Sample KPI Type 004",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    evalId: "1003",
+    evalCode: "E1005",
+    name: "Sample Evaluation 005",
+    description: "Sample Evaluation Description",
+    evaluationType: 1,
+    createdDate: "2023-11-01",
+    openedDate: "2023-11-02",
+    dueDate: "2023-11-10",
+    status: "opened",
+    teamMemberData: [{ empId: 1 }, { empId: 2 }],
+    kpiData: [
+      {
+        id: 1,
+        name: "Development",
+        kpiTypes: [
+          {
+            id: 1,
+            name: "Sample KPI Type 001",
+          },
+          {
+            id: 2,
+            name: "Sample KPI Type 002",
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: "Non-Development",
+        kpiTypes: [
+          {
+            id: 3,
+            name: "Sample KPI Type 003",
+          },
+          {
+            id: 4,
+            name: "Sample KPI Type 004",
+          },
+        ],
+      },
+    ],
+  },
+];
+
+export const teamEvaluationData = [
+  {
+    id: 1,
+    evalId: 1001,
+    type: "Self",
+    name: "Non-Management",
+    teamMember: 1,
+    description: "Non-Management Evaluation",
+    date: "2023-05-05",
+    status: "completed",
+    year: 2023,
+  },
+  {
+    id: 2,
+    evalId: 1001,
+    type: "Non-Self",
+    name: "Management",
+    teamMember: 2,
+    description: "Management Evaluation",
+    date: "2023-02-05",
+    status: "draft",
+    year: 2023,
+  },
+  {
+    id: 3,
+    evalId: 1001,
+    type: "Non-Self",
+    name: "Management",
+    teamMember: 3,
+    description: "Management Evaluation",
+    date: "2023-02-05",
+    status: "completed",
+    year: 2023,
+  },
+  {
+    id: 4,
+    evalId: 1001,
+    type: "Non-Self",
+    name: "Management",
+    teamMember: 4,
+    description: "Management Evaluation",
+    date: "2023-02-05",
+    status: "draft",
+    year: 2023,
+  },
+  {
+    id: 5,
+    evalId: 1001,
+    type: "Non-Self",
+    name: "Management",
+    teamMember: 5,
+    description: "Management Evaluation",
+    date: "2023-02-05",
+    status: "completed",
+    year: 2023,
+  },
 ];

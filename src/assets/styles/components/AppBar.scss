@@ -7,3 +7,15 @@
 //   -webkit-backdrop-filter: blur(14.4px) !important;
 //   border: 1px solid rgba(255, 255, 255, 0.3) !important;
 // }
+
+// .MuiPaper-root.MuiPopover-paper {
+//   top: 75px !important;
+//   left: auto !important;
+//   right: 20px !important;
+// }
+
+.list-item-border {
+  border-width: 0 5px 0 0;
+  border-style: solid;
+  border-image: linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232)) 1;
+}

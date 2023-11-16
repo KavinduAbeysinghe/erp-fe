@@ -53,7 +53,7 @@ export const CreateEmployeePage = () => {
 
   const [uploadedImg, setUploadedImg] = useState<any>("");
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const params = searchParams.get("emp");
     if (params) {
       const emp = JSON.parse(params);

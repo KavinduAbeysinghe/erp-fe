@@ -1,6 +1,6 @@
 import { Avatar, Box, Grid, Typography } from "@mui/material";
 import { FormDropdown } from "../../components/inputs/FormDropdown";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import SearchTable from "../../components/tables/SearchTable";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
@@ -8,12 +8,17 @@ import { CustomChip } from "../../components/chips/Chip";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
 import { CustomButton } from "../../components/buttons/CustomButton";
-import { employees } from "../../util";
+import { employees, teamEvaluationData } from "../../util";
 import { Search } from "@mui/icons-material";
 import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 
 export const TeamEvaluations = () => {
   const navigate = useNavigate();
+
+  const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
+
+  const [teamEvalData, setTeamEvalData] = useState<Array<any>>([]);
 
   const {
     register,
@@ -42,7 +47,7 @@ export const TeamEvaluations = () => {
     "Type",
     "Name",
     "Team Member",
-    "Activity Name",
+    "Description",
     "Date",
     "Status",
   ];
@@ -52,7 +57,7 @@ export const TeamEvaluations = () => {
   const searchParams = new URLSearchParams(location.search);
 
   const handleViewEvaluation = (id: any) => {
-    const data = tabelData?.find((d: any) => d?.id === id);
+    const data = teamEvaluationData?.find((d: any) => d?.id === id);
     const evaluation = { type: data?.type, id: id };
     searchParams.set("eval", JSON.stringify(evaluation));
     navigate(
@@ -64,82 +69,83 @@ export const TeamEvaluations = () => {
     { tooltip: "View", icon: faEye, handleClick: handleViewEvaluation },
   ];
 
-  const tabelData = [
-    {
-      id: 1,
-      evalId: 1001,
-      type: "Self",
-      name: "Non-Management",
-      teamMember: <EmployeeColumn id={1} />,
-      activityName: "Non-Management Evaluation",
-      date: "2023-05-05",
-      status: <CustomChip label={"Completed"} type={"success"} />,
-    },
-    {
-      id: 2,
-      evalId: 1001,
-      type: "Non-Self",
-      name: "Management",
-      teamMember: <EmployeeColumn id={2} />,
-      activityName: "Management Evaluation",
-      date: "2023-02-05",
-      status: <CustomChip label={"Draft"} type={"warning"} />,
-    },
-    {
-      id: 3,
-      evalId: 1001,
-      type: "Non-Self",
-      name: "Management",
-      teamMember: <EmployeeColumn id={3} />,
-      activityName: "Management Evaluation",
-      date: "2023-02-05",
-      status: <CustomChip label={"Completed"} type={"success"} />,
-    },
-    {
-      id: 4,
-      evalId: 1001,
-      type: "Non-Self",
-      name: "Management",
-      teamMember: <EmployeeColumn id={4} />,
-      activityName: "Management Evaluation",
-      date: "2023-02-05",
-      status: <CustomChip label={"Draft"} type={"warning"} />,
-    },
-    {
-      id: 5,
-      evalId: 1001,
-      type: "Non-Self",
-      name: "Management",
-      teamMember: <EmployeeColumn id={5} />,
-      activityName: "Management Evaluation",
-      date: "2023-02-05",
-      status: <CustomChip label={"Completed"} type={"success"} />,
-    },
-  ];
-
-  const handleSearch = (data: any) => {
-    const payload = {
-      year: data?.filterYear,
-      evaluationName: data?.evaluationName,
-      teamMember: data?.teamMember,
-      status: data?.status,
-    };
-    const filteredData = Object.entries(payload).filter(
-      ([key, value]) => value !== "" || value !== undefined || value !== null
-    );
-    console.log(filteredData);
+  const formatData = (data: Array<any>) => {
+    return data?.map((d: any) => ({
+      id: d?.id,
+      evalId: d?.evalId,
+      type: d?.type,
+      name: d?.name,
+      teamMember: <EmployeeColumn id={d?.teamMember} />,
+      description: d?.description,
+      date: d?.date,
+      status:
+        d?.status === "completed" ? (
+          <CustomChip label={"Completed"} type="success" />
+        ) : (
+          <CustomChip label={"Draft"} type="warning" />
+        ),
+    }));
   };
 
-  const resetForm = () => {};
+  useLayoutEffect(() => {
+    setTeamEvalData(formatData(teamEvaluationData));
+  }, []);
+
+  const handleSearch = (data: any) => {
+    setShowBackdrop(true);
+    setTimeout(() => {
+      const payload = {
+        year: data?.filterYear,
+        evaluationName: data?.evaluationName,
+        teamMember: data?.teamMember,
+        status: data?.status,
+      };
+      const filteredArray = teamEvaluationData?.filter((item) => {
+        const yearMatches = payload?.year ? payload?.year === item?.year : true;
+        const evalNameMatches = payload?.evaluationName
+          ? payload?.evaluationName === item?.name
+          : true;
+        const teamMemberMatches = payload?.teamMember
+          ? payload?.teamMember === item?.teamMember
+          : true;
+        const statusMatches = payload?.status
+          ? payload?.status === item?.status
+          : true;
+        return (
+          yearMatches && evalNameMatches && teamMemberMatches && statusMatches
+        );
+      });
+      setTeamEvalData(formatData(filteredArray));
+      setShowBackdrop(false);
+    }, 1000);
+    // const filteredData =
+  };
+
+  const resetForm = () => {
+    reset();
+    setValue("filterYear", 2023);
+    setTeamEvalData(formatData(teamEvaluationData));
+  };
 
   const evalNameList = () => {
-    const names = tabelData?.map((d: any) => d?.name);
+    const names = teamEvaluationData?.map((d: any) => d?.name);
     const removedDupNames = Array.from(new Set(names));
     return removedDupNames?.map((n: any) => ({ label: n, value: n }));
   };
 
+  const teamMemberList = employees?.map((e: any) => ({
+    label: e?.name,
+    value: e?.empId,
+  }));
+
+  const statusList = [
+    { label: "Completed", value: "completed" },
+    { label: "Draft", value: "draft" },
+  ];
+
   return (
     <>
+      <CustomBackdrop showBackdrop={showBackdrop} />
       <Grid container spacing={2} my={2} mb={5}>
         <Grid item xs={12} sm={6} md={1}>
           <FormDropdown
@@ -173,7 +179,7 @@ export const TeamEvaluations = () => {
             helperText={""}
             setValue={setValue}
             label={"Team Member"}
-            options={[]}
+            options={teamMemberList}
             id={"teamMember"}
             required={true}
             disabled={false}
@@ -193,7 +199,7 @@ export const TeamEvaluations = () => {
         <Grid item xs={12} sm={6} md={3}>
           <FormDropdown
             name={"status"}
-            options={[]}
+            options={statusList}
             helperText={""}
             control={control}
             label={"Status"}
@@ -225,7 +231,7 @@ export const TeamEvaluations = () => {
       </Grid>
       <Box mt={3}>
         <SearchTable
-          tableData={tabelData}
+          tableData={teamEvalData}
           id={"id"}
           paginate={true}
           tableHeaders={tableHeads}

@@ -17,6 +17,7 @@ import { MyAttendance } from "./MyAttendance";
 import { MyLeaves } from "./MyLeaves";
 import { TeamAttendance } from "./TeamAttendance";
 import { TeamLeaves } from "./TeamLeaves";
+import { CardTitleBadge } from "../../components/badges/CardTitleBadge";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
@@ -172,21 +173,7 @@ export const Dashboard = () => {
             gap={3}
             position={"relative"}
           >
-            <Typography
-              fontWeight={700}
-              color={"#fff"}
-              className="card-heading"
-              sx={{
-                // backgroundColor: "primary.dark",
-                position: "absolute",
-                mt: -5.5,
-                px: 3,
-                borderRadius: "7px",
-                py: 1,
-              }}
-            >
-              Notices
-            </Typography>
+            <CardTitleBadge title={"Notices"} />
             <Grid container mt={3}>
               <Grid item xs={12} sm={12} md={4} lg={3}>
                 <FormDropdown
@@ -216,21 +203,7 @@ export const Dashboard = () => {
             justifyContent={"space-between"}
             gap={3}
           >
-            <Typography
-              fontWeight={700}
-              color={"#fff"}
-              className="card-heading"
-              sx={{
-                // backgroundColor: "primary.dark",
-                position: "absolute",
-                mt: -5.5,
-                px: 3,
-                borderRadius: "7px",
-                py: 1,
-              }}
-            >
-              Time Log
-            </Typography>
+            <CardTitleBadge title={"Time Log"} />
             <Box p={2} mt={3} className={"time-log-container"}>
               <Typography fontWeight={700}>Punch in at</Typography>
               <Typography color={"text.secondary"}>
@@ -383,6 +356,7 @@ export const Dashboard = () => {
                   display={"flex"}
                   flexDirection={"column"}
                   sx={{ height: "100%" }}
+                  zIndex={2}
                 >
                   <Typography fontWeight={700} color={"text.dark"}>
                     Daily Quote
@@ -418,21 +392,7 @@ export const Dashboard = () => {
             flexDirection={"column"}
             gap={3}
           >
-            <Typography
-              fontWeight={700}
-              color={"#fff"}
-              className="card-heading"
-              sx={{
-                // backgroundColor: "primary.dark",
-                position: "absolute",
-                mt: -5.5,
-                px: 3,
-                borderRadius: "7px",
-                py: 1,
-              }}
-            >
-              Attendance
-            </Typography>
+            <CardTitleBadge title={"Attendance"} />
             <Box mt={3}>
               <BasicTabs options={tabOptions} />
             </Box>
@@ -448,21 +408,7 @@ export const Dashboard = () => {
             flexDirection={"column"}
             gap={3}
           >
-            <Typography
-              fontWeight={700}
-              color={"#fff"}
-              className="card-heading"
-              sx={{
-                // backgroundColor: "primary.dark",
-                position: "absolute",
-                mt: -5.5,
-                px: 3,
-                borderRadius: "7px",
-                py: 1,
-              }}
-            >
-              Employee Directory
-            </Typography>
+            <CardTitleBadge title={"Employee Directory"} />
             <Box mt={3}>
               <FormAutocomplete
                 error={false}
@@ -587,21 +533,7 @@ export const Dashboard = () => {
             flexDirection={"column"}
             gap={3}
           >
-            <Typography
-              fontWeight={700}
-              color={"#fff"}
-              className="card-heading"
-              sx={{
-                // backgroundColor: "primary.dark",
-                position: "absolute",
-                mt: -5.5,
-                px: 3,
-                borderRadius: "7px",
-                py: 1,
-              }}
-            >
-              Leave Overview
-            </Typography>
+            <CardTitleBadge title={"Leave Overview"} />
             <Box mt={3}>
               <BasicTabs options={tabOptionsLeaves} />
             </Box>
@@ -617,21 +549,7 @@ export const Dashboard = () => {
             flexDirection={"column"}
             gap={3}
           >
-            <Typography
-              fontWeight={700}
-              color={"#fff"}
-              className="card-heading"
-              sx={{
-                // backgroundColor: "primary.dark",
-                position: "absolute",
-                mt: -5.5,
-                px: 3,
-                borderRadius: "7px",
-                py: 1,
-              }}
-            >
-              Voice of Yours
-            </Typography>
+            <CardTitleBadge title={"Voice of Yours"} />
             <Box mt={3}>
               <Typography color={"text.secondary"} mb={3}>
                 Hey it's your time to send us something on your mind ___ .
