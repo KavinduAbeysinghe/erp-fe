@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, ThemeProvider, createTheme } from "@mui/material";
 import { FormTextField } from "../../components/inputs/FormTextField";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
@@ -15,6 +15,12 @@ interface ForgotPasswordFormProps {
 export const ForgotPasswordForm = ({
   setShowModal,
 }: ForgotPasswordFormProps) => {
+  const formTheme = createTheme({
+    palette: {
+      mode: "light",
+    },
+  });
+
   const notify = useNotification();
 
   const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
@@ -59,63 +65,65 @@ export const ForgotPasswordForm = ({
 
   return (
     <>
-      <CustomBackdrop showBackdrop={showBackdrop} />
-      <Grid container spacing={3} p={2}>
-        <Grid item xs={12} sm={12} md={12}>
-          <FormTextField
-            register={register("username")}
-            label={"Username"}
-            required={true}
-            error={!!errors?.username?.message}
-            helperText={errors?.username?.message?.toString()}
-            disabled={false}
-          />
+      <ThemeProvider theme={formTheme}>
+        <CustomBackdrop showBackdrop={showBackdrop} />
+        <Grid container spacing={3} p={2}>
+          <Grid item xs={12} sm={12} md={12}>
+            <FormTextField
+              register={register("username")}
+              label={"Username"}
+              required={true}
+              error={!!errors?.username?.message}
+              helperText={errors?.username?.message?.toString()}
+              disabled={false}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={12}>
+            <FormTextField
+              register={register("email")}
+              label={"Email"}
+              required={true}
+              error={!!errors?.email?.message}
+              helperText={errors?.email?.message?.toString()}
+              disabled={false}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={12}>
+            <FormTextField
+              register={register("phone")}
+              label={"Phone"}
+              required={true}
+              error={!!errors?.phone?.message}
+              helperText={errors?.phone?.message?.toString()}
+              disabled={false}
+            />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            sm={12}
+            md={12}
+            display={"flex"}
+            gap={2}
+            justifyContent={"end"}
+          >
+            <CustomButton
+              sx={{ mt: 3 }}
+              text={"Clear"}
+              variant={"outlined"}
+              type={"submit"}
+              onClick={clearForm}
+            />
+            <CustomButton
+              sx={{ mt: 3 }}
+              text={"Save"}
+              variant={"contained"}
+              type={"submit"}
+              onClick={handleSubmit(onSubmit)}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={12}>
-          <FormTextField
-            register={register("email")}
-            label={"Email"}
-            required={true}
-            error={!!errors?.email?.message}
-            helperText={errors?.email?.message?.toString()}
-            disabled={false}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={12}>
-          <FormTextField
-            register={register("phone")}
-            label={"Phone"}
-            required={true}
-            error={!!errors?.phone?.message}
-            helperText={errors?.phone?.message?.toString()}
-            disabled={false}
-          />
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          sm={12}
-          md={12}
-          display={"flex"}
-          gap={2}
-          justifyContent={"end"}
-        >
-          <CustomButton
-            sx={{ mt: 3 }}
-            text={"Clear"}
-            variant={"outlined"}
-            type={"submit"}
-            onClick={clearForm}
-          />
-          <CustomButton
-            sx={{ mt: 3 }}
-            text={"Save"}
-            variant={"contained"}
-            type={"submit"}
-            onClick={handleSubmit(onSubmit)}
-          />
-        </Grid>
-      </Grid>
+      </ThemeProvider>
     </>
   );
 };

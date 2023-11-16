@@ -2,16 +2,12 @@ import { Route, Routes } from "react-router-dom";
 import { Login } from "./auth/Login";
 import { Box, CssBaseline, styled, useTheme } from "@mui/material";
 import { useLayoutEffect, useState } from "react";
-import { MyAppBar } from "../components/appBar/MyAppBar";
-import { SideBar } from "../components/sideBar/SideBar";
 import { Dashboard } from "./dashboard/Dashboard";
 import { Profile } from "./profile/Profile";
 import { EmployeeManagement } from "./employeeManagement/EmployeeManagement";
-import { SearchLeaves } from "./leaveManagement/SearchLeaves";
 import { LeaveManagement } from "./leaveManagement/LeaveManagement";
 import { AttendanceManagement } from "./attendance/AttendanceManagement";
 import { MyCalendar } from "./calendar/MyCalendar";
-import { Evaluations } from "./evaluations/Evaluations";
 import { EvaluationManagement } from "./evaluations/EvaluationManagement";
 import { MyDrawer } from "../components/drawer/MyDrawer";
 
