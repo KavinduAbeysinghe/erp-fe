@@ -1,0 +1,27 @@
+{
+  "files": {
+    "main.css": "/erp-fe/static/css/main.136d5e16.css",
+    "main.js": "/erp-fe/static/js/main.adeff25f.js",
+    "static/js/787.ee3cb638.chunk.js": "/erp-fe/static/js/787.ee3cb638.chunk.js",
+    "static/media/person5.jpg": "/erp-fe/static/media/person5.d22734ae7341d095ebe9.jpg",
+    "static/media/person3.jpg": "/erp-fe/static/media/person3.5054b555ab67259e32b2.jpg",
+    "static/media/person1.jpg": "/erp-fe/static/media/person1.de652d5af3a3fd6649b5.jpg",
+    "static/media/bgimg5.jpg": "/erp-fe/static/media/bgimg5.60829c8263cb635e4c29.jpg",
+    "static/media/person4.jpg": "/erp-fe/static/media/person4.0cb60a284c479722e0ae.jpg",
+    "static/media/person.jpg": "/erp-fe/static/media/person.3bfa8d192cc1c3040634.jpg",
+    "static/media/person2.jpg": "/erp-fe/static/media/person2.bb4b20a39d11c534cb6f.jpg",
+    "static/media/profileCover.jpeg": "/erp-fe/static/media/profileCover.af1219a742e09fc7b612.jpeg",
+    "static/media/sidebar.jpg": "/erp-fe/static/media/sidebar.c1e63c86611b5c3f8866.jpg",
+    "static/media/empty-box.png": "/erp-fe/static/media/empty-box.dce0a5fa9827003bddda.png",
+    "static/media/logo2.png": "/erp-fe/static/media/logo2.4bf52316d115af74af10.png",
+    "static/media/sample.pdf": "/erp-fe/static/media/sample.ac0398d4ca249e568588.pdf",
+    "index.html": "/erp-fe/index.html",
+    "main.136d5e16.css.map": "/erp-fe/static/css/main.136d5e16.css.map",
+    "main.adeff25f.js.map": "/erp-fe/static/js/main.adeff25f.js.map",
+    "787.ee3cb638.chunk.js.map": "/erp-fe/static/js/787.ee3cb638.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.136d5e16.css",
+    "static/js/main.adeff25f.js"
+  ]
+}
