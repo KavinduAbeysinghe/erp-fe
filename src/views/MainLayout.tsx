@@ -10,6 +10,7 @@ import { AttendanceManagement } from "./attendance/AttendanceManagement";
 import { MyCalendar } from "./calendar/MyCalendar";
 import { EvaluationManagement } from "./evaluations/EvaluationManagement";
 import { MyDrawer } from "../components/drawer/MyDrawer";
+import { MyResponsiveDrawer } from "../components/drawer/MyResponsiveDrawer";
 
 export const MainLayout = () => {
   return (
@@ -59,7 +60,8 @@ const Layout = () => {
       }}
     >
       <CssBaseline />
-      <MyDrawer />
+      {/* <MyDrawer /> */}
+      <MyResponsiveDrawer />
       <Box
         component="main"
         sx={{

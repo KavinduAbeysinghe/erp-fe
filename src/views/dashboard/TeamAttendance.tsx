@@ -143,7 +143,7 @@ export const TeamAttendance = ({
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item sm={4} md={2}>
+        <Grid item xs={12} sm={4} md={2}>
           <FormDropdown
             name={"filterMyAttendance"}
             options={myAttendanceOptions}
@@ -154,7 +154,7 @@ export const TeamAttendance = ({
             fullWidth={true}
           />
         </Grid>
-        <Grid item sm={8} md={10}>
+        <Grid item xs={12} sm={8} md={10}>
           <FormAutocomplete
             error={false}
             helperText={""}

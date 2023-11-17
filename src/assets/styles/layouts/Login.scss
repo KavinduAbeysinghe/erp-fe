@@ -42,3 +42,21 @@
     object-fit: contain;
   }
 }
+
+.modal-content {
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.07) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+  backdrop-filter: blur(6.1px) !important;
+  -webkit-backdrop-filter: blur(6.1px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.modal-title {
+  color: #fff !important;
+}
+
+.btn-close {
+  color: white !important;
+}

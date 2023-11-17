@@ -134,22 +134,19 @@ export const Dashboard = () => {
     }
   }, [employeeName]);
 
-  const handleScrollTop = () => {
-    console.log("Scroll to top");
-
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
+  const handleScrollTop = () => {};
   return (
     <Box>
       <Fab
         size="small"
         color="secondary"
         aria-label="add"
-        sx={{ position: "absolute", bottom: 20, right: 20 }}
+        sx={{ position: "fixed", bottom: 20, right: 20 }}
         onClick={handleScrollTop}
       >
+        {/* <a href="#hidden-anchor"> */}
         <ArrowUpwardIcon />
+        {/* </a> */}
       </Fab>
       <Box
         display={"flex"}
@@ -251,9 +248,9 @@ export const Dashboard = () => {
             </Box>
           </Box>
         </Grid>
-        <Grid item sm={12} md={4}>
+        <Grid item xs={12} sm={12} md={4}>
           <Grid container spacing={2} height={"100%"}>
-            <Grid item sm={12} md={12}>
+            <Grid item xs={12} sm={12} md={12}>
               <Box
                 component={Paper}
                 className={"dash-card"}
@@ -279,7 +276,7 @@ export const Dashboard = () => {
                     <Typography fontWeight={700} fontSize={"large"}>
                       John Smith
                     </Typography>
-                    <Typography color={"text.secondary"}>
+                    <Typography color={"text.secondary"} fontSize={"small"}>
                       Senior Software Engineer
                     </Typography>
                   </Box>
@@ -291,49 +288,89 @@ export const Dashboard = () => {
                   justifyContent={"center"}
                 >
                   <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
-                    <Typography fontWeight={500} color={"text.secondary"}>
+                    <Typography
+                      fontSize={"small"}
+                      fontWeight={500}
+                      color={"text.secondary"}
+                    >
                       Employee No:
                     </Typography>
-                    <Typography fontWeight={400} color={"text.primary"}>
+                    <Typography
+                      fontSize={"small"}
+                      fontWeight={400}
+                      color={"text.primary"}
+                    >
                       002765
                     </Typography>
                   </Stack>
                   <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
-                    <Typography fontWeight={500} color={"text.secondary"}>
+                    <Typography
+                      fontSize={"small"}
+                      fontWeight={500}
+                      color={"text.secondary"}
+                    >
                       Designation:
                     </Typography>
-                    <Typography fontWeight={400} color={"text.primary"}>
+                    <Typography
+                      fontSize={"small"}
+                      fontWeight={400}
+                      color={"text.primary"}
+                    >
                       Senior Software Engineer
                     </Typography>
                   </Stack>
                   <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
-                    <Typography fontWeight={500} color={"text.secondary"}>
+                    <Typography
+                      fontSize={"small"}
+                      fontWeight={500}
+                      color={"text.secondary"}
+                    >
                       Mobile:
                     </Typography>
-                    <Typography fontWeight={400} color={"text.primary"}>
+                    <Typography
+                      fontSize={"small"}
+                      fontWeight={400}
+                      color={"text.primary"}
+                    >
                       +114-112-112-112
                     </Typography>
                   </Stack>
                   <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
-                    <Typography fontWeight={500} color={"text.secondary"}>
+                    <Typography
+                      fontSize={"small"}
+                      fontWeight={500}
+                      color={"text.secondary"}
+                    >
                       Email:
                     </Typography>
-                    <Typography fontWeight={400} color={"text.primary"}>
+                    <Typography
+                      fontSize={"small"}
+                      fontWeight={400}
+                      color={"text.primary"}
+                    >
                       johnsmith@biznexa.com
                     </Typography>
                   </Stack>
                   <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
-                    <Typography fontWeight={500} color={"text.secondary"}>
+                    <Typography
+                      fontSize={"small"}
+                      fontWeight={500}
+                      color={"text.secondary"}
+                    >
                       Address:
                     </Typography>
-                    <Typography fontWeight={400} color={"text.primary"}>
+                    <Typography
+                      fontSize={"small"}
+                      fontWeight={400}
+                      color={"text.primary"}
+                    >
                       No. 450, Peters Lane
                     </Typography>
                   </Stack>
                 </Box>
               </Box>
             </Grid>
-            <Grid item sm={12} md={12}>
+            <Grid item xs={12} sm={12} md={12}>
               <Box
                 sx={{
                   position: "relative",
@@ -382,7 +419,7 @@ export const Dashboard = () => {
             </Grid>
           </Grid>
         </Grid>
-        <Grid item sm={12} md={8}>
+        <Grid item xs={12} sm={12} md={8}>
           <Box
             position={"relative"}
             component={Paper}
@@ -393,12 +430,12 @@ export const Dashboard = () => {
             gap={3}
           >
             <CardTitleBadge title={"Attendance"} />
-            <Box mt={3}>
+            <Box mt={3} sx={{ height: "100%" }}>
               <BasicTabs options={tabOptions} />
             </Box>
           </Box>
         </Grid>
-        <Grid item sm={12} md={4}>
+        <Grid item xs={12} sm={12} md={4}>
           <Box
             position={"relative"}
             component={Paper}
@@ -407,9 +444,13 @@ export const Dashboard = () => {
             display={"flex"}
             flexDirection={"column"}
             gap={3}
+            height={"100%"}
           >
             <CardTitleBadge title={"Employee Directory"} />
-            <Box mt={3}>
+            <Box
+              mt={3}
+              sx={{ display: "flex", flexDirection: "column", height: "100%" }}
+            >
               <FormAutocomplete
                 error={false}
                 helperText={""}
@@ -446,66 +487,111 @@ export const Dashboard = () => {
                       >
                         {employeeDetails?.name}
                       </Typography>
-                      <Typography color={"text.secondary"}>
+                      <Typography fontSize={"small"} color={"text.secondary"}>
                         {employeeDetails?.designation}
                       </Typography>
                     </Box>
                   </Box>
                   <Box>
                     <Stack direction={"row"} flexWrap={"wrap"} gap={1} mt={3}>
-                      <Typography fontWeight={500} color={"text.secondary"}>
+                      <Typography
+                        fontSize={"small"}
+                        fontWeight={500}
+                        color={"text.secondary"}
+                      >
                         Employee No:
                       </Typography>
-                      <Typography fontWeight={400} color={"text.primary"}>
+                      <Typography
+                        fontSize={"small"}
+                        fontWeight={400}
+                        color={"text.primary"}
+                      >
                         {employeeDetails?.empNo}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
-                      <Typography fontWeight={500} color={"text.secondary"}>
+                      <Typography
+                        fontSize={"small"}
+                        fontWeight={500}
+                        color={"text.secondary"}
+                      >
                         Designation:
                       </Typography>
-                      <Typography fontWeight={400} color={"text.primary"}>
+                      <Typography
+                        fontSize={"small"}
+                        fontWeight={400}
+                        color={"text.primary"}
+                      >
                         {employeeDetails?.designation}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
-                      <Typography fontWeight={500} color={"text.secondary"}>
+                      <Typography
+                        fontSize={"small"}
+                        fontWeight={500}
+                        color={"text.secondary"}
+                      >
                         Mobile:
                       </Typography>
-                      <Typography fontWeight={400} color={"text.primary"}>
+                      <Typography
+                        fontSize={"small"}
+                        fontWeight={400}
+                        color={"text.primary"}
+                      >
                         {employeeDetails?.mobile}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
-                      <Typography fontWeight={500} color={"text.secondary"}>
+                      <Typography
+                        fontSize={"small"}
+                        fontWeight={500}
+                        color={"text.secondary"}
+                      >
                         Email:
                       </Typography>
-                      <Typography fontWeight={400} color={"text.primary"}>
+                      <Typography
+                        fontSize={"small"}
+                        fontWeight={400}
+                        color={"text.primary"}
+                      >
                         {employeeDetails?.email}
                       </Typography>
                     </Stack>
                     <Stack direction={"row"} flexWrap={"wrap"} gap={1}>
-                      <Typography fontWeight={500} color={"text.secondary"}>
+                      <Typography
+                        fontSize={"small"}
+                        fontWeight={500}
+                        color={"text.secondary"}
+                      >
                         Address:
                       </Typography>
-                      <Typography fontWeight={400} color={"text.primary"}>
+                      <Typography
+                        fontSize={"small"}
+                        fontWeight={400}
+                        color={"text.primary"}
+                      >
                         {employeeDetails?.address}
                       </Typography>
                     </Stack>
                   </Box>
                 </>
               ) : (
-                <>
+                <Box
+                  sx={{
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
                   <Typography color={"text.secondary"} mt={3}>
                     Please select an employee to get details...
                   </Typography>
                   <Box
+                    flexGrow={1}
                     display={"flex"}
                     flexDirection={"column"}
-                    justifyContent={"center"}
-                    height={"100%"}
                     alignItems={"center"}
-                    // sx={{ border: "1px solid white" }}
+                    justifyContent={"center"}
                   >
                     <img
                       src={require("../../assets/images/empty-box.png")}
@@ -514,16 +600,16 @@ export const Dashboard = () => {
                       width={200}
                       style={{ objectFit: "contain" }}
                     />
-                    <Typography color={"text.secondary"}>
+                    <Typography textAlign={"center"} color={"text.secondary"}>
                       Noting to Show : )
                     </Typography>
                   </Box>
-                </>
+                </Box>
               )}
             </Box>
           </Box>
         </Grid>
-        <Grid item sm={12} md={12}>
+        <Grid item xs={12} sm={12} md={12}>
           <Box
             position={"relative"}
             component={Paper}

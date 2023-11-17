@@ -30,7 +30,7 @@ export const TeamLeaves = ({ control, setValue, watch }: TeamLeavesProps) => {
 
   const dataSet = [
     {
-      week: "January",
+      week: "Jan",
       annual: 0,
       casual: 2,
       study: 0,
@@ -38,7 +38,7 @@ export const TeamLeaves = ({ control, setValue, watch }: TeamLeavesProps) => {
       familyAndMedical: 0,
     },
     {
-      week: "February",
+      week: "Feb",
       annual: 0,
       casual: 3,
       study: 0,
@@ -46,7 +46,7 @@ export const TeamLeaves = ({ control, setValue, watch }: TeamLeavesProps) => {
       familyAndMedical: 0,
     },
     {
-      week: "March",
+      week: "Mar",
       annual: 15,
       casual: 0,
       study: 2,
@@ -54,7 +54,7 @@ export const TeamLeaves = ({ control, setValue, watch }: TeamLeavesProps) => {
       familyAndMedical: 0,
     },
     {
-      week: "April",
+      week: "Apr",
       annual: 0,
       casual: 0,
       study: 0,
@@ -70,7 +70,7 @@ export const TeamLeaves = ({ control, setValue, watch }: TeamLeavesProps) => {
       familyAndMedical: 0,
     },
     {
-      week: "June",
+      week: "Jun",
       annual: 0,
       casual: 1,
       study: 0,
@@ -78,7 +78,7 @@ export const TeamLeaves = ({ control, setValue, watch }: TeamLeavesProps) => {
       familyAndMedical: 1,
     },
     {
-      week: "July",
+      week: "Jul",
       annual: 0,
       casual: 1,
       study: 0,
@@ -86,7 +86,7 @@ export const TeamLeaves = ({ control, setValue, watch }: TeamLeavesProps) => {
       familyAndMedical: 0,
     },
     {
-      week: "August",
+      week: "Aug",
       annual: 0,
       casual: 3,
       study: 0,
@@ -94,7 +94,7 @@ export const TeamLeaves = ({ control, setValue, watch }: TeamLeavesProps) => {
       familyAndMedical: 0,
     },
     {
-      week: "September",
+      week: "Sep",
       annual: 0,
       casual: 0,
       study: 0,
@@ -102,7 +102,7 @@ export const TeamLeaves = ({ control, setValue, watch }: TeamLeavesProps) => {
       familyAndMedical: 0,
     },
     {
-      week: "October",
+      week: "Oct",
       annual: 0,
       casual: 0,
       study: 0,
@@ -110,7 +110,7 @@ export const TeamLeaves = ({ control, setValue, watch }: TeamLeavesProps) => {
       familyAndMedical: 0,
     },
     {
-      week: "November",
+      week: "Nov",
       annual: 0,
       casual: 0,
       study: 1,
@@ -118,7 +118,7 @@ export const TeamLeaves = ({ control, setValue, watch }: TeamLeavesProps) => {
       familyAndMedical: 0,
     },
     {
-      week: "December",
+      week: "Dec",
       annual: 15,
       casual: 0,
       study: 0,

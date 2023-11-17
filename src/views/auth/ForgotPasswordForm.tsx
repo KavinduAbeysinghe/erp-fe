@@ -17,7 +17,7 @@ export const ForgotPasswordForm = ({
 }: ForgotPasswordFormProps) => {
   const formTheme = createTheme({
     palette: {
-      mode: "light",
+      mode: "dark",
     },
   });
 

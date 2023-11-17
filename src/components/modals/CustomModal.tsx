@@ -21,6 +21,7 @@ export const CustomModal = ({
       onHide={handleClose}
       centered={true}
       className={"custom-modal"}
+      data-bs-theme={"dark"}
     >
       <Modal.Header closeButton>
         <Modal.Title>{title}</Modal.Title>
