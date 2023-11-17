@@ -15,9 +15,9 @@ function App() {
   return (
     <ColorModeContextProvider>
       <NotificationContextProvider>
-        <BrowserRouter>
+        <HashRouter>
           <MainLayout />
-        </BrowserRouter>
+        </HashRouter>
       </NotificationContextProvider>
     </ColorModeContextProvider>
   );
