@@ -37,25 +37,9 @@ export const RemoveEventForm = ({
       }),
   });
 
-  const {
-    register,
-    setValue,
-    watch,
-    control,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm({
+  const { setValue, watch, control, handleSubmit } = useForm({
     resolver: yupResolver(validationSchema),
   });
-
-  const formatDate = (date: any) => {
-    if (!date) {
-      return "";
-    } else {
-      return dayjs(date, "YYYY-MM-DD").format().split("T")[0];
-    }
-  };
 
   const onSubmit = (data: any) => {
     handleModalClose();

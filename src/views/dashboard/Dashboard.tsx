@@ -1,8 +1,7 @@
 import { faFeather } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { Box, Fab, Grid, Paper, Slide, Stack, Typography } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { CardTitleBadge } from "../../components/badges/CardTitleBadge";
@@ -18,11 +17,8 @@ import { MyAttendance } from "./MyAttendance";
 import { MyLeaves } from "./MyLeaves";
 import { TeamAttendance } from "./TeamAttendance";
 import { TeamLeaves } from "./TeamLeaves";
-import { CustomFab } from "../../components/buttons/CustomFab";
 
 export const Dashboard = () => {
-  const navigate = useNavigate();
-
   const [filteredNoticeList, setFilteredNoticeList] = useState<Array<any>>([]);
 
   const [employeeDetails, setEmployeeDetails] = useState<any>(null);

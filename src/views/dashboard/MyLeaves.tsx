@@ -136,11 +136,6 @@ export const MyLeaves = () => {
     },
   ];
 
-  const myAttendanceOptions: Array<OptionIn> = [
-    { label: "Weekly", value: "weekly" },
-    { label: "Monthly", value: "monthly" },
-  ];
-
   const media = useMediaQuery("(max-width: 827px)");
 
   return (

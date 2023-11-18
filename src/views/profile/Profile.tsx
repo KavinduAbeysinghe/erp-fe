@@ -1,18 +1,16 @@
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import ArticleIcon from "@mui/icons-material/Article";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import LockResetIcon from "@mui/icons-material/LockReset";
 import {
   Avatar,
   Box,
-  Fab,
   Grid,
   IconButton,
   Paper,
   Stack,
   Typography,
 } from "@mui/material";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 import { CustomButton } from "../../components/buttons/CustomButton";

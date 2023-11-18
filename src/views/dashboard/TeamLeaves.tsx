@@ -145,11 +145,6 @@ export const TeamLeaves = ({ control, setValue, watch }: TeamLeavesProps) => {
     },
   ];
 
-  const myAttendanceOptions: Array<OptionIn> = [
-    { label: "Weekly", value: "weekly" },
-    { label: "Monthly", value: "monthly" },
-  ];
-
   const employeeOptions: Array<OptionIn> = employees?.map((e: any) => ({
     label: e?.name,
     value: e?.empId,

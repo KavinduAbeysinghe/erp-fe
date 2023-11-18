@@ -31,10 +31,6 @@ export const Login = () => {
 
   const navigate = useNavigate();
 
-  const notify = useNotification();
-
-  const colorMode = useColorMode();
-
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [showPassword, setShowPassword] = useState<boolean>(false);

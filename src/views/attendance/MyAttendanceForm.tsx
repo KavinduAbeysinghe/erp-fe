@@ -32,12 +32,9 @@ export const MyAttendanceForm = ({
 
   const {
     register,
-    setValue,
-    watch,
     control,
     formState: { errors },
     handleSubmit,
-    reset,
   } = useForm({
     resolver: yupResolver(validationSchema),
   });

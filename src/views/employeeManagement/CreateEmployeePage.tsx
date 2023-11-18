@@ -45,8 +45,6 @@ export const CreateEmployeePage = () => {
 
   const searchParams = new URLSearchParams(location.search);
 
-  const [id, setId] = useState<any>("");
-
   const [isView, setIsView] = useState<boolean>(false);
 
   const [isEdit, setIsEdit] = useState<boolean>(false);

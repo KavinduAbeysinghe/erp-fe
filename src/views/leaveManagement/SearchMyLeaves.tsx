@@ -70,15 +70,7 @@ export const SearchMyLeaves = () => {
     "Covering Employee",
   ];
 
-  const {
-    register,
-    setValue,
-    watch,
-    control,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm({});
+  const { setValue, control, handleSubmit } = useForm({});
 
   const status = [
     { label: "Approved", value: "approved" },

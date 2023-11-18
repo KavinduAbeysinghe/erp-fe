@@ -105,14 +105,7 @@ export const TeamsAttendance = () => {
     );
   }, []);
 
-  const {
-    setValue,
-    watch,
-    control,
-    formState: { errors },
-    handleSubmit,
-    reset,
-  } = useForm({});
+  const { setValue, watch, control, handleSubmit, reset } = useForm({});
 
   const getTopCardData = (data: Array<any>) => {
     const actives = data?.filter((d: any) => d?.punchIn && d?.punchOut);
