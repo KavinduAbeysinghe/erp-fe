@@ -1,19 +1,19 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import ArrowForwardIosSharpIcon from "@mui/icons-material/ArrowForwardIosSharp";
+import { Grid } from "@mui/material";
 import MuiAccordion, { AccordionProps } from "@mui/material/Accordion";
+import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from "@mui/material/AccordionSummary";
-import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
-import { Grid } from "@mui/material";
+import { styled } from "@mui/material/styles";
+import * as React from "react";
+import { useFieldArray } from "react-hook-form";
+import { CustomButton } from "../../../components/buttons/CustomButton";
 import { FormTextField } from "../../../components/inputs/FormTextField";
 import DenseTable from "../../../components/tables/DenseTable";
 import { useNotification } from "../../../contexts/NotificationContext";
-import { useFieldArray } from "react-hook-form";
-import { CustomButton } from "../../../components/buttons/CustomButton";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />

@@ -1,17 +1,12 @@
-import { Grid, Typography } from "@mui/material";
-import { Controller, useForm } from "react-hook-form";
-import { FormDatePicker } from "../../components/datePickers/FormDatePicker";
-import { FormTextField } from "../../components/inputs/FormTextField";
-import { CustomButton } from "../../components/buttons/CustomButton";
-import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
-import { useState } from "react";
-import { FormTimePicker } from "../../components/timePickers/FormTimePicker";
-import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getFormattedTime } from "../../util";
-import { LocalizationProvider, StaticTimePicker } from "@mui/x-date-pickers";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs from "dayjs";
+import { Grid, Typography } from "@mui/material";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as Yup from "yup";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
+import { CustomButton } from "../../components/buttons/CustomButton";
+import { FormTextField } from "../../components/inputs/FormTextField";
+import { FormTimePicker } from "../../components/timePickers/FormTimePicker";
 
 interface MyAttendanceFormProps {
   handleModalClose: () => void;

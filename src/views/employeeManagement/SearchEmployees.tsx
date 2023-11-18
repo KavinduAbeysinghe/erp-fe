@@ -1,22 +1,20 @@
-import { Box, Stack, Grid, Typography } from "@mui/material";
-import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
-import { useForm } from "react-hook-form";
-import { CustomButton } from "../../components/buttons/CustomButton";
-import { EmployeeCard } from "./EmployeeCard";
-import SearchTable from "../../components/tables/SearchTable";
-import { useLayoutEffect, useState } from "react";
-import { departments, employees } from "../../util";
-import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
-import { useLocation, useNavigate } from "react-router-dom";
 import {
   faEye,
   faPenToSquare,
-  faSquarePlus,
   faTrash,
 } from "@fortawesome/free-solid-svg-icons";
+import { Box, Grid, Typography } from "@mui/material";
+import { useLayoutEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
+import { CustomButton } from "../../components/buttons/CustomButton";
+import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
 import AlertDialogSlide from "../../components/modals/AlertDialog";
 import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
+import SearchTable from "../../components/tables/SearchTable";
 import { useNotification } from "../../contexts/NotificationContext";
+import { departments, employees } from "../../util";
 
 export const SearchEmployees = () => {
   const [openAlert, setOpenAlert] = useState<boolean>(false);

@@ -1,23 +1,16 @@
-import React from "react";
+import { BrowserRouter } from "react-router-dom";
 import "./App.scss";
-import { BrowserRouter, HashRouter } from "react-router-dom";
-import { MainLayout } from "./views/MainLayout";
-import {
-  createTheme,
-  CssBaseline,
-  PaletteMode,
-  ThemeProvider,
-} from "@mui/material";
 import { NotificationContextProvider } from "./contexts/NotificationContext";
 import { ColorModeContextProvider } from "./contexts/ThemeContext";
+import { MainLayout } from "./views/MainLayout";
 
 function App() {
   return (
     <ColorModeContextProvider>
       <NotificationContextProvider>
-        <HashRouter>
+        <BrowserRouter>
           <MainLayout />
-        </HashRouter>
+        </BrowserRouter>
       </NotificationContextProvider>
     </ColorModeContextProvider>
   );

@@ -1,5 +1,4 @@
 import { Box, Paper, Typography } from "@mui/material";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 interface TopCardAttendanceProps {
   value: string;

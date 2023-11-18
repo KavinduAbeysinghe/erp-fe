@@ -1,18 +1,15 @@
-import { Box, Grid, Tooltip, Typography } from "@mui/material";
-import { FormDatePicker } from "../../components/datePickers/FormDatePicker";
-import { useForm } from "react-hook-form";
-import { CustomButton } from "../../components/buttons/CustomButton";
-import SearchTable from "../../components/tables/SearchTable";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
-import { TopCardAttendance } from "./TopCardAttendance";
-import { faClock, faEye } from "@fortawesome/free-solid-svg-icons";
-import { CustomModal } from "../../components/modals/CustomModal";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { Grid } from "@mui/material";
 import { useEffect, useLayoutEffect, useState } from "react";
-import { MyAttendanceForm } from "./MyAttendanceForm";
+import { useForm } from "react-hook-form";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
-import { getFormattedDate } from "../../util";
-import InfoIcon from "@mui/icons-material/Info";
+import { CustomButton } from "../../components/buttons/CustomButton";
+import { FormDatePicker } from "../../components/datePickers/FormDatePicker";
 import { InnerModal } from "../../components/modals/InnerModal";
+import SearchTable from "../../components/tables/SearchTable";
+import { getFormattedDate } from "../../util";
+import { MyAttendanceForm } from "./MyAttendanceForm";
+import { TopCardAttendance } from "./TopCardAttendance";
 
 export const MyAttendance = () => {
   const [showModal, setShowModal] = useState<boolean>(false);

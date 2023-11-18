@@ -1,16 +1,16 @@
-import { Route, Routes } from "react-router-dom";
-import { Login } from "./auth/Login";
 import { Box, CssBaseline, styled, useTheme } from "@mui/material";
-import { useLayoutEffect, useState } from "react";
-import { Dashboard } from "./dashboard/Dashboard";
-import { Profile } from "./profile/Profile";
-import { EmployeeManagement } from "./employeeManagement/EmployeeManagement";
-import { LeaveManagement } from "./leaveManagement/LeaveManagement";
-import { AttendanceManagement } from "./attendance/AttendanceManagement";
-import { MyCalendar } from "./calendar/MyCalendar";
-import { EvaluationManagement } from "./evaluations/EvaluationManagement";
-import { MyDrawer } from "../components/drawer/MyDrawer";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import { MyResponsiveDrawer } from "../components/drawer/MyResponsiveDrawer";
+import { AttendanceManagement } from "./attendance/AttendanceManagement";
+import { Login } from "./auth/Login";
+import { MyCalendar } from "./calendar/MyCalendar";
+import { Dashboard } from "./dashboard/Dashboard";
+import { EmployeeManagement } from "./employeeManagement/EmployeeManagement";
+import { EvaluationManagement } from "./evaluations/EvaluationManagement";
+import { LeaveManagement } from "./leaveManagement/LeaveManagement";
+import { Profile } from "./profile/Profile";
+import { CustomFab } from "../components/buttons/CustomFab";
 
 export const MainLayout = () => {
   return (
@@ -22,19 +22,7 @@ export const MainLayout = () => {
 };
 
 const Layout = () => {
-  const drawerWidth = 240;
-
-  const [open, setOpen] = useState<boolean>(true);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-    localStorage.setItem("drawerOpen", "true");
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-    localStorage.setItem("drawerOpen", "false");
-  };
+  const [checked, setChecked] = useState<boolean>(false);
 
   const DrawerHeader = styled("div")(({ theme }) => ({
     display: "flex",
@@ -45,12 +33,36 @@ const Layout = () => {
     ...theme.mixins.toolbar,
   }));
 
-  useLayoutEffect(() => {
-    const openDrawer = localStorage.getItem("drawerOpen");
-    if (openDrawer) setOpen(openDrawer === "true");
+  const theme = useTheme();
+
+  const boxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (boxRef.current) {
+        const scrollY = boxRef.current.scrollTop;
+        setChecked(scrollY > 0);
+      }
+    };
+
+    boxRef.current?.addEventListener("scroll", handleScroll);
+
+    return () => {
+      boxRef.current?.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
-  const theme = useTheme();
+  const targetElement = useRef<any>();
+  const scrollingTop = (event: any) => {
+    const elmnt = targetElement;
+    if (elmnt) {
+      elmnt.current.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "start",
+      });
+    }
+  };
 
   return (
     <Box
@@ -63,6 +75,7 @@ const Layout = () => {
       {/* <MyDrawer /> */}
       <MyResponsiveDrawer />
       <Box
+        ref={boxRef}
         component="main"
         sx={{
           flexGrow: 1,
@@ -74,6 +87,7 @@ const Layout = () => {
         }}
       >
         <DrawerHeader />
+        <div ref={targetElement}></div>
         <Routes>
           <Route path={"/dashboard"} element={<Dashboard />}></Route>
           <Route path={"/profile"} element={<Profile />}></Route>
@@ -95,6 +109,7 @@ const Layout = () => {
             element={<EvaluationManagement />}
           ></Route>
         </Routes>
+        <CustomFab action={scrollingTop} checked={checked} />
       </Box>
     </Box>
   );

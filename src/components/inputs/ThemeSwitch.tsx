@@ -1,5 +1,5 @@
 import { styled, Switch } from "@mui/material";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useColorMode } from "../../contexts/ThemeContext";
 
 export const ThemeSwitch = () => {

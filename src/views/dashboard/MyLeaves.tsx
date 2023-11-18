@@ -1,6 +1,5 @@
-import { FormDropdown } from "../../components/inputs/FormDropdown";
+import { Box, useMediaQuery } from "@mui/material";
 import { axisClasses, BarChart } from "@mui/x-charts";
-import React from "react";
 import { MakeOptional } from "@mui/x-charts/models/helpers";
 import { BarSeriesType } from "@mui/x-charts/models/seriesType/bar";
 import { OptionIn } from "../../util";
@@ -13,7 +12,6 @@ export const MyLeaves = () => {
       },
     ],
     sx: {
-      width: "100%",
       [`.${axisClasses.left} .${axisClasses.label}`]: {
         transform: "translate(-10px, 0)",
       },
@@ -143,16 +141,28 @@ export const MyLeaves = () => {
     { label: "Monthly", value: "monthly" },
   ];
 
+  const media = useMediaQuery("(max-width: 827px)");
+
   return (
-    <>
-      <BarChart
-        dataset={dataSet}
-        xAxis={[{ scaleType: "band", dataKey: "week" }]}
-        series={series}
-        // width={350}
-        height={400}
-        {...chartSetting}
-      />
-    </>
+    <Box sx={{ overflow: "auto" }}>
+      {media ? (
+        <BarChart
+          dataset={dataSet}
+          xAxis={[{ scaleType: "band", dataKey: "week" }]}
+          series={series}
+          height={400}
+          width={550}
+          {...chartSetting}
+        />
+      ) : (
+        <BarChart
+          dataset={dataSet}
+          xAxis={[{ scaleType: "band", dataKey: "week" }]}
+          series={series}
+          height={400}
+          {...chartSetting}
+        />
+      )}
+    </Box>
   );
 };

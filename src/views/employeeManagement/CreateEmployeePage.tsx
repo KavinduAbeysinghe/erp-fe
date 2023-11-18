@@ -1,10 +1,21 @@
-import { Avatar, Box, Grid, Paper, Stack, Typography } from "@mui/material";
-import { useForm } from "react-hook-form";
-import * as Yup from "yup";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { FormTextField } from "../../components/inputs/FormTextField";
+import { Avatar, Box, Grid, Paper, Stack, Typography } from "@mui/material";
+import dayjs from "dayjs";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useLocation } from "react-router-dom";
+import * as Yup from "yup";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
+import { CustomButton } from "../../components/buttons/CustomButton";
 import { FormDatePicker } from "../../components/datePickers/FormDatePicker";
+import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
 import { FormDropdown } from "../../components/inputs/FormDropdown";
+import { FormTextField } from "../../components/inputs/FormTextField";
+import AlertDialogSlide from "../../components/modals/AlertDialog";
+import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
+import SearchTable from "../../components/tables/SearchTable";
+import { useNotification } from "../../contexts/NotificationContext";
 import {
   civilStatuses,
   departments,
@@ -14,17 +25,6 @@ import {
   hiringSources,
   nationalities,
 } from "../../util";
-import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import { CustomButton } from "../../components/buttons/CustomButton";
-import SearchTable from "../../components/tables/SearchTable";
-import dayjs from "dayjs";
-import { useNotification } from "../../contexts/NotificationContext";
-import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
-import { useLocation } from "react-router-dom";
-import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import AlertDialogSlide from "../../components/modals/AlertDialog";
 
 export const CreateEmployeePage = () => {
   const [openAlert, setOpenAlert] = useState<boolean>(false);

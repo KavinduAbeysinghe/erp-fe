@@ -1,11 +1,10 @@
-import { FormDropdown } from "../../components/inputs/FormDropdown";
+import { Grid } from "@mui/material";
 import { axisClasses, BarChart } from "@mui/x-charts";
-import React, { useEffect } from "react";
 import { MakeOptional } from "@mui/x-charts/models/helpers";
 import { BarSeriesType } from "@mui/x-charts/models/seriesType/bar";
-import { employees, OptionIn } from "../../util";
-import { Grid } from "@mui/material";
+import { useEffect } from "react";
 import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
+import { employees, OptionIn } from "../../util";
 
 interface TeamLeavesProps {
   control: any;

@@ -1,7 +1,6 @@
-import { Box } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
-import { SearchEmployees } from "./SearchEmployees";
 import { CreateEmployeePage } from "./CreateEmployeePage";
+import { SearchEmployees } from "./SearchEmployees";
 
 export const EmployeeManagement = () => {
   return (

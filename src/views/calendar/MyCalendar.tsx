@@ -1,9 +1,9 @@
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
-import { CustomButton } from "../../components/buttons/CustomButton";
 import { Box, Paper, Stack } from "@mui/material";
+import moment from "moment";
+import { useState } from "react";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import { CustomButton } from "../../components/buttons/CustomButton";
 import { InnerModal } from "../../components/modals/InnerModal";
-import { useLayoutEffect, useState } from "react";
 import { AddEventForm } from "./AddEventForm";
 import { RemoveEventForm } from "./RemoveEventForm";
 

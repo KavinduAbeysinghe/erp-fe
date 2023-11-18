@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
+import { CreateEvaluation } from "./CreateEvaluation";
 import { Evaluations } from "./Evaluations";
 import { ViewEvaluation } from "./ViewEvaluation";
-import { CreateEvaluation } from "./CreateEvaluation";
 
 export const EvaluationManagement = () => {
   return (

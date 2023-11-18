@@ -1,17 +1,16 @@
-import { Avatar, Box, Grid, Typography } from "@mui/material";
-import { FormDropdown } from "../../components/inputs/FormDropdown";
-import React, { useEffect, useLayoutEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import SearchTable from "../../components/tables/SearchTable";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { CustomChip } from "../../components/chips/Chip";
+import { Box, Grid } from "@mui/material";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router-dom";
-import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
-import { CustomButton } from "../../components/buttons/CustomButton";
-import { employees, teamEvaluationData } from "../../util";
-import { Search } from "@mui/icons-material";
-import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
+import { CustomButton } from "../../components/buttons/CustomButton";
+import { CustomChip } from "../../components/chips/Chip";
+import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
+import { FormDropdown } from "../../components/inputs/FormDropdown";
+import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
+import SearchTable from "../../components/tables/SearchTable";
+import { employees, teamEvaluationData } from "../../util";
 
 export const TeamEvaluations = () => {
   const navigate = useNavigate();

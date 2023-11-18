@@ -1,14 +1,13 @@
-import { Grid, Typography } from "@mui/material";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Grid } from "@mui/material";
+import dayjs from "dayjs";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import * as Yup from "yup";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
+import { CustomButton } from "../../components/buttons/CustomButton";
 import { FormDatePicker } from "../../components/datePickers/FormDatePicker";
 import { FormTextField } from "../../components/inputs/FormTextField";
-import { CustomButton } from "../../components/buttons/CustomButton";
-import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
-import { useState } from "react";
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import dayjs from "dayjs";
-import { getFormattedDate } from "../../util";
 
 interface AddEventFormProps {
   handleModalClose: () => void;

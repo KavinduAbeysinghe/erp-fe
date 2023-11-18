@@ -1,3 +1,4 @@
+import MenuIcon from "@mui/icons-material/Menu";
 import {
   Avatar,
   Box,
@@ -7,15 +8,13 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import { Breadcrumb } from "../breadcrumbs/Breadcrumb";
-import { useState } from "react";
-import React from "react";
-import { ThemeSwitch } from "../inputs/ThemeSwitch";
-import { CustomButton } from "../buttons/CustomButton";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CustomBackdrop } from "../backdrop/CustomBackdrop";
+import { Breadcrumb } from "../breadcrumbs/Breadcrumb";
+import { CustomButton } from "../buttons/CustomButton";
+import { ThemeSwitch } from "../inputs/ThemeSwitch";
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;

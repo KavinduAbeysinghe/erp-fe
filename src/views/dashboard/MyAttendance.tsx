@@ -1,10 +1,9 @@
 import { axisClasses, BarChart } from "@mui/x-charts";
-import React, { useEffect, useState } from "react";
 import { MakeOptional } from "@mui/x-charts/models/helpers";
 import { BarSeriesType } from "@mui/x-charts/models/seriesType/bar";
+import { useEffect } from "react";
 import { FormDropdown } from "../../components/inputs/FormDropdown";
-import { months, OptionIn } from "../../util";
-import { Grid } from "@mui/material";
+import { OptionIn } from "../../util";
 
 interface MyAttendanceProps {
   control: any;

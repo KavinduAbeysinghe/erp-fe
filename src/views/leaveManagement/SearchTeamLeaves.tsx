@@ -1,24 +1,15 @@
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { Grid } from "@mui/material";
+import { useLayoutEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
 import { CustomButton } from "../../components/buttons/CustomButton";
 import { FormDatePicker } from "../../components/datePickers/FormDatePicker";
-import { FormDropdown } from "../../components/inputs/FormDropdown";
-import SearchTable from "../../components/tables/SearchTable";
-import { useForm } from "react-hook-form";
 import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
-import {
-  faCircleCheck,
-  faCircleXmark,
-  faEye,
-  faPenToSquare,
-  faTrash,
-} from "@fortawesome/free-solid-svg-icons";
-import { useLayoutEffect, useState } from "react";
-import { employees, leave } from "../../util";
-import { CustomChip } from "../../components/chips/Chip";
-import { calculateDateDifference } from "./SearchMyLeaves";
-import { useLocation, useNavigate } from "react-router-dom";
 import { EmployeeColumn } from "../../components/tables/EmployeeColumn";
-import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
+import SearchTable from "../../components/tables/SearchTable";
+import { employees } from "../../util";
 
 export const SearchTeamLeaves = () => {
   const [showBackdrop, setShowBackdrop] = useState<boolean>(false);
@@ -155,7 +146,7 @@ export const SearchTeamLeaves = () => {
           item
           xs={12}
           sm={12}
-          md={2}
+          md={3}
           display={"flex"}
           gap={2}
           alignItems={"center"}

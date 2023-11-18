@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { yupResolver } from "@hookform/resolvers/yup";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import {
   Box,
   Grid,
@@ -8,19 +10,17 @@ import {
   Typography,
   createTheme,
 } from "@mui/material";
-import { FormTextField } from "../../components/inputs/FormTextField";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { CustomButton } from "../../components/buttons/CustomButton";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
-import { CustomModal } from "../../components/modals/CustomModal";
-import { ForgotPasswordForm } from "./ForgotPasswordForm";
+import * as Yup from "yup";
 import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
+import { CustomButton } from "../../components/buttons/CustomButton";
+import { FormTextField } from "../../components/inputs/FormTextField";
+import { CustomModal } from "../../components/modals/CustomModal";
 import { useNotification } from "../../contexts/NotificationContext";
 import { useColorMode } from "../../contexts/ThemeContext";
+import { ForgotPasswordForm } from "./ForgotPasswordForm";
 
 export const Login = () => {
   const loginTheme = createTheme({

@@ -1,5 +1,5 @@
-import { Box, Typography, Stack } from "@mui/material";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { Box, Stack, Typography } from "@mui/material";
 
 export const EmployeeCard = () => {
   return (

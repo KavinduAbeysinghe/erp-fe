@@ -1,6 +1,6 @@
-import { Breadcrumbs, Link, Typography } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Breadcrumbs, Link } from "@mui/material";
 import { useLayoutEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const Breadcrumb = () => {
   const location = useLocation();

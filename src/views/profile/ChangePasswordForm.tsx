@@ -1,12 +1,12 @@
-import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
-import { Grid } from "@mui/material";
-import { FormTextField } from "../../components/inputs/FormTextField";
-import { CustomButton } from "../../components/buttons/CustomButton";
-import { useNotification } from "../../contexts/NotificationContext";
-import { useState } from "react";
-import * as Yup from "yup";
-import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Grid } from "@mui/material";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as Yup from "yup";
+import { CustomBackdrop } from "../../components/backdrop/CustomBackdrop";
+import { CustomButton } from "../../components/buttons/CustomButton";
+import { FormTextField } from "../../components/inputs/FormTextField";
+import { useNotification } from "../../contexts/NotificationContext";
 
 interface ChangePasswordFormProps {
   setShowModal: (showModal: boolean) => void;

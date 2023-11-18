@@ -2,7 +2,6 @@ import {
   Autocomplete,
   FormControl,
   FormHelperText,
-  InputLabel,
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";

@@ -1,11 +1,9 @@
-import * as React from "react";
-import Button from "@mui/material/Button";
+import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
+import CloseIcon from "@mui/icons-material/Close";
+import { Box, IconButton, Typography } from "@mui/material";
 import Dialog, { DialogProps } from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
-import { Box, IconButton, Typography } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 
 interface InnerModalProps {
   open: boolean;

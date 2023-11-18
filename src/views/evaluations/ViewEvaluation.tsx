@@ -1,12 +1,11 @@
-import CustomAccordion from "../../components/accordions/CustomAccordion";
-import CustomizedAccordions from "../../components/accordions/CustomAccordion";
-import DenseTable from "../../components/tables/DenseTable";
-import { FormTextField } from "../../components/inputs/FormTextField";
-import { Box, Stack } from "@mui/material";
-import { CustomButton } from "../../components/buttons/CustomButton";
+import { Stack } from "@mui/material";
 import { useLayoutEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import CustomizedAccordions from "../../components/accordions/CustomAccordion";
 import { AvatarDetail } from "../../components/avatars/AvatarDetail";
+import { CustomButton } from "../../components/buttons/CustomButton";
+import { FormTextField } from "../../components/inputs/FormTextField";
+import DenseTable from "../../components/tables/DenseTable";
 import { currentUser, employees, teamEvaluationData } from "../../util";
 
 export const ViewEvaluation = () => {

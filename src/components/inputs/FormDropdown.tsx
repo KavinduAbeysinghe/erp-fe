@@ -6,9 +6,8 @@ import {
   Select,
   SelectProps,
 } from "@mui/material";
-import React from "react";
-import { OptionIn } from "../../util";
 import { Controller } from "react-hook-form";
+import { OptionIn } from "../../util";
 
 interface FormDropdownProps extends SelectProps {
   name: string;

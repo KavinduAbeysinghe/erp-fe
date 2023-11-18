@@ -1,10 +1,11 @@
 import { faFeather } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import { Box, Fab, Grid, Paper, Stack, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Fab, Grid, Paper, Slide, Stack, Typography } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { CardTitleBadge } from "../../components/badges/CardTitleBadge";
 import { CustomButton } from "../../components/buttons/CustomButton";
 import { DigitalClock } from "../../components/digitalClock/DigitalClock";
 import { FormAutocomplete } from "../../components/inputs/FormAutocomplete";
@@ -17,7 +18,7 @@ import { MyAttendance } from "./MyAttendance";
 import { MyLeaves } from "./MyLeaves";
 import { TeamAttendance } from "./TeamAttendance";
 import { TeamLeaves } from "./TeamLeaves";
-import { CardTitleBadge } from "../../components/badges/CardTitleBadge";
+import { CustomFab } from "../../components/buttons/CustomFab";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
@@ -134,20 +135,8 @@ export const Dashboard = () => {
     }
   }, [employeeName]);
 
-  const handleScrollTop = () => {};
   return (
     <Box>
-      <Fab
-        size="small"
-        color="secondary"
-        aria-label="add"
-        sx={{ position: "fixed", bottom: 20, right: 20 }}
-        onClick={handleScrollTop}
-      >
-        {/* <a href="#hidden-anchor"> */}
-        <ArrowUpwardIcon />
-        {/* </a> */}
-      </Fab>
       <Box
         display={"flex"}
         justifyContent={"space-between"}

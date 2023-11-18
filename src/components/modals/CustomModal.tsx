@@ -1,6 +1,5 @@
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
 import { ReactJSXElement } from "@emotion/react/types/jsx-namespace";
+import Modal from "react-bootstrap/Modal";
 
 interface CustomModalProps {
   show: boolean;

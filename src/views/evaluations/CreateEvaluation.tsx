@@ -2,7 +2,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, Grid, Paper, Stack, Typography } from "@mui/material";
 import dayjs from "dayjs";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
 import * as Yup from "yup";

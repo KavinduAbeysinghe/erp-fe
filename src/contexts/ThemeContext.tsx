@@ -4,9 +4,7 @@ import {
   ThemeProvider,
   createTheme,
 } from "@mui/material";
-import { grey } from "@mui/material/colors";
 import React, { useContext, useEffect } from "react";
-import { customPalette, darkPalette } from "../themes/theme";
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {
