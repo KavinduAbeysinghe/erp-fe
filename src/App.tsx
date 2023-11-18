@@ -1,4 +1,4 @@
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import "./App.scss";
 import { NotificationContextProvider } from "./contexts/NotificationContext";
 import { ColorModeContextProvider } from "./contexts/ThemeContext";
@@ -8,9 +8,9 @@ function App() {
   return (
     <ColorModeContextProvider>
       <NotificationContextProvider>
-        <BrowserRouter>
+        <HashRouter>
           <MainLayout />
-        </BrowserRouter>
+        </HashRouter>
       </NotificationContextProvider>
     </ColorModeContextProvider>
   );
